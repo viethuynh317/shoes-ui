@@ -27,7 +27,7 @@ const Routes = () => {
           component={component}
         />
       ))}
-      <Redirect exact from="/" to="/auth/login" />
+      <Redirect exact from="/" to="/auth/sign_in" />
     </Switch>
   );
 };
