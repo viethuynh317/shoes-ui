@@ -1,0 +1,4 @@
+.btn-banner:hover {
+  background-color: #ffb900cc;
+  transition: all 0.3 ease-in-out;
+}
