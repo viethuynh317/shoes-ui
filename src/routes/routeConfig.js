@@ -11,17 +11,8 @@ export const publicRoutes = [
     key: "customerHomePage",
     exact: true,
     path: "/shoes",
-    component: lazy(() => import("../features/customer/homepage/HomePage"))
-  }
-];
-
-export const privateRoutes = [
-  {
-    key: "vehicleStores",
-    exact: true,
-    path: "/vehicle_stores",
-    component: lazy(() =>
-      import("../features/admin/components/vehicleStores/VehicleStores")
-    ),
+    component: lazy(() => import("../features/customer/homepage/HomePage")),
   },
 ];
+
+export const privateRoutes = [{}];

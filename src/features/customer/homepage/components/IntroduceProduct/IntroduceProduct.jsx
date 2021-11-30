@@ -1,11 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styled from "@emotion/styled";
 import { Box, Button } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { useDispatch, useSelector } from "react-redux";
 import ProductCard from "../../../../../components/Customer/ProductCard/ProductCard";
 import { orangeColor } from "../../../../../constants/globalConst";
+import { fetchShoeList } from "../../homePageSlice";
 
 const useStyles = makeStyles(() => ({
   spacingCard: {
@@ -37,7 +40,7 @@ const SaleBtn = styled(Button)(() => ({
   borderColor: "#84848466",
   color: "#000",
   fontWeight: "600",
-  "&:hover": {
+  "&:hover, &:focus": {
     backgroundColor: orangeColor,
     color: "#fff",
     borderColor: orangeColor,
@@ -139,15 +142,64 @@ export const fakeData = [
 ];
 
 const IntroduceProduct = () => {
+  const [productFilter, setProductFilter] = useState({});
+  const [shoeList, setShoeList] = useState([]);
+  const dispatch = useDispatch();
   const classes = useStyles();
+
+  useEffect(() => {
+    const getShoeList = async () => {
+      const data = await dispatch(
+        fetchShoeList({
+          page: 1,
+          perPage: 10,
+          numOfStars: productFilter?.numOfStars,
+          discountOff: productFilter?.discountOff,
+          unitPrice: productFilter?.unitPrice,
+        })
+      );
+      setShoeList(data?.payload?.data?.result || []);
+    };
+    getShoeList();
+  }, [
+    productFilter?.discountOff,
+    productFilter?.numOfStars,
+    productFilter?.unitPrice,
+  ]);
+
+  const handleFilterClick = (filterNumber) => {
+    switch (filterNumber) {
+      case 1: {
+        setProductFilter({ discountOff: -1 });
+        break;
+      }
+      case 2: {
+        setProductFilter({ unitPrice: 1 });
+        break;
+      }
+      case 3: {
+        setProductFilter({ numOfStars: -1 });
+        break;
+      }
+      default: {
+        setProductFilter({});
+      }
+    }
+  };
 
   return (
     <Box>
       <SaleBox p={1} mx={1} mt={8}>
         <Box display="flex" justifyContent="flex-start">
-          <SaleBtn variant="outlined">best selling</SaleBtn>
-          <SaleBtn variant="outlined">featured products</SaleBtn>
-          <SaleBtn variant="outlined">new arrivals</SaleBtn>
+          <SaleBtn onClick={() => handleFilterClick(1)} variant="outlined">
+            best selling
+          </SaleBtn>
+          <SaleBtn onClick={() => handleFilterClick(2)} variant="outlined">
+            cheapest shoes
+          </SaleBtn>
+          <SaleBtn onClick={() => handleFilterClick(3)} variant="outlined">
+            best rating
+          </SaleBtn>
         </Box>
       </SaleBox>
       <Box mt={3}>
@@ -166,7 +218,7 @@ const IntroduceProduct = () => {
           dotListClass="custom-dot-list-style"
           itemClass="carousel-item-padding-40-px"
         >
-          {fakeData.map((item) => (
+          {shoeList.map((item) => (
             <ProductCard
               key={item.id}
               className={classes.spacingCard}
