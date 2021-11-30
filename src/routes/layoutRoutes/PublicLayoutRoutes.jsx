@@ -10,11 +10,12 @@ const PublicLayoutRoute = ({ component: Component, ...rest }) => {
       {...rest}
       render={(routeProps) => (
         <>
-          {!!getLocalStorageToken() ? (
+          {/* {!!getLocalStorageToken() ? (
             <Redirect exact to="/vehicle_stores" />
           ) : (
             <Component {...routeProps} />
-          )}
+          )} */}
+          <Component {...routeProps} />
         </>
       )}
     />

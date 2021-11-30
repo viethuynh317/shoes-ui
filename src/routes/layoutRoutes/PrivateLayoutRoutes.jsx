@@ -10,13 +10,14 @@ const PrivateLayoutRoutes = ({ component: Component, ...rest }) => (
     {...rest}
     render={(routeProps) => (
       <>
-        {!!getLocalStorageToken() ? (
+        {/* {!!getLocalStorageToken() ? (
           <Admin>
             <Component {...routeProps} />
           </Admin>
         ) : (
           <Redirect exact to="/auth/sign_in" />
-        )}
+        )} */}
+        <Admin></Admin>
       </>
     )}
   />

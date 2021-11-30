@@ -20,6 +20,8 @@ import { orangeColor } from "../../../constants/globalConst";
 
 const CardImage = styled(Box)(() => ({
   overflow: "hidden",
+  filter: "brightness(100%)",
+  transition: "all 0.4s ease",
   "& > img": {
     width: "100%",
     height: "100%",
@@ -27,13 +29,16 @@ const CardImage = styled(Box)(() => ({
     transition: "all 0.4s ease",
     backgroundPosition: "center",
     backgroundSize: "cover",
-    filter: "brightness(100%)",
+    transform: "scale(0.75)",
+    borderRadius: 8,
   },
   "&:hover > img": {
-    transform: "scale(1.15)",
+    transform: "scale(0.9)",
     backgroundSize: "cover",
     backgroundColor: "rgba(0,0,0,0.35)",
     backgroundPosition: "center",
+  },
+  "&:hover": {
     filter: "brightness(80%)",
   },
 }));
@@ -60,20 +65,20 @@ const ProductCard = ({
   unitPrice,
   discountOff,
   description,
-  rating,
+  numOfStars,
   className,
 }) => {
   return (
     <Card sx={{ maxWidth: 345 }} className={className || ""}>
-      <CardImage>
+      <CardImage height={350}>
         <img src={imageUrl} />
       </CardImage>
-      <CardContent>
+      <CardContent sx={{ height: 100 }}>
         <NameTypo gutterBottom variant="body1" component="div">
           {name}
         </NameTypo>
         <Typography variant="body2" gutterBottom>
-          <Rating name="read-only" value={rating} readOnly size="small" />
+          <Rating name="read-only" value={numOfStars} readOnly size="small" />
         </Typography>
         <Typography
           component="div"
