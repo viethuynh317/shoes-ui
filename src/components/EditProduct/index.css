@@ -1,0 +1,42 @@
+.product-edit {
+  margin: 32px;
+  padding: 16px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 8px;
+}
+.form-edit-product {
+  margin-top: 50px;
+}
+.form-edit-title {
+  background-color: rgb(26, 138, 138);
+  padding: 5px 0 5px 10px;
+  color: rgb(240, 240, 240);
+}
+.form-edit-product form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+.form-edit-product .label {
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.form-edit-product input,
+.form-edit-product select {
+  margin-bottom: 8px;
+}
+
+.form-edit-product input,
+.form-edit-product select,
+.form-edit-product textarea {
+  padding: 10px;
+  outline-color: rgb(45, 131, 216);
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.input-food-image {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}

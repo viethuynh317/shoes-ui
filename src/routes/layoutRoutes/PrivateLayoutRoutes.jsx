@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import PropTypes from "prop-types";
-import React from "react";
-import { Redirect, Route } from "react-router-dom";
-import Admin from "../../features/admin/Admin";
-import { getLocalStorageToken } from "../../services/tokenConfig";
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Redirect, Route } from 'react-router-dom';
+import Admin from '../../features/admin/Admin';
+import { getLocalStorageToken } from '../../services/tokenConfig';
 
 const PrivateLayoutRoutes = ({ component: Component, ...rest }) => (
   <Route
@@ -17,7 +17,9 @@ const PrivateLayoutRoutes = ({ component: Component, ...rest }) => (
         ) : (
           <Redirect exact to="/auth/sign_in" />
         )} */}
-        <Admin></Admin>
+        <Admin>
+          <Component {...routeProps} />
+        </Admin>
       </>
     )}
   />

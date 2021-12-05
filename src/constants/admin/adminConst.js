@@ -1,9 +1,9 @@
-import { StoreOutlined } from "@mui/icons-material";
+import { StoreOutlined } from '@mui/icons-material';
 
 export const MENU_ADMIN = [
   {
-    text: "Vehicle Stores",
+    text: 'Shoes',
     icon: <StoreOutlined />,
-    link: "/vehicle_stores",
+    link: '/admin/shoes',
   },
 ];

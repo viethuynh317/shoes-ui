@@ -1,17 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import styled from "@emotion/styled";
-import { Divider, Grid, Typography } from "@mui/material";
-import { Box } from "@mui/system";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import ProductCard from "../../../../../components/Customer/ProductCard/ProductCard";
-import { fetchShoeList } from "../../homePageSlice";
-import { fakeData } from "../IntroduceProduct/IntroduceProduct";
+import styled from '@emotion/styled';
+import { Divider, Grid, Typography } from '@mui/material';
+import { Box } from '@mui/system';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import ProductCard from '../../../../../components/Customer/ProductCard/ProductCard';
+import { fetchShoeList } from '../../../../../commons/shoesSlice';
+import { fakeData } from '../IntroduceProduct/IntroduceProduct';
 
 const CustomDivider = styled(Typography)(() => ({
-  display: "inline-block",
-  width: "100%",
-  borderBottom: "0.5px solid #CECECE",
+  display: 'inline-block',
+  width: '100%',
+  borderBottom: '0.5px solid #CECECE',
   marginBottom: 16,
 }));
 
@@ -40,9 +40,9 @@ const NewArrivalProduct = () => {
           sx={{
             fontSize: 30,
             fontWeight: 500,
-            display: "inline-block",
+            display: 'inline-block',
             width: 300,
-            textAlign: "start",
+            textAlign: 'start',
           }}
           justifySelf="flex-end"
         >

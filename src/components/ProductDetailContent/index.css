@@ -1,0 +1,249 @@
+.product-detail-content {
+  display: flex;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+.product-detail-content .verify-button,
+.product-detail-content .save-button {
+  position: absolute;
+  right: 5px;
+  outline: none;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.product-detail-content .verify-button {
+  background-color: rgb(252, 134, 0);
+}
+
+.product-detail-content .save-button {
+  background-color: lightseagreen;
+}
+
+.product-detail-content-left {
+  max-width: 40%;
+  width: 40%;
+}
+
+.product-detail-content-right {
+  position: relative;
+  max-width: 58%;
+  width: 58%;
+  margin-left: 16px;
+}
+
+.product-detail-content-left img {
+  width: 100%;
+  max-width: 100%;
+  max-height: 380px;
+}
+
+.product-detail-content-path,
+.product-detail-content-path a {
+  color: rgb(64, 114, 223);
+  font-weight: 400;
+  font-size: 13px;
+}
+
+.product-detail-content-path a:hover {
+  color: rgb(0, 81, 255);
+  font-family: 700;
+}
+
+.product-detail-content-title {
+  width: 80%;
+  color: rgb(51, 39, 39);
+  font-weight: 600;
+  font-size: 24px;
+  opacity: 0.9;
+  text-align: left;
+}
+
+.product-detail-content-create-at {
+  font-size: 15px;
+  border-bottom: 1px solid rgb(92, 86, 86);
+  text-align: left;
+}
+
+.product-detail-content-description {
+  display: block;
+  width: 100%;
+  font-size: 16px;
+  color: rgb(151, 151, 151);
+  margin: 8px 0;
+  margin: 0;
+}
+
+.confirmed,
+.unconfirmed {
+  padding: 3px 5px;
+  margin-left: -5px;
+  border-radius: 2px;
+  color: rgb(214, 214, 214);
+}
+
+.confirmed {
+  background-color: rgb(0, 81, 255);
+}
+
+.unconfirmed {
+  background-color: rgb(223, 81, 81);
+}
+
+.label-vnd {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.product-detail-content-right table {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.product-detail-content-right table tr td:first-child {
+  font-weight: bold;
+  vertical-align: top;
+  padding: 0;
+  color: rgb(67, 67, 77);
+  width: 20%;
+}
+
+.product-detail-content-right table tr {
+  padding: 5px 0;
+}
+
+.product-detail-content-right table tr td:nth-child(2) {
+  vertical-align: bottom;
+  width: 80%;
+  font-size: 16px;
+  color: rgb(41, 41, 43);
+  font-style: italic;
+}
+
+.product-detail-content-right table tr {
+  padding: 100px;
+}
+
+.product-detail-content-button {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: right;
+}
+
+.button-edit-product,
+.button-del-product {
+  padding: 8px 16px;
+  color: white;
+  outline: none;
+  border: none;
+  font-weight: bold;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.button-edit-product:hover,
+.button-del-product:hover {
+  opacity: 0.8;
+  transition: 0.3s;
+}
+
+.button-edit-product {
+  background-color: rgb(0, 47, 255);
+  margin-right: 20px;
+}
+
+.button-del-product {
+  background-color: rgb(245, 59, 59);
+}
+
+.list-feedback-name {
+  background-color: rgb(26, 138, 138);
+  padding: 5px 0 5px 10px;
+  color: rgb(240, 240, 240);
+}
+
+.no-feedback {
+  padding: 10px 0;
+}
+
+.feedback {
+  display: flex;
+  padding: 10px;
+  line-height: initial;
+  justify-content: space-between;
+}
+
+.feedback:not(:last-child) {
+  border-bottom: 1px solid rgb(233, 233, 233);
+}
+
+.feedback-user-avatar {
+  width: 48px;
+}
+
+.header-feedback {
+  display: flex;
+}
+
+.header-feedback-right {
+  margin-left: 5px;
+}
+
+.feedback-num-star {
+  margin-left: 20px;
+  background-color: yellow;
+  padding: 3px 4px;
+  border-radius: 4px;
+}
+
+.feedback-user-name {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.feedback-date {
+  font-size: 10px;
+  font-style: italic;
+}
+
+.body-feedback {
+  margin-top: 5px;
+}
+
+.content-feedback {
+  font-size: 16px;
+  color: rgb(73, 73, 73);
+}
+
+.product-detail {
+  margin: 32px;
+  padding: 16px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 8px;
+}
+
+.product-detail-feedbacks {
+  margin-top: 15px;
+}
+
+.loading-img {
+  height: 380px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.label {
+  text-align: left;
+}
+
+h2.form-edit-title {
+  text-align: left;
+}

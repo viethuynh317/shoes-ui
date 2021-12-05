@@ -1,0 +1,41 @@
+.feedback {
+  display: flex;
+  padding: 10px;
+  line-height: initial;
+  justify-content: space-between;
+}
+.feedback:not(:last-child) {
+  border-bottom: 1px solid rgb(233, 233, 233);
+}
+.feedback-user-avatar {
+  width: 48px;
+}
+.header-feedback {
+  display: flex;
+}
+
+.header-feedback-right {
+  margin-left: 5px;
+}
+
+.feedback-num-star {
+  margin-left: 20px;
+  background-color: yellow;
+  padding: 3px 4px;
+  border-radius: 4px;
+}
+.feedback-user-name {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+.feedback-date {
+  font-size: 10px;
+  font-style: italic;
+}
+.body-feedback {
+  margin-top: 5px;
+}
+.content-feedback {
+  font-size: 16px;
+  color: rgb(73, 73, 73);
+}

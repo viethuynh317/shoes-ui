@@ -1,0 +1,9 @@
+.product-detail{
+    margin: 32px;
+    padding: 16px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 8px;
+}
+.product-detail-feedbacks{
+    margin-top: 15px;
+}
