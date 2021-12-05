@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import styled from "@emotion/styled";
-import { Box, Button } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import React, { useEffect, useState } from "react";
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
-import { useDispatch, useSelector } from "react-redux";
-import ProductCard from "../../../../../components/Customer/ProductCard/ProductCard";
-import { orangeColor } from "../../../../../constants/globalConst";
-import { fetchShoeList } from "../../homePageSlice";
+import styled from '@emotion/styled';
+import { Box, Button } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import React, { useEffect, useState } from 'react';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
+import { useDispatch, useSelector } from 'react-redux';
+import ProductCard from '../../../../../components/Customer/ProductCard/ProductCard';
+import { orangeColor } from '../../../../../constants/globalConst';
+import { fetchShoeList } from '../../../../../commons/shoesSlice';
 
 const useStyles = makeStyles(() => ({
   spacingCard: {
-    margin: "0 8px",
+    margin: '0 8px',
   },
 }));
 
@@ -32,31 +32,23 @@ const responsive = {
 };
 
 const SaleBox = styled(Box)(() => ({
-  border: "1px solid #84848466",
+  border: '1px solid #84848466',
 }));
 
 const SaleBtn = styled(Button)(() => ({
-  margin: "0 8px",
-  borderColor: "#84848466",
-  color: "#000",
-  fontWeight: "600",
-  "&:hover, &:focus": {
+  margin: '0 8px',
+  borderColor: '#84848466',
+  color: '#000',
+  fontWeight: '600',
+  '&:hover, &:focus': {
     backgroundColor: orangeColor,
-    color: "#fff",
+    color: '#fff',
     borderColor: orangeColor,
-    transition: "all .3s ease-in-out",
+    transition: 'all .3s ease-in-out',
   },
 }));
 
-const setShoes = (
-  id,
-  name,
-  imageUrl,
-  unitPrice,
-  discountOff,
-  description,
-  rating
-) => ({
+const setShoes = (id, name, imageUrl, unitPrice, discountOff, description, rating) => ({
   id,
   name,
   imageUrl,
@@ -68,75 +60,75 @@ const setShoes = (
 
 export const fakeData = [
   setShoes(
-    "1",
-    "Adidas shoes 1",
-    "https://boxshop-be87.kxcdn.com/boxshop-shoes/wp-content/uploads/2017/05/12-380x434.jpg",
+    '1',
+    'Adidas shoes 1',
+    'https://boxshop-be87.kxcdn.com/boxshop-shoes/wp-content/uploads/2017/05/12-380x434.jpg',
     200000,
     0,
-    "Adidas shoes 1",
+    'Adidas shoes 1',
     1
   ),
   setShoes(
-    "2",
-    "Adidas shoes 1",
-    "https://boxshop-be87.kxcdn.com/boxshop-shoes/wp-content/uploads/2017/05/10-380x434.jpg",
+    '2',
+    'Adidas shoes 1',
+    'https://boxshop-be87.kxcdn.com/boxshop-shoes/wp-content/uploads/2017/05/10-380x434.jpg',
     300000,
     0,
-    "Adidas shoes 1",
+    'Adidas shoes 1',
     2
   ),
   setShoes(
-    "3",
-    "Adidas shoes 1",
-    "https://boxshop-be87.kxcdn.com/boxshop-shoes/wp-content/uploads/2017/05/18-380x434.jpg",
+    '3',
+    'Adidas shoes 1',
+    'https://boxshop-be87.kxcdn.com/boxshop-shoes/wp-content/uploads/2017/05/18-380x434.jpg',
     300000,
     0,
-    "Adidas shoes 1",
+    'Adidas shoes 1',
     3
   ),
   setShoes(
-    "4",
-    "Adidas shoes 1",
-    "https://boxshop-be87.kxcdn.com/boxshop-shoes/wp-content/uploads/2017/05/02-380x434.jpg",
+    '4',
+    'Adidas shoes 1',
+    'https://boxshop-be87.kxcdn.com/boxshop-shoes/wp-content/uploads/2017/05/02-380x434.jpg',
     300000,
     0,
-    "Adidas shoes 1",
+    'Adidas shoes 1',
     4
   ),
   setShoes(
-    "5",
-    "Adidas shoes 1",
-    "https://boxshop-be87.kxcdn.com/boxshop-shoes/wp-content/uploads/2017/05/01-380x434.jpg",
+    '5',
+    'Adidas shoes 1',
+    'https://boxshop-be87.kxcdn.com/boxshop-shoes/wp-content/uploads/2017/05/01-380x434.jpg',
     300000,
     0,
-    "Adidas shoes 1",
+    'Adidas shoes 1',
     2
   ),
   setShoes(
-    "6",
-    "Adidas shoes 1",
-    "https://boxshop-be87.kxcdn.com/boxshop-shoes/wp-content/uploads/2017/05/03-380x434.jpg",
+    '6',
+    'Adidas shoes 1',
+    'https://boxshop-be87.kxcdn.com/boxshop-shoes/wp-content/uploads/2017/05/03-380x434.jpg',
     300000,
     0,
-    "Adidas shoes 1",
+    'Adidas shoes 1',
     5
   ),
   setShoes(
-    "7",
-    "Adidas shoes 1",
-    "https://boxshop-be87.kxcdn.com/boxshop-shoes/wp-content/uploads/2017/05/16-380x434.jpg",
+    '7',
+    'Adidas shoes 1',
+    'https://boxshop-be87.kxcdn.com/boxshop-shoes/wp-content/uploads/2017/05/16-380x434.jpg',
     300000,
     0,
-    "Adidas shoes 1",
+    'Adidas shoes 1',
     4
   ),
   setShoes(
-    "7",
-    "Adidas shoes 1",
-    "https://boxshop-be87.kxcdn.com/boxshop-shoes/wp-content/uploads/2017/05/17-380x434.jpg",
+    '7',
+    'Adidas shoes 1',
+    'https://boxshop-be87.kxcdn.com/boxshop-shoes/wp-content/uploads/2017/05/17-380x434.jpg',
     300000,
     0,
-    "Adidas shoes 1",
+    'Adidas shoes 1',
     4
   ),
 ];
@@ -161,11 +153,7 @@ const IntroduceProduct = () => {
       setShoeList(data?.payload?.data?.result || []);
     };
     getShoeList();
-  }, [
-    productFilter?.discountOff,
-    productFilter?.numOfStars,
-    productFilter?.unitPrice,
-  ]);
+  }, [productFilter?.discountOff, productFilter?.numOfStars, productFilter?.unitPrice]);
 
   const handleFilterClick = (filterNumber) => {
     switch (filterNumber) {
@@ -214,16 +202,12 @@ const IntroduceProduct = () => {
           customTransition="all .5"
           transitionDuration={500}
           containerClass="carousel-container"
-          removeArrowOnDeviceType={["tablet", "mobile"]}
+          removeArrowOnDeviceType={['tablet', 'mobile']}
           dotListClass="custom-dot-list-style"
           itemClass="carousel-item-padding-40-px"
         >
           {shoeList.map((item) => (
-            <ProductCard
-              key={item.id}
-              className={classes.spacingCard}
-              {...item}
-            />
+            <ProductCard key={item.id} className={classes.spacingCard} {...item} />
           ))}
         </Carousel>
       </Box>

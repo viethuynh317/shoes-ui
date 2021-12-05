@@ -1,0 +1,10 @@
+.list-feedback-name {
+  background-color: rgb(26, 138, 138);
+  padding: 5px 0 5px 10px;
+  color: rgb(240, 240, 240);
+  text-align: left;
+}
+.no-feedback {
+  padding: 10px 10px;
+  text-align: left;
+}

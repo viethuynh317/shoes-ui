@@ -1,5 +1,5 @@
 import { makeStyles } from '@mui/styles';
-import { Box as MuiButton } from '@mui/material';
+import { Button as MuiButton } from '@mui/material';
 import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
