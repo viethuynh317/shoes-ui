@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-// import { getFeedbackByIdSlice } from '../../../../employeeSlice';
+import { getFeedbackByIdSlice } from '../../../../employeeSlice';
 import ReplyFeedbackForm from './components/ReplyFeedbackForm/ReplyFeedbackForm';
 import '../../../../../..//components/ProductDetailContent/index.css';
 
@@ -14,7 +14,7 @@ export default function ReplyFeedback() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // dispatch(getFeedbackByIdSlice(id));
+    dispatch(getFeedbackByIdSlice(id));
   }, [dispatch, id]);
 
   return (
@@ -28,21 +28,27 @@ export default function ReplyFeedback() {
         </div>
         <div className="product-detail-content-right">
           <h1 className="product-detail-content-title">{userName}</h1>
-          <p className="product-detail-content-create-at">{new Date(createAt).toLocaleString()}</p>
+          <p className="product-detail-content-create-at">
+            {new Date(createAt).toLocaleString()}
+          </p>
           <table className="mt-1">
             <tbody>
               {content ? (
                 <tr>
                   <td>Feedback:</td>
                   <td>
-                    <p className="product-detail-content-description">{content}</p>
+                    <p className="product-detail-content-description">
+                      {content}
+                    </p>
                   </td>
                 </tr>
               ) : null}
               <tr>
                 <td>Stars:</td>
                 <td>
-                  <p className="product-detail-content-description">{numOfStars}</p>
+                  <p className="product-detail-content-description">
+                    {numOfStars}
+                  </p>
                 </td>
               </tr>
             </tbody>
@@ -54,7 +60,9 @@ export default function ReplyFeedback() {
         {reply !== undefined ? (
           <div className="list-feedback">
             {reply.length > 0 ? (
-              reply.map((feedback, index) => <ReplyFeedbackForm feedback={feedback} key={index} />)
+              reply.map((feedback, index) => (
+                <ReplyFeedbackForm feedback={feedback} key={index} />
+              ))
             ) : (
               <p className="no-feedback">Chưa có đánh giá.</p>
             )}

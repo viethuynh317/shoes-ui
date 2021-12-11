@@ -56,7 +56,6 @@ export default function Feedback({ feedback }) {
 
   const addNewReplyFeedback = (replyFeedback, resetForm) => {
     // dispatch(addReplyFeedback(replyFeedback));
-    resetForm();
     setRecordForEdit(null);
     setOpenPopup(false);
   };
@@ -79,7 +78,9 @@ export default function Feedback({ feedback }) {
                 {Math.round(feedback.numOfStars * 10) / 10} sao
               </span>
             </div>
-            <span className="feedback-date">{new Date(feedback.createAt).toLocaleString()}</span>
+            <span className="feedback-date">
+              {new Date(feedback.createAt).toLocaleString()}
+            </span>
             <div className="body-feedback">
               <p className="content-feedback">{feedback.content}</p>
               <div className="list-reply">{}</div>
@@ -106,7 +107,8 @@ export default function Feedback({ feedback }) {
             text="Reply"
             color="primary"
             onClick={() => {
-              if (roleId === 2) history.push(`/employee/replys/${feedback._id}`);
+              if (roleId === 2)
+                history.push(`/employee/replys/${feedback._id}`);
               else history.push(`/admin/replys/${feedback._id}`);
             }}
           >
@@ -115,7 +117,11 @@ export default function Feedback({ feedback }) {
           </ActionButton>
         </div>
       </div>
-      <Popup title={infoForm.titleForm} openPopup={openPopup} setOpenPopup={setOpenPopup}>
+      <Popup
+        title={infoForm.titleForm}
+        openPopup={openPopup}
+        setOpenPopup={setOpenPopup}
+      >
         <FeedbackForm
           recordForEdit={recordForEdit}
           addNewReplyFeedback={addNewReplyFeedback}

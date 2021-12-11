@@ -43,7 +43,6 @@ export const addNewShoe = createAsyncThunk(
   async (data, { rejectWithValue, dispatch }) => {
     try {
       const res = await shoesApi.createNewShoe(data);
-      console.log('hello', data);
       return res.data;
     } catch (error) {
       return rejectWithValue(error?.response?.data);

@@ -2,32 +2,33 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import Admin from '../../features/admin/Admin';
+import Employee from '../../features/Employee/Employee';
 import { getLocalStorageToken } from '../../services/tokenConfig';
 
-const PrivateLayoutRoutes = ({ component: Component, ...rest }) => (
+const PrivateLayoutRoutesEmployee = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={(routeProps) => (
       <>
-        {/* {!!getLocalStorageToken() ? (
-          <Admin>
+        {!!getLocalStorageToken() &&
+        JSON.parse(localStorage.getItem('roleId')) === 2 ? (
+          <Employee>
             <Component {...routeProps} />
-          </Admin>
+          </Employee>
         ) : (
           <Redirect exact to="/auth/sign_in" />
-        )} */}
-        <Admin>
+        )}
+        {/* <Admin>
           <Component {...routeProps} />
-        </Admin>
+        </Admin> */}
       </>
     )}
   />
 );
-PrivateLayoutRoutes.propTypes = {
+PrivateLayoutRoutesEmployee.propTypes = {
   component: PropTypes.instanceOf(Object).isRequired,
 };
 
-PrivateLayoutRoutes.defaultProps = {};
+PrivateLayoutRoutesEmployee.defaultProps = {};
 
-export default PrivateLayoutRoutes;
+export default PrivateLayoutRoutesEmployee;
