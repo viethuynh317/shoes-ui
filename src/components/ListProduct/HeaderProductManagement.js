@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useState } from 'react';
-import FastfoodIcon from '@mui/icons-material/Fastfood';
+import { StoreOutlined } from '@mui/icons-material';
 import { Search } from '@mui/icons-material';
 import Controls from '../../components/controls/Controls';
 import { useDispatch, useSelector } from 'react-redux';
@@ -113,14 +113,14 @@ export default function PageHeader() {
     <Paper elevation={0} square className={classes.root}>
       <div className={classes.pageHeader}>
         <Card className={classes.pageIcon}>
-          <FastfoodIcon fontSize="large" />
+          <StoreOutlined fontSize="large" />
         </Card>
         <div className={classes.pageTitle}>
           <Typography variant="h6" component="div">
-            Products
+            Shoes
           </Typography>
           <Typography variant="subtitle2" component="div">
-            Products Management
+            Shoes Management
           </Typography>
         </div>
       </div>
@@ -134,10 +134,10 @@ export default function PageHeader() {
           className={classes.buttonAddProduct}
           onClick={handleClickAddButton}
         >
-          <span className={classes.plus}>+</span> Add Product
+          <span className={classes.plus}>+</span> Add Shoe
         </button>
         <Controls.Input
-          label="Search Product"
+          label="Search Shoe"
           name="search"
           className={classes.searchInput}
           value={searchQuery}

@@ -4,6 +4,7 @@ import { TextField } from '@mui/material';
 
 export default function Input(props) {
   const {
+    id,
     name,
     label,
     type,
@@ -17,6 +18,7 @@ export default function Input(props) {
   } = props;
   return (
     <TextField
+      id={id}
       variant="outlined"
       label={label}
       type={type}

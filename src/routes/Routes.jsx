@@ -1,8 +1,13 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import PrivateLayoutRoutes from "./layoutRoutes/PrivateLayoutRoutes";
-import PublicLayoutRoutes from "./layoutRoutes/PublicLayoutRoutes";
-import { privateRoutes, publicRoutes } from "./routeConfig";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import PrivateLayoutRoutes from './layoutRoutes/PrivateLayoutRoutes';
+import PrivateLayoutRouteEmployee from './layoutRoutes/PrivateLayoutRouteEmployee';
+import PublicLayoutRoutes from './layoutRoutes/PublicLayoutRoutes';
+import {
+  privateRoutes,
+  privateRoutesEmployee,
+  publicRoutes,
+} from './routeConfig';
 
 const Routes = () => {
   return (
@@ -11,6 +16,18 @@ const Routes = () => {
         const { key, exact, path, component } = route;
         return (
           <PrivateLayoutRoutes
+            key={key}
+            exact={exact}
+            path={path}
+            component={component}
+          />
+        );
+      })}
+
+      {privateRoutesEmployee.map((route) => {
+        const { key, exact, path, component } = route;
+        return (
+          <PrivateLayoutRouteEmployee
             key={key}
             exact={exact}
             path={path}

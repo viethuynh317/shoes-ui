@@ -9,9 +9,16 @@ import Notification from '../../../../components/Notification';
 import PageHeader from '../../../../components/PageHeader';
 import Popup from '../../../../components/Popup';
 
-// import { getAllFeedbacks, addReplyFeedback } from '../../employeeSlice';
+import { getAllFeedbacks, addReplyFeedback } from '../../employeeSlice';
 import FeedbackForm from './components/FeedbackForm/FeedbackForm';
-import { InputAdornment, Paper, TableBody, TableCell, TableRow, Toolbar } from '@mui/material';
+import {
+  InputAdornment,
+  Paper,
+  TableBody,
+  TableCell,
+  TableRow,
+  Toolbar,
+} from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -49,6 +56,7 @@ export default function FeedbackManagement() {
   const [isCall, setIsCall] = useState(false);
 
   useEffect(() => {
+    dispatch(getAllFeedbacks('607d8194e141e742289e2ece'));
     setIsCall(true);
   }, [dispatch]);
 
@@ -89,11 +97,8 @@ export default function FeedbackManagement() {
     type: '',
   });
 
-  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } = useTable(
-    feedbacks,
-    headCells,
-    filterFn
-  );
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
+    useTable(feedbacks, headCells, filterFn);
 
   const handleSearch = (e) => {
     let target = e.target;
@@ -101,12 +106,20 @@ export default function FeedbackManagement() {
       fn: (items) => {
         if (target.value === '') return items;
         else
-          return items.filter((x) => x.userName.toLowerCase().includes(target.value.toLowerCase()));
+          return items.filter((x) =>
+            x.userName.toLowerCase().includes(target.value.toLowerCase())
+          );
       },
     });
   };
 
   const addNewReplyFeedback = (replyFeedback, resetForm) => {
+    dispatch(
+      addReplyFeedback({
+        feedbackId: '6091ff398fe1960015a75a59',
+        content: 'asdds',
+      })
+    );
     resetForm();
     setRecordForEdit(null);
     setOpenPopup(false);
@@ -170,7 +183,11 @@ export default function FeedbackManagement() {
         </TblContainer>
         <TblPagination />
       </Paper>
-      <Popup title={infoForm.titleForm} openPopup={openPopup} setOpenPopup={setOpenPopup}>
+      <Popup
+        title={infoForm.titleForm}
+        openPopup={openPopup}
+        setOpenPopup={setOpenPopup}
+      >
         <FeedbackForm
           recordForEdit={recordForEdit}
           addNewReplyFeedback={addNewReplyFeedback}

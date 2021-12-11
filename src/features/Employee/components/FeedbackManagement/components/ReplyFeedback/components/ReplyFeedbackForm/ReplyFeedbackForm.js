@@ -24,7 +24,9 @@ export default function ReplyFeedbackForm({ feedback }) {
                 ''
               )}
             </div>
-            <span className="feedback-date">{new Date(feedback.createAt).toLocaleString()}</span>
+            <span className="feedback-date">
+              {new Date(feedback.createAt).toLocaleString()}
+            </span>
             <div className="body-feedback">
               <p style={{ marginBottom: '5px' }}>Reply Feedback:</p>
               <Input value={feedback.content} disabled />
