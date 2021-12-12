@@ -209,6 +209,7 @@ export default function RolesPermission() {
                     key={action._id}
                   >
                     <Checkbox
+                      label=""
                       name={action._id}
                       disabled={action.disabled || false}
                       value={action.license ? true : false}

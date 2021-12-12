@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormControl, FormControlLabel, Checkbox as MuiCheckbox } from '@mui/material';
+import {
+  FormControl,
+  FormControlLabel,
+  Checkbox as MuiCheckbox,
+} from '@mui/material';
 
 export default function Checkbox(props) {
   const { name, label, value, onChange, disabled } = props;
@@ -18,7 +22,9 @@ export default function Checkbox(props) {
             name={name}
             color="primary"
             checked={value}
-            onChange={(e) => onChange(convertToDefEventPara(name, e.target.checked))}
+            onChange={(e) =>
+              onChange(convertToDefEventPara(name, e.target.checked))
+            }
             disabled={disabled}
           />
         }

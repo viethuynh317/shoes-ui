@@ -186,13 +186,14 @@ export default function UserPermission() {
             {recordsAfterPagingAndSorting().map((item, indx) => (
               <TableRow key={indx}>
                 <TableCell>{item.namePermission}</TableCell>
-                {item.actionPermissions.map((action) => (
+                {item?.actionPermissions?.map((action) => (
                   <TableCell
                     className={classes.centerTableCell}
                     align="justify"
                     key={action._id}
                   >
                     <Checkbox
+                      label=""
                       name={action._id}
                       disabled={action.disabled || false}
                       value={action.license ? true : false}

@@ -1,31 +1,31 @@
-import { AccountCircle } from "@mui/icons-material";
-import ExitIcon from "@mui/icons-material/ExitToApp";
-import MenuIcon from "@mui/icons-material/Menu";
-import MoreIcon from "@mui/icons-material/More";
-import { IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
-import MuiAppBar from "@mui/material/AppBar";
-import { styled } from "@mui/material/styles";
-import { makeStyles } from "@mui/styles";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { removeLocalStorageToken } from "../../services/tokenConfig";
-import { setOpen } from "../dashBoardSlice";
+import { AccountCircle } from '@mui/icons-material';
+import ExitIcon from '@mui/icons-material/ExitToApp';
+import MenuIcon from '@mui/icons-material/Menu';
+import MoreIcon from '@mui/icons-material/More';
+import { IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
+import MuiAppBar from '@mui/material/AppBar';
+import { styled } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { removeLocalStorageToken } from '../../services/tokenConfig';
+import { setOpen } from '../dashBoardSlice';
 
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
+  shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(["width", "margin"], {
+  transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
+    transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
@@ -34,29 +34,30 @@ const AppBar = styled(MuiAppBar, {
 
 const useStyles = makeStyles((theme) => ({
   sectionDesktop: {
-    display: "none",
-    [theme.breakpoints.up("md")]: {
-      display: "flex",
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
     },
   },
 
   sectionMobile: {
-    display: "flex",
-    [theme.breakpoints.up("md")]: {
-      display: "none",
+    display: 'flex',
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
     },
   },
   welcome: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
 }));
 
 export default function Navbar(props) {
   const history = useHistory();
   const classes = useStyles();
-
+  const roleId = localStorage.getItem('roleId');
+  const user = JSON.parse(localStorage.getItem('user'));
   const dispatch = useDispatch();
   const open = useSelector((state) => state?.dashboard?.open);
 
@@ -86,23 +87,46 @@ export default function Navbar(props) {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem('roleId');
+    localStorage.removeItem('user');
     removeLocalStorageToken();
     setAnchorEl(false);
     setMobileMoreAnchorEl(false);
-    history.push("/auth/sign_in");
+    history.push('/auth/sign_in');
   };
 
-  const menuId = "primary-search-account-menu";
+  const handleClickMyAccount = () => {
+    if (+roleId === 0) {
+      history.push('/admin/profile');
+    } else if (+roleId === 2) {
+      history.push('/employee/profile');
+    } else {
+      history.push('/auth/sign_in');
+    }
+  };
+  const handleClickChangePassword = () => {
+    if (+roleId === 0) {
+      history.push('/admin/change_password');
+    } else if (+roleId === 2) {
+      history.push('/employee/change_password');
+    } else {
+      history.push('/auth/sign_in');
+    }
+  };
+
+  const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       id={menuId}
       keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
+      <MenuItem onClick={handleClickMyAccount}>My account</MenuItem>
+      <MenuItem onClick={handleClickChangePassword}>Change Password</MenuItem>
       <MenuItem onClick={handleLogout}>
         Logout &nbsp;
         <ExitIcon />
@@ -110,14 +134,14 @@ export default function Navbar(props) {
     </Menu>
   );
 
-  const mobileMenuId = "primary-search-account-menu-mobile";
+  const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       id={mobileMenuId}
       keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
@@ -148,7 +172,7 @@ export default function Navbar(props) {
       <AppBar position="absolute" open={open}>
         <Toolbar
           sx={{
-            pr: "24px", // keep right padding when drawer closed
+            pr: '24px', // keep right padding when drawer closed
           }}
         >
           <IconButton
@@ -157,8 +181,8 @@ export default function Navbar(props) {
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             sx={{
-              marginRight: "36px",
-              ...(open && { display: "none" }),
+              marginRight: '36px',
+              ...(open && { display: 'none' }),
             }}
           >
             <MenuIcon />
@@ -169,6 +193,7 @@ export default function Navbar(props) {
             color="inherit"
             noWrap
             sx={{ flexGrow: 1 }}
+            textAlign="center"
           >
             Dashboard
           </Typography>
@@ -180,7 +205,7 @@ export default function Navbar(props) {
               noWrap
               className={classes.welcome}
             >
-              Welcome, Admin
+              Welcome, {roleId === 0 ? 'Admin' : user?.fullName}
             </Typography>
             <IconButton
               edge="end"
