@@ -8,6 +8,14 @@ export const publicRoutes = [
     component: lazy(() => import('../features/auth/signIn/SignIn')),
   },
   {
+    key: 'forgotPassword',
+    path: '/auth/forgot_password',
+    exact: true,
+    component: lazy(() =>
+      import('../features/auth/component/ForgotPassword/ForgotPassword')
+    ),
+  },
+  {
     key: 'customerHomePage',
     exact: true,
     path: '/shoes',
@@ -50,16 +58,14 @@ export const privateRoutes = [
       import('../features/admin/components/UserManagement/UserManagement')
     ),
   },
-
-  {
-    key: 'rolesManagement',
-    path: '/admin/roles',
-    exact: true,
-    component: lazy(() =>
-      import('../features/admin/components/RolesManagement/RolesManagement')
-    ),
-  },
-
+  // {
+  //   key: 'rolesManagement',
+  //   path: '/admin/roles',
+  //   exact: true,
+  //   component: lazy(() =>
+  //     import('../features/admin/components/RolesManagement/RolesManagement')
+  //   ),
+  // },
   {
     key: 'usersPermission',
     path: '/admin/users/:userId/permissions',
@@ -70,17 +76,16 @@ export const privateRoutes = [
       )
     ),
   },
-
-  {
-    key: 'rolesPermission',
-    path: '/admin/roles/:roleId/permissions',
-    exact: true,
-    component: lazy(() =>
-      import(
-        '../features/admin/components/RolesManagement/components/RolesPermission'
-      )
-    ),
-  },
+  // {
+  //   key: 'rolesPermission',
+  //   path: '/admin/roles/:roleId/permissions',
+  //   exact: true,
+  //   component: lazy(() =>
+  //     import(
+  //       '../features/admin/components/RolesManagement/components/RolesPermission'
+  //     )
+  //   ),
+  // },
   {
     key: 'employeesManagement',
     path: '/admin/employees',
@@ -101,46 +106,64 @@ export const privateRoutes = [
   },
   {
     key: 'orderManagement',
-    path: '/employee/orders',
+    path: '/admin/orders',
     exact: true,
     component: lazy(() =>
       import('../features/Employee/components/OrderManagement/OrderManagement')
     ),
   },
-  // {
-  //   key: 'profile',
-  //   path: '/admin/profile',
-  //   exact: true,
-  //   component: lazy(() => import('../features/Profile/Profile/index')),
-  // },
-  // {
-  //   key: 'changePassword',
-  //   path: '/admin/change-password',
-  //   exact: true,
-  //   component: lazy(() => import('../features/Profile/ChangePassword/index')),
-  // },
+  {
+    key: 'shipperManagement',
+    path: '/admin/shippers',
+    exact: true,
+    component: lazy(() =>
+      import(
+        '../features/Employee/components/ShipperManagement/ShipperManagement'
+      )
+    ),
+  },
+  {
+    key: 'profile',
+    path: '/admin/profile',
+    exact: true,
+    component: lazy(() => import('../features/Profile/Profile/index')),
+  },
+  {
+    key: 'changePassword',
+    path: '/admin/change_password',
+    exact: true,
+    component: lazy(() => import('../features/Profile/ChangePassword/index')),
+  },
 
-  // {
-  //   key: 'feedbackManagement',
-  //   path: '/admin/replys/:id',
-  //   exact: true,
-  //   component: lazy(() =>
-  //     import(
-  //       '../features/Employee/components/FeedbackManagement/components/ReplyFeedback/ReplyFeedback'
-  //     )
-  //   ),
-  // },
+  {
+    key: 'feedbackManagement',
+    path: '/admin/replys/:id',
+    exact: true,
+    component: lazy(() =>
+      import(
+        '../features/Employee/components/FeedbackManagement/components/ReplyFeedback/ReplyFeedback'
+      )
+    ),
+  },
 ];
 
 export const privateRoutesEmployee = [
   {
-    key: 'shipperManagement',
+    key: 'shipperManagementEmployee',
     path: '/employee/shippers',
     exact: true,
     component: lazy(() =>
       import(
         '../features/Employee/components/ShipperManagement/ShipperManagement'
       )
+    ),
+  },
+  {
+    key: 'orderManagementEmployee',
+    path: '/employee/orders',
+    exact: true,
+    component: lazy(() =>
+      import('../features/Employee/components/OrderManagement/OrderManagement')
     ),
   },
   {
@@ -168,5 +191,17 @@ export const privateRoutesEmployee = [
     path: '/employee/shoes/:id/edit',
     exact: true,
     component: lazy(() => import('../components/EditProduct/EditProduct')),
+  },
+  {
+    key: 'profile',
+    path: '/employee/profile',
+    exact: true,
+    component: lazy(() => import('../features/Profile/Profile/index')),
+  },
+  {
+    key: 'changePassword',
+    path: '/employee/change_password',
+    exact: true,
+    component: lazy(() => import('../features/Profile/ChangePassword/index')),
   },
 ];

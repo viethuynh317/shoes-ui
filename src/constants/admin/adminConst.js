@@ -2,8 +2,10 @@ import {
   Group,
   HowToReg,
   PeopleAlt,
+  ShoppingCart,
   ShowChart,
   StoreOutlined,
+  TwoWheeler,
 } from '@mui/icons-material';
 
 export const MENU_ADMIN = [
@@ -17,11 +19,11 @@ export const MENU_ADMIN = [
     icon: <PeopleAlt />,
     link: '/admin/users',
   },
-  {
-    text: 'Roles Permission',
-    icon: <HowToReg />,
-    link: '/admin/roles',
-  },
+  // {
+  //   text: 'Roles Permission',
+  //   icon: <HowToReg />,
+  //   link: '/admin/roles',
+  // },
   {
     text: 'Revenues Statistical',
     icon: <ShowChart />,
@@ -31,5 +33,15 @@ export const MENU_ADMIN = [
     text: 'Shoes',
     icon: <StoreOutlined />,
     link: '/admin/shoes',
+  },
+  {
+    text: 'Order',
+    icon: <ShoppingCart />,
+    link: '/admin/orders',
+  },
+  {
+    text: 'Shipper',
+    icon: <TwoWheeler />,
+    link: '/admin/shippers',
   },
 ];

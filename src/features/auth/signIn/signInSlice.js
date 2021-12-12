@@ -8,7 +8,12 @@ export const getTokenSignIn = createAsyncThunk(
     try {
       const res = await signInApi.signIn({ email, password });
       setLocalStorageToken(res?.data?.token);
-      localStorage.setItem('roleId', res?.data?.roleId);
+      const { roleId, imageUrl, userId, fullName, address } = res?.data;
+      localStorage.setItem('roleId', roleId);
+      localStorage.setItem(
+        'user',
+        JSON.stringify({ imageUrl, userId, fullName, address })
+      );
       return res?.data;
     } catch (error) {
       return rejectWithValue(error?.response?.data);

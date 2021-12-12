@@ -155,7 +155,11 @@ export default function SignIn() {
                 helperText={errors?.password?.message}
               />
               <Box display="flex" justifyContent="flex-end">
-                <Link href="#" variant="button" underline="none">
+                <Link
+                  href="/auth/forgot_password"
+                  variant="button"
+                  underline="none"
+                >
                   Forgot password
                 </Link>
               </Box>

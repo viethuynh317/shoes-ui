@@ -1,7 +1,9 @@
-import { Grid } from '@mui/material';
+import { DatePicker, LocalizationProvider } from '@mui/lab';
+import { Grid, TextField } from '@mui/material';
 import React, { useEffect } from 'react';
 import Controls from '../../../../../../components/controls/Controls';
 import { Form, useForm } from '../../../../../../hooks/customHooks/useForm';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
 
 const initialFValues = {
   _id: '',
@@ -108,14 +110,27 @@ export default function ShipperForm(props) {
             items={idle}
             disabled={nameButton === 'Add' ? true : false}
           />
-          <Controls.DatePicker
-            name="birthday"
-            label="Birthday*"
-            value={values.birthday}
-            onChange={handleInputChange}
-            error={errors.birthday}
-          />
-
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DatePicker
+              key="birthday"
+              name="birthday"
+              inputFormat="dd/MM/yyyy"
+              label="Birthday*"
+              value={values.birthday}
+              onChange={(newValue) => {
+                handleInputChange({}, newValue, 'birthday');
+              }}
+              renderInput={(params) => (
+                <TextField
+                  name="birthday"
+                  value={values.birthday}
+                  error={errors.birthday}
+                  fullWidth
+                  {...params}
+                />
+              )}
+            />
+          </LocalizationProvider>
           <div>
             <Controls.Button type="submit" text={nameButton} />
           </div>

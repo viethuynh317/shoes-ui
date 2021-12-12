@@ -1,0 +1,66 @@
+.profile {
+    display: flex;
+    padding: 32px;
+}
+
+.profile-right {
+    margin-left: 60px;
+}
+
+.profile-right table tr td {
+    font-size: 18px;
+    padding: 2px 6px;
+}
+
+.profile-right table tr td input {
+    font-size: 17px;
+    border: 1px solid #ccc;
+    padding: 5px 12px;
+    background-color: #ececec;
+    width: 400px;
+    border-radius: 4px;
+}
+
+.profile-right table tr .edit input {
+    outline: 1px;
+    outline-color: rgb(45, 131, 216);
+    border: 1px;
+    background-color: white;
+}
+
+.profile-right .buttons {
+    margin-left: 10px;
+}
+
+.profile-right .buttons button {
+    border: none;
+    outline: none;
+    padding: 10px 15px;
+    margin-top: 20px;
+    border-radius: 4px;
+    font-size: 17px;
+    color: #f1f1f1;
+    cursor: pointer;
+}
+
+.profile-right .buttons button:hover {
+    opacity: .8;
+    transition-duration: .5s;
+    transform: translateY(-2px);
+}
+
+.button-edit-profile {
+    background-color: rgb(32, 32, 228);
+}
+
+.button-change-password {
+    background-color: chocolate;
+}
+
+.loading-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40vh;
+    width: 100%;
+}

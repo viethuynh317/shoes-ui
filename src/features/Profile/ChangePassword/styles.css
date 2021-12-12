@@ -1,0 +1,88 @@
+.change-password-wrapper {
+  /* margin-top: 50px; */
+  padding: 30px;
+  position: relative;
+}
+
+.change-password input {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 1rem;
+  outline-color: rgb(45, 131, 216);
+}
+
+.change-password input[type="password"] {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.change-password input[type="submit"], .change-password input[type="reset"] {
+  margin-top: 1.7rem;
+  border: none;
+  width: 200px;
+  background-color: rgb(49, 81, 184);
+  color: aliceblue;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+
+.change-password input[type="reset"] {
+  background-color: rgb(212, 90, 41);
+  margin-left: 15px;
+}
+
+.change-password input[type="submit"]:hover {
+  transform: translateY(-3px);
+  box-shadow: 1px 5px 9px rgb(65, 107, 170);
+  transition: 0.3s;
+}
+
+.change-password h1 {
+  text-align: center;
+}
+
+.change-password {
+  background-color: #f3f3f3;
+  border-radius: 6px;
+  padding: 20px;
+  width: 500px;
+  margin: 0 auto;
+}
+
+a {
+  text-decoration: none;
+}
+
+.change-password span {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  margin-top: -3px;
+  color: rgb(244, 67, 54);
+}
+
+.change-password .validate::placeholder {
+  color: rgb(244, 67, 54);
+}
+
+.change-password label {
+  display: inline-block;
+  margin-top: 0.8rem;
+}
+
+.change-password .change-pass-buttons {
+  width: 100%;
+  text-align: center;
+}
+
+.backdrop {
+  z-index: 999;
+  color: '#fff';
+}
+
+.change-password .MuiBackdrop-root {
+  position: absolute;
+  height: 60vh;
+  background-color: rgba(255, 255, 255, 0) !important;
+}

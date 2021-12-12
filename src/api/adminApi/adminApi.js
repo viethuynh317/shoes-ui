@@ -79,7 +79,7 @@ const adminApi = {
   },
 
   getPermissionByRoleId(id) {
-    const url = `/admin//permissions/${id}`;
+    const url = `/admin/permissions/${id}`;
     return axiosClient.get(url, {
       headers: {
         'Content-Type': 'application/json',
