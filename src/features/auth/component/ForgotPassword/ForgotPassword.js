@@ -1,22 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import './index.css';
-import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useDispatch, useSelector } from 'react-redux';
-import { resetPassword, sendCodeToResetPassword } from '../../authSlice';
-import { useHistory } from 'react-router';
-import Notification from '../../../../components/Notification';
-import {
-  Box,
-  Button,
-  CircularProgress,
-  InputBase,
-  Paper,
-  TextField,
-} from '@mui/material';
-import { styled } from '@mui/styles';
 import { LoadingButton } from '@mui/lab';
+import { Box, InputBase, Paper, TextField } from '@mui/material';
+import { styled } from '@mui/styles';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import * as yup from 'yup';
+import Notification from '../../../../components/Notification';
+import { resetPassword, sendCodeToResetPassword } from '../../authSlice';
+import './index.css';
 
 const TextInput = styled(TextField)(() => ({
   width: '100%',
@@ -93,7 +86,7 @@ const ForgotPassword = () => {
     const rs = await dispatch(resetPassword(dataRequest));
     if (rs.type === 'auth/resetPassword/fulfilled') {
       setTimeout(() => {
-        history.push('/auth/sign_in');
+        history.push('/auth/sign-in');
       }, 2500);
     }
     setIsCall(true);
@@ -114,6 +107,7 @@ const ForgotPassword = () => {
             : 'error',
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actionStatus]);
   return (
     <div className="forgot-password">
@@ -143,6 +137,7 @@ const ForgotPassword = () => {
           />
           <Box>
             <LoadingButton
+              loadingPosition="start"
               loading={loading && !isSended}
               type="submit"
               variant="contained"
@@ -198,6 +193,7 @@ const ForgotPassword = () => {
             </Box>
             <Box>
               <LoadingButton
+                loadingPosition="start"
                 loading={loading && isSended}
                 type="submit"
                 variant="contained"

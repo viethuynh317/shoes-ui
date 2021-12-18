@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Backdrop,
@@ -8,10 +7,10 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { styled } from '@mui/styles';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
 import Notification from '../../../components/Notification';
 import { changePassword } from '../profileSlice';
@@ -48,8 +47,6 @@ const schema = yup.object().shape({
     ),
 });
 const ChangePassword = () => {
-  const roleId = Number(localStorage.getItem('roleId'));
-  const history = useHistory();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [notify, setNotify] = useState({

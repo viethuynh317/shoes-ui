@@ -1,25 +1,82 @@
 import { lazy } from 'react';
 
+export const guestRoutes = [
+  {
+    key: 'customerHomePage',
+    exact: true,
+    path: '/user/homepage',
+    component: lazy(() => import('../features/customer/homepage/HomePage')),
+  },
+];
+
+export const publicRoutesCustomer = [
+  {
+    key: 'customerSignIn',
+    exact: true,
+    path: '/user/sign-in',
+    component: lazy(() => import('../features/customer/auth/SignIn/SignIn')),
+  },
+  {
+    key: 'customerSignUp',
+    exact: true,
+    path: '/user/sign-up',
+    component: lazy(() => import('../features/customer/auth/SignUp/SignUp')),
+  },
+];
+
+export const privateRoutesCustomer = [
+  {
+    key: 'customerMyAccount',
+    exact: true,
+    path: '/user/my-account',
+    component: lazy(() => import('../features/customer/MyAccount/MyAccount')),
+  },
+  {
+    key: 'customerMyAccountOrders',
+    exact: true,
+    path: '/user/my-account/orders',
+    component: lazy(() =>
+      import(
+        '../features/customer/MyAccount/components/CustomerOrders/CustomerOrders'
+      )
+    ),
+  },
+  {
+    key: 'customerMyAccountDetail',
+    exact: true,
+    path: '/user/my-account/details',
+    component: lazy(() =>
+      import(
+        '../features/customer/MyAccount/components/AccountDetail/AccountDetail'
+      )
+    ),
+  },
+  {
+    key: 'customerMyAccountChangePassword',
+    exact: true,
+    path: '/user/my-account/change-password',
+    component: lazy(() =>
+      import(
+        '../features/customer/MyAccount/components/ChangePassword/ChangePassword'
+      )
+    ),
+  },
+];
+
 export const publicRoutes = [
   {
     key: 'signIn',
     exact: true,
-    path: '/auth/sign_in',
+    path: '/auth/sign-in',
     component: lazy(() => import('../features/auth/signIn/SignIn')),
   },
   {
     key: 'forgotPassword',
-    path: '/auth/forgot_password',
+    path: '/auth/forgot-password',
     exact: true,
     component: lazy(() =>
       import('../features/auth/component/ForgotPassword/ForgotPassword')
     ),
-  },
-  {
-    key: 'customerHomePage',
-    exact: true,
-    path: '/shoes',
-    component: lazy(() => import('../features/customer/homepage/HomePage')),
   },
 ];
 
@@ -130,7 +187,7 @@ export const privateRoutes = [
   },
   {
     key: 'changePassword',
-    path: '/admin/change_password',
+    path: '/admin/change-password',
     exact: true,
     component: lazy(() => import('../features/Profile/ChangePassword/index')),
   },
@@ -200,7 +257,7 @@ export const privateRoutesEmployee = [
   },
   {
     key: 'changePassword',
-    path: '/employee/change_password',
+    path: '/employee/change-password',
     exact: true,
     component: lazy(() => import('../features/Profile/ChangePassword/index')),
   },

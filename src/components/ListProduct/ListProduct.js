@@ -1,16 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
-import ProductItem from '../ProductItem/ProductItem';
-import { useSelector, useDispatch } from 'react-redux';
-// import { getFoods } from './productSlice';
-import Header from './HeaderProductManagement';
-import Notification from '../../components/Notification';
 // import { socket } from '../../../helper/socketIo';
 import Pagination from '@mui/lab/Pagination';
-import slugify from 'slugify';
-import { makeStyles } from '@mui/styles';
 import { Grid } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchShoeList } from '../../commons/shoesSlice';
+import Notification from '../../components/Notification';
+import ProductItem from '../ProductItem/ProductItem';
+// import { getFoods } from './productSlice';
+import Header from './HeaderProductManagement';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,7 +29,8 @@ export default function ListProduct() {
   const [totalPage, setTotalPage] = useState(0);
   const { filter, actionStatus } = useSelector((state) => state.shoes);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isCall, setIsCall] = useState(false);
+
+  console.log('hello', actionStatus?.method);
 
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -54,24 +54,24 @@ export default function ListProduct() {
       setTotalPage(Math.ceil(res?.payload?.data?.total / 6));
     };
     getShoeList();
-    setIsCall(true);
   }, [filter?.search, filter?.isConfirmed, filter?.unitPrice, currentPage]);
-  // useEffect(() => {
-  //   if (isCall && actionStatus) {
-  //     setNotify({
-  //       isOpen: true,
-  //       message: actionStatus.msg,
-  //       type:
-  //         actionStatus.status === 200 ||
-  //         actionStatus.status === 201 ||
-  //         actionStatus.status === 202 ||
-  //         actionStatus.status === 203 ||
-  //         actionStatus.status === 204
-  //           ? 'success'
-  //           : 'error',
-  //     });
-  //   }
-  // }, [actionStatus, isCall]);
+
+  useEffect(() => {
+    if (actionStatus && actionStatus?.method !== 'get') {
+      setNotify({
+        isOpen: true,
+        message: actionStatus.msg,
+        type:
+          actionStatus.status === 200 ||
+          actionStatus.status === 201 ||
+          actionStatus.status === 202 ||
+          actionStatus.status === 203 ||
+          actionStatus.status === 204
+            ? 'success'
+            : 'error',
+      });
+    }
+  }, [actionStatus]);
 
   const handleChangePage = (e, newPage) => {
     setCurrentPage(newPage);

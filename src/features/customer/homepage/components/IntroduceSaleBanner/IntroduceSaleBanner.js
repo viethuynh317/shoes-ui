@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import { Box, Grid } from "@mui/material";
-import React from "react";
-import { introduceSaleBanner } from "../../../../../constants/customer/homePage";
+import { Grid } from '@mui/material';
+import React from 'react';
+import { introduceSaleBanner } from '../../../../../constants/customer/homePage';
 
 const IntroduceSaleBanner = () => {
   return (

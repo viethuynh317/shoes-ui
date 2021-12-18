@@ -1,12 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import styled from '@emotion/styled';
-import { Divider, Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import ProductCard from '../../../../../components/Customer/ProductCard/ProductCard';
 import { fetchShoeList } from '../../../../../commons/shoesSlice';
-import { fakeData } from '../IntroduceProduct/IntroduceProduct';
+import ProductCard from '../../../../../components/Customer/ProductCard/ProductCard';
 
 const CustomDivider = styled(Typography)(() => ({
   display: 'inline-block',

@@ -82,6 +82,7 @@ const initialState = {
   errors: {},
   status: 200,
   msg: '',
+  actionStatus: null,
 };
 
 const shoesSlice = createSlice({
@@ -98,66 +99,84 @@ const shoesSlice = createSlice({
   },
   extraReducers: {
     [fetchShoeList.pending](state) {
+      state.actionStatus = null;
       state.loading = true;
     },
     [fetchShoeList.rejected](state, action) {
       state.loading = false;
       state.errors = action.payload;
+      state.actionStatus = { ...action.payload, method: 'get' };
     },
     [fetchShoeList.fulfilled](state, action) {
       state.loading = false;
       state.shoeData = action.payload.data;
       state.status = action.payload.status;
       state.msg = action.payload.msg;
+      state.actionStatus = { ...action.payload, method: 'get' };
     },
     [fetchShoeById.pending](state) {
+      state.actionStatus = null;
       state.loading = true;
     },
     [fetchShoeById.rejected](state, action) {
       state.loading = false;
       state.errors = action.payload;
+      state.actionStatus = state.actionStatus = {
+        ...action.payload,
+        method: 'get',
+      };
     },
     [fetchShoeById.fulfilled](state, action) {
       state.loading = false;
       state.shoeById = action.payload.data;
       state.status = action.payload.status;
       state.msg = action.payload.msg;
+      state.actionStatus = { ...action.payload, method: 'get' };
     },
     [addNewShoe.pending](state) {
+      state.actionStatus = null;
       state.loading = true;
     },
     [addNewShoe.rejected](state, action) {
       state.loading = false;
       state.errors = action.payload;
+      state.actionStatus = { ...action.payload, method: 'create' };
     },
     [addNewShoe.fulfilled](state, action) {
       state.loading = false;
       state.status = action.payload.status;
       state.msg = action.payload.msg;
+      state.actionStatus = { ...action.payload, method: 'create' };
     },
     [updateShoeById.pending](state) {
+      state.actionStatus = null;
       state.loading = true;
     },
     [updateShoeById.rejected](state, action) {
       state.loading = false;
       state.errors = action.payload;
+      state.actionStatus = { ...action.payload, method: 'update' };
     },
     [updateShoeById.fulfilled](state, action) {
       state.loading = false;
       state.status = action.payload.status;
       state.msg = action.payload.msg;
+      state.actionStatus = { ...action.payload, method: 'update' };
     },
     [deleteShoeById.pending](state) {
+      state.actionStatus = null;
       state.loading = true;
     },
     [deleteShoeById.rejected](state, action) {
       state.loading = false;
       state.errors = action.payload;
+      state.actionStatus = { ...action.payload, method: 'delete' };
     },
     [deleteShoeById.fulfilled](state, action) {
       state.loading = false;
       state.status = action.payload.status;
       state.msg = action.payload.msg;
+      state.actionStatus = { ...action.payload, method: 'delete' };
     },
   },
 });

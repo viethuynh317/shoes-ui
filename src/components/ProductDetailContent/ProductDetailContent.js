@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import './index.css';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import ConfirmDialog from '../../components/ConfirmDialog';
 import { CircularProgress } from '@mui/material';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   addNewShoe,
   deleteShoeById,
   updateShoeById,
 } from '../../commons/shoesSlice';
+import ConfirmDialog from '../../components/ConfirmDialog';
+import './index.css';
 
 const ProductDetailContent = ({ productDetail, action }) => {
   const [confirmDialog, setConfirmDialog] = useState({
@@ -18,7 +18,6 @@ const ProductDetailContent = ({ productDetail, action }) => {
   });
   const dispatch = useDispatch();
   const history = useHistory();
-  const roleId = localStorage.getItem('roleId');
   const handleClickEditProduct = () => {
     // history.push(`/${+roleId === 0 ? 'admin' : 'employee'}/products/${productDetail._id}/edit`);
     history.push(`/admin/shoes/${productDetail?._id}/edit`);

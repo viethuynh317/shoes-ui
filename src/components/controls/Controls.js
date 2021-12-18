@@ -1,11 +1,10 @@
+import ActionButton from './ActionButton';
+import Button from './Button';
+import Checkbox from './Checkbox';
+import ComboBox from './ComboBox';
 import Input from './Input';
 import RadioGroup from './RadioGroup';
 import Select from './Select';
-import Checkbox from './Checkbox';
-import DatePicker from './DatePicker';
-import Button from './Button';
-import ActionButton from './ActionButton';
-import ComboBox from './ComboBox';
 
 const Controls = {
   Input,

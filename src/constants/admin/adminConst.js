@@ -1,6 +1,5 @@
 import {
   Group,
-  HowToReg,
   PeopleAlt,
   ShoppingCart,
   ShowChart,

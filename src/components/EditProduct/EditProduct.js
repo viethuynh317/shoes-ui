@@ -22,6 +22,7 @@ export default function EditProduct() {
     gender: 'men',
     createdAt: new Date(),
     description: '',
+    isConfirmed: false,
   });
   const [checked, setChecked] = useState(false);
   const { id } = useParams();
@@ -103,7 +104,7 @@ export default function EditProduct() {
             </>
           ) : null}
           <label htmlFor="type" className="label">
-            Brand
+            Brand:
           </label>
           <select
             name="typeId"
@@ -215,7 +216,7 @@ export default function EditProduct() {
                   inputProps={{ 'aria-label': 'controlled' }}
                 />
               }
-              label="confirmed"
+              label="isConfirm"
             />
           )}
         </form>

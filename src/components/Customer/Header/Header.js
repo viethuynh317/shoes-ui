@@ -1,14 +1,13 @@
-import { Box, Button, Typography } from "@mui/material";
-import { styled } from "@mui/styles";
-import React from "react";
-import { orangeColor } from "../../../constants/globalConst";
-import Nav from "./Nav/Nav";
-import Navbar from "./Navbar/Navbar";
+import { Box } from '@mui/material';
+import { styled } from '@mui/styles';
+import React from 'react';
+import Nav from './Nav/Nav';
+import Navbar from './Navbar/Navbar';
 
 const HeaderWrapper = styled(Box)(({ theme }) => ({
-  position: "absolute",
+  position: 'absolute',
   zIndex: 9999,
-  width: "100%",
+  width: '100%',
 }));
 
 const Header = () => {
@@ -18,7 +17,7 @@ const Header = () => {
       flexDirection="column"
       justifyContent="space-between"
     >
-      <Navbar />
+      <Navbar hasHomePage />
       <Nav />
     </HeaderWrapper>
   );
