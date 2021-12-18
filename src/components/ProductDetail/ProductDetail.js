@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchShoeById } from '../../commons/shoesSlice';
 // import { getProductDetail } from '../../../common/components/ProductDetail/ProductDetailSlice';

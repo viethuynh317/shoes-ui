@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import Admin from '../../features/admin/Admin';
-import Employee from '../../features/Employee/Employee';
 import { getLocalStorageToken } from '../../services/tokenConfig';
 
 const PrivateLayoutRoutes = ({ component: Component, ...rest }) => (
@@ -17,7 +16,7 @@ const PrivateLayoutRoutes = ({ component: Component, ...rest }) => (
             <Component {...routeProps} />
           </Admin>
         ) : (
-          <Redirect exact to="/auth/sign_in" />
+          <Redirect exact to="/auth/sign-in" />
         )}
         {/* <Admin>
           <Component {...routeProps} />

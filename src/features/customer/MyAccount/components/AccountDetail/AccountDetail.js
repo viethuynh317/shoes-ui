@@ -1,35 +1,30 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { getProfileById } from '../profileSlice';
-import { useHistory } from 'react-router-dom';
 import { DatePicker, LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import { editProfile } from '../profileSlice';
-import './styles.css';
-import 'react-datepicker/dist/react-datepicker.css';
-import Notification from '../../../components/Notification';
-import {
-  Box,
-  Button,
-  CircularProgress,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/styles';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import Notification from '../../../../../components/Notification';
+import { editProfile, getProfileById } from '../../../../Profile/profileSlice';
+import MyAccount from '../../MyAccount';
 
 const TextInput = styled(TextField)(() => ({
-  width: '50%',
+  width: '100%',
 }));
 
-const Profile = () => {
+const FieldSet = styled('fieldset')(() => ({
+  borderWidth: 1,
+  borderStyle: 'solid',
+  padding: 20,
+}));
+
+const AccountDetail = () => {
   const inputEl = useRef(null);
-  const history = useHistory();
   const [isEditUser, setStatusEditUser] = useState(false);
   const { user, loading, actionStatus } = useSelector((state) => state.profile);
   const [userEdit, setUserEdit] = useState(user);
-  const roleId = Number(localStorage.getItem('roleId'));
-  const { userId } = JSON.parse(localStorage.getItem('dashboardProfile'));
+  const { userId } = JSON.parse(localStorage.getItem('customerProfile'));
   const [isCall, setIsCall] = useState(false);
 
   const dispatch = useDispatch();
@@ -38,6 +33,7 @@ const Profile = () => {
     message: '',
     type: '',
   });
+
   useEffect(() => {
     dispatch(getProfileById(userId));
     setIsCall(true);
@@ -65,37 +61,41 @@ const Profile = () => {
     setStatusEditUser(true);
     inputEl.current.focus();
   };
+
   const onChange = (e) => {
     const { name, value } = e.target;
     setUserEdit((userEdit) => ({ ...userEdit, [name]: value }));
   };
-  const handleClickChangePassword = () => {
-    if (+localStorage.getItem('roleId') === 0) {
-      history.push('/admin/change-password');
-    } else if (+localStorage.getItem('roleId') === 2) {
-      history.push('/employee/change-password');
-    } else {
-      history.push('/auth/login');
-    }
-  };
+
   const handleClickSaveChange = async () => {
     setStatusEditUser(false);
     const res = await dispatch(editProfile({ id: userId, data: userEdit }));
     setNotify({
       isOpen: true,
       message: res.payload.msg,
-      type: res.type === 'profile/editProfile/fulfilled' ? 'success' : 'error',
+      type:
+        res?.payload?.status === 200 ||
+        res?.payload?.status === 201 ||
+        res?.payload?.status === 202 ||
+        res?.payload?.status === 203 ||
+        res?.payload?.status === 204
+          ? 'success'
+          : 'error',
     });
   };
   return (
-    <div>
-      {loading ? (
-        <div className="loading-content">
-          <CircularProgress />
-        </div>
-      ) : (
-        <React.Fragment>
-          <Typography variant="h5">User Profile</Typography>
+    <>
+      <MyAccount>
+        <FieldSet>
+          <Typography
+            variant="button"
+            component="legend"
+            textAlign="left"
+            fontWeight={600}
+            fontSize={17}
+          >
+            User Profile
+          </Typography>
           <Box>
             <Box component="form">
               <TextInput
@@ -185,45 +185,23 @@ const Profile = () => {
               </LocalizationProvider>
             </Box>
 
-            <Box>
-              <TextInput
-                value={!loading ? (roleId === 0 ? 'ADMIN' : 'EMPLOYEE') : null}
-                disabled={true}
-                label="Role"
-                fullWidth
-                margin="normal"
-              />
-            </Box>
-
             {!isEditUser ? (
-              <Box display="flex" justifyContent="center" mt={2}>
+              <Box display="flex" justifyContent="flex-start" mt={2}>
                 <Box mr={4}>
                   <Button
                     variant="contained"
                     color="primary"
-                    className="button-edit-profile"
                     onClick={handleClickEditProfile}
                   >
                     Edit Profile
                   </Button>
                 </Box>
-                <Box>
-                  <Button
-                    variant="contained"
-                    color="inherit"
-                    className="button-change-password"
-                    onClick={handleClickChangePassword}
-                  >
-                    Change Password
-                  </Button>
-                </Box>
               </Box>
             ) : (
-              <Box display="flex" justifyContent="center" mt={2}>
+              <Box display="flex" justifyContent="flex-start" mt={2}>
                 <Button
                   variant="contained"
                   color="primary"
-                  className="button-change-password"
                   onClick={handleClickSaveChange}
                 >
                   Save Change
@@ -232,9 +210,9 @@ const Profile = () => {
             )}
           </Box>
           <Notification notify={notify} setNotify={setNotify} />
-        </React.Fragment>
-      )}
-    </div>
+        </FieldSet>
+      </MyAccount>
+    </>
   );
 };
-export default Profile;
+export default AccountDetail;

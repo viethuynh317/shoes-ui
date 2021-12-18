@@ -1,61 +1,59 @@
 /* eslint-disable jsx-a11y/alt-text */
+import styled from '@emotion/styled';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import LoopOutlinedIcon from '@mui/icons-material/LoopOutlined';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import {
-  Button,
   Card,
   CardActions,
   CardContent,
-  CardMedia,
   IconButton,
   Rating,
   Typography,
-} from "@mui/material";
-import React from "react";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import LoopOutlinedIcon from "@mui/icons-material/LoopOutlined";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import { Box } from "@mui/system";
-import styled from "@emotion/styled";
-import { orangeColor } from "../../../constants/globalConst";
+} from '@mui/material';
+import { Box } from '@mui/system';
+import React from 'react';
+import { orangeColor } from '../../../constants/globalConst';
 
 const CardImage = styled(Box)(() => ({
-  overflow: "hidden",
-  filter: "brightness(100%)",
-  transition: "all 0.4s ease",
-  "& > img": {
-    width: "100%",
-    height: "100%",
-    cursor: "pointer",
-    transition: "all 0.4s ease",
-    backgroundPosition: "center",
-    backgroundSize: "cover",
-    transform: "scale(0.75)",
+  overflow: 'hidden',
+  filter: 'brightness(100%)',
+  transition: 'all 0.4s ease',
+  '& > img': {
+    width: '100%',
+    height: '100%',
+    cursor: 'pointer',
+    transition: 'all 0.4s ease',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    transform: 'scale(0.75)',
     borderRadius: 8,
   },
-  "&:hover > img": {
-    transform: "scale(0.9)",
-    backgroundSize: "cover",
-    backgroundColor: "rgba(0,0,0,0.35)",
-    backgroundPosition: "center",
+  '&:hover > img': {
+    transform: 'scale(0.9)',
+    backgroundSize: 'cover',
+    backgroundColor: 'rgba(0,0,0,0.35)',
+    backgroundPosition: 'center',
   },
-  "&:hover": {
-    filter: "brightness(80%)",
+  '&:hover': {
+    filter: 'brightness(80%)',
   },
 }));
 
 const CustomIconBtn = styled(IconButton)(() => ({
-  "&:hover": {
-    transition: "all 0.3s ease-in-out",
+  '&:hover': {
+    transition: 'all 0.3s ease-in-out',
     backgroundColor: orangeColor,
-    color: "#fff",
+    color: '#fff',
   },
 }));
 
 const NameTypo = styled(Typography)(() => ({
-  cursor: "pointer",
-  "&:hover": {
+  cursor: 'pointer',
+  '&:hover': {
     color: orangeColor,
-    transition: "all 0.3s ease-in-out",
+    transition: 'all 0.3s ease-in-out',
   },
 }));
 
@@ -69,7 +67,7 @@ const ProductCard = ({
   className,
 }) => {
   return (
-    <Card sx={{ maxWidth: 345 }} className={className || ""}>
+    <Card sx={{ maxWidth: 345 }} className={className || ''}>
       <CardImage height={350}>
         <img src={imageUrl} />
       </CardImage>
@@ -86,10 +84,10 @@ const ProductCard = ({
           fontWeight={700}
           fontSize={19}
         >
-          {unitPrice.toLocaleString("vi-VN")}
+          {unitPrice.toLocaleString('vi-VN')}
         </Typography>
       </CardContent>
-      <CardActions sx={{ justifyContent: "center" }}>
+      <CardActions sx={{ justifyContent: 'center' }}>
         <CustomIconBtn>
           <ShoppingCartOutlinedIcon />
         </CustomIconBtn>

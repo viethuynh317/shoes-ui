@@ -156,7 +156,7 @@ export default function SignIn() {
               />
               <Box display="flex" justifyContent="flex-end">
                 <Link
-                  href="/auth/forgot_password"
+                  href="/auth/forgot-password"
                   variant="button"
                   underline="none"
                 >

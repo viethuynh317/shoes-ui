@@ -83,7 +83,6 @@ export default function PageHeader() {
   const history = useHistory();
   const dispatch = useDispatch();
   const filter = useSelector((state) => state.shoes.filter);
-  const roleId = localStorage.getItem('roleId');
   const classes = useStyles();
   const [searchQuery, setSearchQuery] = useState('');
 

@@ -4,9 +4,9 @@ import { profileApi } from '../../api/profileApi/profileApi';
 
 export const getProfileById = createAsyncThunk(
   'profile/getProfileById',
-  async (_, { rejectWithValue, dispatch }) => {
+  async (id, { rejectWithValue, dispatch }) => {
     try {
-      const res = await profileApi.getProfileById();
+      const res = await profileApi.getProfileById(id);
       return res?.data;
     } catch (error) {
       // if (
@@ -27,10 +27,10 @@ export const getProfileById = createAsyncThunk(
 
 export const editProfile = createAsyncThunk(
   'profile/editProfile',
-  async (data, { rejectWithValue, dispatch }) => {
+  async ({ id, data }, { rejectWithValue, dispatch }) => {
     try {
-      const res = await profileApi.editProfile(data);
-      dispatch(getProfileById());
+      const res = await profileApi.editProfile({ id, data });
+      dispatch(getProfileById(id));
       return res?.data;
     } catch (error) {
       // if (
@@ -52,9 +52,80 @@ export const editProfile = createAsyncThunk(
 
 export const changePassword = createAsyncThunk(
   'profile/changePassword',
+  async ({ id, data }, { rejectWithValue, dispatch }) => {
+    try {
+      const res = await profileApi.changePassword({ id, data });
+      return res?.data;
+    } catch (error) {
+      // if (
+      //   error.response.data.status === 401 &&
+      //   error.response.data.msg === 'Token expired' &&
+      //   localStorage.getItem('refreshToken')
+      // ) {
+      //   await dispatch(refreshToken());
+      //   dispatch(changePassword(data));
+      // }
+      // if (error.response.data.status === 409) {
+      //   dispatch(pushOutLogin());
+      // }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const getProfileCustomerById = createAsyncThunk(
+  'profile/getProfileCustomerById',
+  async (_, { rejectWithValue, dispatch }) => {
+    try {
+      const res = await profileApi.getProfileCustomerById();
+      return res?.data;
+    } catch (error) {
+      // if (
+      //   error.response.data.status === 401 &&
+      //   error.response.data.msg === 'Token expired' &&
+      //   localStorage.getItem('refreshToken')
+      // ) {
+      //   await dispatch(refreshToken());
+      //   dispatch(getProfileById());
+      // }
+      // if (error.response.data.status === 409) {
+      //   dispatch(pushOutLogin());
+      // }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const editCustomerProfile = createAsyncThunk(
+  'profile/editCustomerProfile',
   async (data, { rejectWithValue, dispatch }) => {
     try {
-      const res = await profileApi.changePassword(data);
+      const res = await profileApi.editCustomerProfile(data);
+      dispatch(getProfileById());
+      return res?.data;
+    } catch (error) {
+      // if (
+      //   error.response.data.status === 401 &&
+      //   error.response.data.msg === 'Token expired' &&
+      //   localStorage.getItem('refreshToken')
+      // ) {
+      //   await dispatch(refreshToken());
+      //   dispatch(editProfile(data));
+      // }
+      // if (error.response.data.status === 409) {
+      //   dispatch(pushOutLogin());
+      // }
+      // dispatch(getProfileById());
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const changePasswordCustomer = createAsyncThunk(
+  'profile/changePasswordCustomer',
+  async (data, { rejectWithValue, dispatch }) => {
+    try {
+      const res = await profileApi.changePasswordCustomer(data);
       return res?.data;
     } catch (error) {
       // if (
@@ -125,6 +196,46 @@ const profileSlice = createSlice({
       // state.actionStatus = action.payload;
     },
     [changePassword.fulfilled](state, action) {
+      state.loading = false;
+      // state.actionStatus = action.payload;
+    },
+    [getProfileCustomerById.pending](state) {
+      state.actionStatus = null;
+      state.loading = true;
+      state.user = {};
+    },
+    [getProfileCustomerById.rejected](state, action) {
+      state.loading = false;
+      state.actionStatus = action.payload;
+    },
+    [getProfileCustomerById.fulfilled](state, action) {
+      state.loading = false;
+      state.user = action.payload;
+    },
+
+    [editCustomerProfile.pending](state) {
+      state.actionStatus = null;
+      state.loading = true;
+      state.user = {};
+    },
+    [editCustomerProfile.rejected](state, action) {
+      state.loading = false;
+      state.actionStatus = action.payload;
+    },
+    [editCustomerProfile.fulfilled](state, action) {
+      state.loading = false;
+      state.actionStatus = action.payload;
+    },
+
+    [changePasswordCustomer.pending](state) {
+      // state.actionStatus = null;
+      state.loading = true;
+    },
+    [changePasswordCustomer.rejected](state, action) {
+      state.loading = false;
+      // state.actionStatus = action.payload;
+    },
+    [changePasswordCustomer.fulfilled](state, action) {
       state.loading = false;
       // state.actionStatus = action.payload;
     },

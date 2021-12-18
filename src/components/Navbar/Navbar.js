@@ -57,7 +57,7 @@ export default function Navbar(props) {
   const history = useHistory();
   const classes = useStyles();
   const roleId = localStorage.getItem('roleId');
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = JSON.parse(localStorage.getItem('dashboardProfile'));
   const dispatch = useDispatch();
   const open = useSelector((state) => state?.dashboard?.open);
 
@@ -88,11 +88,11 @@ export default function Navbar(props) {
 
   const handleLogout = () => {
     localStorage.removeItem('roleId');
-    localStorage.removeItem('user');
+    localStorage.removeItem('dashboardProfile');
     removeLocalStorageToken();
     setAnchorEl(false);
     setMobileMoreAnchorEl(false);
-    history.push('/auth/sign_in');
+    history.push('/auth/sign-in');
   };
 
   const handleClickMyAccount = () => {
@@ -101,16 +101,16 @@ export default function Navbar(props) {
     } else if (+roleId === 2) {
       history.push('/employee/profile');
     } else {
-      history.push('/auth/sign_in');
+      history.push('/auth/sign-in');
     }
   };
   const handleClickChangePassword = () => {
     if (+roleId === 0) {
-      history.push('/admin/change_password');
+      history.push('/admin/change-password');
     } else if (+roleId === 2) {
-      history.push('/employee/change_password');
+      history.push('/employee/change-password');
     } else {
-      history.push('/auth/sign_in');
+      history.push('/auth/sign-in');
     }
   };
 

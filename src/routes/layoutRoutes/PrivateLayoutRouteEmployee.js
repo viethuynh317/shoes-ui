@@ -16,7 +16,7 @@ const PrivateLayoutRoutesEmployee = ({ component: Component, ...rest }) => (
             <Component {...routeProps} />
           </Employee>
         ) : (
-          <Redirect exact to="/auth/sign_in" />
+          <Redirect exact to="/auth/sign-in" />
         )}
         {/* <Admin>
           <Component {...routeProps} />

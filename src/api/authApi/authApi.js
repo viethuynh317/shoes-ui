@@ -9,6 +9,14 @@ const authApi = {
       },
     });
   },
+  registerCustomer(data) {
+    const url = '/auth/register-customer';
+    return axiosClient.post(url, data, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  },
   refreshToken() {
     const url = '/auth/token';
     return axiosClient.post(

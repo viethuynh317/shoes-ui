@@ -5,10 +5,10 @@ import { makeStyles } from '@mui/styles';
 import React, { useEffect, useState } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { fetchShoeList } from '../../../../../commons/shoesSlice';
 import ProductCard from '../../../../../components/Customer/ProductCard/ProductCard';
 import { orangeColor } from '../../../../../constants/globalConst';
-import { fetchShoeList } from '../../../../../commons/shoesSlice';
 
 const useStyles = makeStyles(() => ({
   spacingCard: {
@@ -48,7 +48,15 @@ const SaleBtn = styled(Button)(() => ({
   },
 }));
 
-const setShoes = (id, name, imageUrl, unitPrice, discountOff, description, rating) => ({
+const setShoes = (
+  id,
+  name,
+  imageUrl,
+  unitPrice,
+  discountOff,
+  description,
+  rating
+) => ({
   id,
   name,
   imageUrl,
@@ -153,7 +161,11 @@ const IntroduceProduct = () => {
       setShoeList(data?.payload?.data?.result || []);
     };
     getShoeList();
-  }, [productFilter?.discountOff, productFilter?.numOfStars, productFilter?.unitPrice]);
+  }, [
+    productFilter?.discountOff,
+    productFilter?.numOfStars,
+    productFilter?.unitPrice,
+  ]);
 
   const handleFilterClick = (filterNumber) => {
     switch (filterNumber) {
@@ -207,7 +219,11 @@ const IntroduceProduct = () => {
           itemClass="carousel-item-padding-40-px"
         >
           {shoeList.map((item) => (
-            <ProductCard key={item.id} className={classes.spacingCard} {...item} />
+            <ProductCard
+              key={item.id}
+              className={classes.spacingCard}
+              {...item}
+            />
           ))}
         </Carousel>
       </Box>

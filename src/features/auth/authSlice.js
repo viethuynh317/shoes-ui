@@ -1,23 +1,28 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import authApi from '../../api/authApi/authApi';
 import { profileApi } from '../../api/profileApi/profileApi';
-import { getProfileById } from '../Profile/profileSlice';
 
 export const loginUser = createAsyncThunk(
   'auth/login',
   async (data, { rejectWithValue, dispatch }) => {
     try {
       const res = await authApi.login(data);
-      localStorage.setItem('token', res.token);
-      localStorage.setItem('roleId', res.roleId);
-      localStorage.setItem('refreshToken', res.refreshToken);
-      dispatch(getProfileById());
+      const { roleId, imageUrl, userId, fullName, address, token } = res?.data;
+      localStorage.setItem('customerToken', token);
+      localStorage.setItem('customerRoleId', roleId);
+      localStorage.setItem('customerRefreshToken', res?.data?.refreshToken);
+      localStorage.setItem(
+        'customerProfile',
+        JSON.stringify({ imageUrl, userId, fullName, address })
+      );
+      // dispatch(getProfileById());
       return res?.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
   }
 );
+
 export const getRoleId = createAsyncThunk(
   'auth/getRoleId',
   async (_, { rejectWithValue, dispatch }) => {
