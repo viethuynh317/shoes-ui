@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import cartReducer from '../commons/cartSlice';
 import shoesReducer from '../commons/shoesSlice';
 import dashBoardReducer from '../components/dashBoardSlice';
 import adminReducer from '../features/admin/adminSlice';
@@ -20,5 +21,6 @@ export const store = configureStore({
     profile: profileReducer,
     auth: authReducer,
     authCustomer: authCustomerReducer,
+    cart: cartReducer,
   },
 });
