@@ -10,11 +10,13 @@ import {
   CardContent,
   IconButton,
   Rating,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import { Box } from '@mui/system';
-import React from 'react';
+import React, { useState } from 'react';
 import { orangeColor } from '../../../constants/globalConst';
+import ProductDetailPopup from '../ProductDetailPopup/ProductDetailPopup';
 
 const CardImage = styled(Box)(() => ({
   overflow: 'hidden',
@@ -57,51 +59,64 @@ const NameTypo = styled(Typography)(() => ({
   },
 }));
 
-const ProductCard = ({
-  name,
-  imageUrl,
-  unitPrice,
-  discountOff,
-  description,
-  numOfStars,
-  className,
-}) => {
+const ProductCard = (props) => {
+  const { name, imageUrl, unitPrice, numOfStars, className } = props;
+  const [openPopup, setOpenPopup] = useState(false);
   return (
-    <Card sx={{ maxWidth: 345 }} className={className || ''}>
-      <CardImage height={350}>
-        <img src={imageUrl} />
-      </CardImage>
-      <CardContent sx={{ height: 100 }}>
-        <NameTypo gutterBottom variant="body1" component="div">
-          {name}
-        </NameTypo>
-        <Typography variant="body2" gutterBottom>
-          <Rating name="read-only" value={numOfStars} readOnly size="small" />
-        </Typography>
-        <Typography
-          component="div"
-          variant="body1"
-          fontWeight={700}
-          fontSize={19}
-        >
-          {unitPrice.toLocaleString('vi-VN')}
-        </Typography>
-      </CardContent>
-      <CardActions sx={{ justifyContent: 'center' }}>
-        <CustomIconBtn>
-          <ShoppingCartOutlinedIcon />
-        </CustomIconBtn>
-        <CustomIconBtn>
-          <SearchOutlinedIcon />
-        </CustomIconBtn>
-        <CustomIconBtn>
-          <LoopOutlinedIcon />
-        </CustomIconBtn>
-        <CustomIconBtn>
-          <FavoriteBorderOutlinedIcon />
-        </CustomIconBtn>
-      </CardActions>
-    </Card>
+    <>
+      <Card sx={{ maxWidth: 345 }} className={className || ''}>
+        <CardImage height={300}>
+          <img src={imageUrl} />
+        </CardImage>
+        <CardContent sx={{ height: 100 }}>
+          <NameTypo gutterBottom variant="body1" component="div">
+            {name}
+          </NameTypo>
+          <Typography variant="body2" gutterBottom>
+            <Rating name="read-only" value={numOfStars} readOnly size="small" />
+          </Typography>
+          <Typography
+            component="div"
+            variant="body1"
+            fontWeight={700}
+            fontSize={19}
+          >
+            {unitPrice.toLocaleString('vi-VN')}
+          </Typography>
+        </CardContent>
+        <CardActions sx={{ justifyContent: 'center' }}>
+          <Tooltip title="Add to cart">
+            <CustomIconBtn>
+              <ShoppingCartOutlinedIcon />
+            </CustomIconBtn>
+          </Tooltip>
+          <Tooltip title="Quick view">
+            <CustomIconBtn
+              onClick={() => {
+                setOpenPopup(true);
+              }}
+            >
+              <SearchOutlinedIcon />
+            </CustomIconBtn>
+          </Tooltip>
+          <Tooltip title="Compare">
+            <CustomIconBtn>
+              <LoopOutlinedIcon />
+            </CustomIconBtn>
+          </Tooltip>
+          <Tooltip title="Wishlist">
+            <CustomIconBtn>
+              <FavoriteBorderOutlinedIcon />
+            </CustomIconBtn>
+          </Tooltip>
+        </CardActions>
+      </Card>
+      <ProductDetailPopup
+        openPopup={openPopup}
+        setOpenPopup={setOpenPopup}
+        data={props}
+      />
+    </>
   );
 };
 
