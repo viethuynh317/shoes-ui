@@ -2,7 +2,7 @@ import { Box, Breadcrumbs, styled, Typography } from '@mui/material';
 import React from 'react';
 
 const BannerBox = styled(Box)(() => ({
-  height: 300,
+  height: 250,
   backgroundImage:
     'url(https://boxshop-be87.kxcdn.com/boxshop-shoes/wp-content/themes/boxshop/images/bg_breadcrumb_v1.jpg)',
   backgroundAttachment: 'fixed',

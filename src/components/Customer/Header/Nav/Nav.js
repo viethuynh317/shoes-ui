@@ -77,7 +77,11 @@ const Nav = () => {
             <ListItemButtonCustom>
               <ListItemTextCustom primary="BLOG" />
             </ListItemButtonCustom>
-            <ListItemButtonCustom>
+            <ListItemButtonCustom
+              onClick={() => {
+                history.push('/user/shoes/shops');
+              }}
+            >
               <ListItemTextCustom primary="SHOP" />
             </ListItemButtonCustom>
             <ListItemButtonCustom>

@@ -7,6 +7,12 @@ export const guestRoutes = [
     path: '/user/homepage',
     component: lazy(() => import('../features/customer/homepage/HomePage')),
   },
+  {
+    key: 'customerShops',
+    exact: true,
+    path: '/user/shoes/shops',
+    component: lazy(() => import('../features/customer/Shops/Shops')),
+  },
 ];
 
 export const publicRoutesCustomer = [

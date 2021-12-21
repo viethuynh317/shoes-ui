@@ -52,7 +52,7 @@ const NewArrivalProduct = () => {
       <Box mt={4} mb={8}>
         <Grid container spacing={2}>
           {shoeList.map((item) => (
-            <Grid key={item.id} item xl={12} sm={6} md={3}>
+            <Grid key={item.id} item xs={12} sm={6} md={3} lg={3} xl={2}>
               <ProductCard key={item.id} {...item} />
             </Grid>
           ))}

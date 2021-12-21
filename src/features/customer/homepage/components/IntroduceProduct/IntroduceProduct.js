@@ -192,7 +192,7 @@ const IntroduceProduct = () => {
       <SaleBox p={1} mx={1} mt={8}>
         <Box display="flex" justifyContent="flex-start">
           <SaleBtn onClick={() => handleFilterClick(1)} variant="outlined">
-            best selling
+            best sale
           </SaleBtn>
           <SaleBtn onClick={() => handleFilterClick(2)} variant="outlined">
             cheapest shoes
