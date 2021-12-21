@@ -1,7 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { cartApi } from '../api/commonApi/cartApi';
-import { shoesApi } from '../api/commonApi/shoesApi';
-import { clearErrorLogin } from '../features/auth/signIn/signInSlice';
 
 export const getAllCarts = createAsyncThunk(
   'fetchAllCarts',

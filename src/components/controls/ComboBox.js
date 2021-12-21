@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, Select } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -23,7 +23,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ComboBox({ options, title, onChange, name, disabled, value }) {
+export default function ComboBox({
+  options,
+  title,
+  onChange,
+  name,
+  disabled,
+  value,
+}) {
   const classes = useStyles();
   return (
     <div>
@@ -38,9 +45,9 @@ export default function ComboBox({ options, title, onChange, name, disabled, val
           disabled={disabled || false}
         >
           {options.map((option, index) => (
-            <option value={option.value} key={index}>
+            <MenuItem value={option.value} key={index}>
               {value || option.name}
-            </option>
+            </MenuItem>
           ))}
         </Select>
       </FormControl>

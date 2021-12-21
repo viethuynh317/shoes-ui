@@ -50,25 +50,11 @@ export default function ProductDetailPopup(props) {
   const dispatch = useDispatch();
 
   const classes = useStyles();
-  const {
-    id,
-    name,
-    imageUrl,
-    unitPrice,
-    numOfStars,
-    discountOff,
-    description,
-  } = data;
+  const { id, name, imageUrl, unitPrice, numOfStars, description } = data;
   const [counter, setCounter] = useState(0);
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm({
+  const { register, handleSubmit, setValue } = useForm({
     mode: 'onBlur',
     resolver: yupResolver(schema),
-    defaultValues: { quantity: 0 },
   });
 
   const { userId } = JSON.parse(localStorage.getItem('customerProfile'));
@@ -80,7 +66,7 @@ export default function ProductDetailPopup(props) {
       },
     };
 
-    const res = await dispatch(addCart({ userId, data: submitData }));
+    await dispatch(addCart({ userId, data: submitData }));
     setOpenPopup(false);
     setCounter(0);
   };
