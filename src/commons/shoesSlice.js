@@ -5,7 +5,19 @@ import { clearErrorLogin } from '../features/auth/signIn/signInSlice';
 export const fetchShoeList = createAsyncThunk(
   'fetchShoeList',
   async (
-    { page, perPage, numOfStars, unitPrice, discountOff, search, isConfirmed },
+    {
+      page,
+      perPage,
+      numOfStars,
+      unitPrice,
+      discountOff,
+      search,
+      isConfirmed,
+      brand,
+      gender,
+      orderBy,
+      rangePrice,
+    },
     { rejectWithValue, dispatch }
   ) => {
     try {
@@ -17,6 +29,10 @@ export const fetchShoeList = createAsyncThunk(
         discountOff,
         search,
         isConfirmed,
+        brand,
+        gender,
+        orderBy,
+        rangePrice,
       });
       dispatch(clearErrorLogin());
       return res.data;
