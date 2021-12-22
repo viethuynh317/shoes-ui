@@ -11,6 +11,10 @@ export const shoesApi = {
     discountOff,
     search,
     isConfirmed,
+    brand,
+    gender,
+    orderBy,
+    rangePrice,
   }) {
     return axiosClient.get(url, {
       params: {
@@ -21,6 +25,10 @@ export const shoesApi = {
         discountOff,
         search,
         isConfirmed,
+        brand,
+        gender,
+        orderBy,
+        rangePrice,
       },
     });
   },

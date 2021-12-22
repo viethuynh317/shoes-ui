@@ -2,6 +2,7 @@ import { Search, ViewList, ViewModule } from '@mui/icons-material';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 import {
+  Autocomplete,
   Box,
   Button,
   Divider,
@@ -13,6 +14,7 @@ import {
   MenuItem,
   Pagination,
   Select,
+  Slider,
   TextField,
   ToggleButton,
   ToggleButtonGroup,
@@ -20,16 +22,16 @@ import {
   Typography,
 } from '@mui/material';
 import { styled } from '@mui/styles';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { changeShoeFilter, fetchShoeList } from '../../../commons/shoesSlice';
+import { fetchShoeList } from '../../../commons/shoesSlice';
 import BannerPage from '../../../components/BannerPage/BannerPage';
 import Footer from '../../../components/Customer/Footer/Footer';
 import Nav from '../../../components/Customer/Header/Nav/Nav';
 import Navbar from '../../../components/Customer/Header/Navbar/Navbar';
 import ProductCard from '../../../components/Customer/ProductCard/ProductCard';
 import ProductCardDetail from '../../../components/Customer/ProductCardDetail/ProductCardDetail';
-import { debounce } from 'lodash';
+import { BRANDS, GENDERS } from '../../../constants/globalConst';
 
 const HomePageMain = styled(Box)(({ theme }) => ({
   margin: '4rem 7.5rem 2rem',
@@ -48,7 +50,7 @@ const WrapperCollapseBox = styled(Box)(() => ({
 const SubWrapperCollapseBox = styled(Box)(() => ({
   border: '1px solid #EBEBEB',
   padding: 32,
-  height: 120,
+  minHeight: 120,
 }));
 
 const TitleTypo = styled(Typography)(() => ({
@@ -64,50 +66,63 @@ const sortList = [
 ];
 
 const MyAccount = ({ children }) => {
+  const dispatch = useDispatch();
   const [view, setView] = useState('module');
   const [isClickFilter, setClickFilter] = useState(false);
-  const [sort, setSort] = useState('sale');
 
+  const [sort, setSort] = useState('sale');
   const [shoeList, setShoeList] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  const dispatch = useDispatch();
+  const [rangePrice, setRangePrice] = React.useState([0, 5000]);
+
+  const [brand, setBrand] = useState(null);
+  const [gender, setGender] = useState(null);
+
+  const handlePriceChange = (event, newValue) => {
+    setRangePrice(newValue);
+  };
 
   useEffect(() => {
     const getShoeList = async () => {
       const data = await dispatch(
         fetchShoeList({
-          page: page,
+          page,
           perPage: view === 'module' ? 16 : 8,
+          brand,
+          gender,
+          search: searchQuery,
+          orderBy: sort,
+          rangePrice,
         })
       );
       setShoeList(data?.payload?.data?.result || []);
       setTotal(data?.payload?.data?.total);
     };
     getShoeList();
-  }, [dispatch, page, view]);
+  }, [dispatch, page, view, brand, gender, searchQuery, sort, rangePrice]);
 
   const ref1 = useRef();
   const ref2 = useRef();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debounceSearchInput = useCallback(
-    debounce((value) => dispatch(changeShoeFilter(value)), 500),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // const debounceSearchInput = useCallback(
+  //   debounce((value) => setSearchQuery(value), 500),
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   []
+  // );
 
   const handleShoeSearchChange = (e) => {
-    const { name, value } = e.target;
-    const filterData = { [name]: value };
+    const { value } = e.target;
     setSearchQuery(value);
-    debounceSearchInput(filterData);
+    setPage(0);
   };
 
   const handleChange = (event, nextView) => {
     setView(nextView);
+    setPage(0);
   };
 
   const handleFilterClick = () => {
@@ -127,6 +142,17 @@ const MyAccount = ({ children }) => {
 
   const handleSortChange = (e) => {
     setSort(e.target.value);
+    setPage(0);
+  };
+
+  const handleBrandChange = (e, nextValue) => {
+    setBrand(nextValue);
+    setPage(0);
+  };
+
+  const handleGenderChange = (e, nextValue) => {
+    setGender(nextValue);
+    setPage(0);
   };
 
   const breadcrumbs = [
@@ -224,21 +250,21 @@ const MyAccount = ({ children }) => {
                     By Price
                   </TitleTypo>
                 </Box>
-                <FormControl fullWidth size="small">
-                  <InputLabel>Sort by</InputLabel>
-                  <Select
-                    label="Sort by"
-                    name="sortBy"
-                    value={sort}
-                    onChange={handleSortChange}
-                  >
-                    {sortList.map((option, index) => (
-                      <MenuItem value={option.value} key={index}>
-                        {option.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                <Box>
+                  <Slider
+                    value={rangePrice}
+                    onChange={handlePriceChange}
+                    valueLabelDisplay="auto"
+                    max={10000}
+                    step={200}
+                  />
+                </Box>
+                <Box mb={1}>
+                  <Typography variant="subtitle1" color="#848484">
+                    Price: &nbsp;
+                    <span>{rangePrice.join(' - ')} VND</span>
+                  </Typography>
+                </Box>
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <Box mb={3}>
@@ -246,43 +272,37 @@ const MyAccount = ({ children }) => {
                     By Brand
                   </TitleTypo>
                 </Box>
-                <FormControl fullWidth size="small">
-                  <InputLabel>Sort by</InputLabel>
-                  <Select
-                    label="Sort by"
-                    name="sortBy"
-                    value={sort}
-                    onChange={handleSortChange}
-                  >
-                    {sortList.map((option, index) => (
-                      <MenuItem value={option.value} key={index}>
-                        {option.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                <Autocomplete
+                  value={brand}
+                  onChange={handleBrandChange}
+                  id="controllable-states-demo"
+                  options={BRANDS}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Brands" />
+                  )}
+                  size="small"
+                  fullWidth
+                  getOptionLabel={(option) => option.toUpperCase()}
+                />
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <Box mb={3}>
                   <TitleTypo variant="subtitle1" align="left">
-                    By Color
+                    By Gender
                   </TitleTypo>
                 </Box>
-                <FormControl fullWidth size="small">
-                  <InputLabel>Sort by</InputLabel>
-                  <Select
-                    label="Sort by"
-                    name="sortBy"
-                    value={sort}
-                    onChange={handleSortChange}
-                  >
-                    {sortList.map((option, index) => (
-                      <MenuItem value={option.value} key={index}>
-                        {option.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                <Autocomplete
+                  value={gender}
+                  onChange={handleGenderChange}
+                  id="controllable-states-demo"
+                  options={GENDERS}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Genders" />
+                  )}
+                  size="small"
+                  fullWidth
+                  getOptionLabel={(option) => option.toUpperCase()}
+                />
               </Grid>
             </Grid>
           </SubWrapperCollapseBox>
