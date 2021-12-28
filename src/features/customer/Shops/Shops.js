@@ -65,7 +65,7 @@ const sortList = [
   { name: 'Sort by price: high to low', value: 'desc' },
 ];
 
-const MyAccount = ({ children }) => {
+const Shops = ({ children }) => {
   const dispatch = useDispatch();
   const [view, setView] = useState('module');
   const [isClickFilter, setClickFilter] = useState(false);
@@ -313,8 +313,8 @@ const MyAccount = ({ children }) => {
             <>
               <Grid container spacing={2}>
                 {shoeList.map((item) => (
-                  <Grid key={item.id} item xs={12} sm={6} md={3} lg={3} xl={2}>
-                    <ProductCard key={item.id} {...item} />
+                  <Grid key={item._id} item xs={12} sm={6} md={3} lg={3} xl={2}>
+                    <ProductCard key={item._id} {...item} />
                   </Grid>
                 ))}
               </Grid>{' '}
@@ -324,7 +324,7 @@ const MyAccount = ({ children }) => {
               {shoeList.map((item) => (
                 <>
                   <Grid
-                    key={item.id}
+                    key={item._id}
                     item
                     xs={12}
                     sm={12}
@@ -332,7 +332,7 @@ const MyAccount = ({ children }) => {
                     lg={12}
                     xl={12}
                   >
-                    <ProductCardDetail key={item.id} {...item} />
+                    <ProductCardDetail key={item._id} {...item} />
                   </Grid>
                 </>
               ))}
@@ -355,4 +355,4 @@ const MyAccount = ({ children }) => {
   );
 };
 
-export default MyAccount;
+export default Shops;

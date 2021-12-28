@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/alt-text */
-import styled from '@emotion/styled';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import LoopOutlinedIcon from '@mui/icons-material/LoopOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
@@ -13,8 +12,10 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import { styled } from '@mui/styles';
 import { Box } from '@mui/system';
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { orangeColor } from '../../../constants/globalConst';
 import ProductDetailPopup from '../ProductDetailPopup/ProductDetailPopup';
 
@@ -60,16 +61,27 @@ const NameTypo = styled(Typography)(() => ({
 }));
 
 const ProductCard = (props) => {
-  const { name, imageUrl, unitPrice, numOfStars, className } = props;
+  const { _id, name, imageUrl, unitPrice, numOfStars, className } = props;
+  const history = useHistory();
   const [openPopup, setOpenPopup] = useState(false);
+
+  const handleProductDetailRedirect = () => {
+    history.push(`/user/shoes/shops/${_id}`);
+  };
+
   return (
     <>
       <Card sx={{ maxWidth: 345 }} className={className || ''}>
-        <CardImage height={300}>
+        <CardImage height={300} onClick={handleProductDetailRedirect}>
           <img src={imageUrl} />
         </CardImage>
         <CardContent sx={{ height: 100 }}>
-          <NameTypo gutterBottom variant="body1" component="div">
+          <NameTypo
+            gutterBottom
+            variant="body1"
+            component="div"
+            onClick={handleProductDetailRedirect}
+          >
             {name}
           </NameTypo>
           <Typography variant="body2" gutterBottom>

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import styled from '@emotion/styled';
 import { Grid, Typography } from '@mui/material';
+import { styled } from '@mui/styles';
 import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -14,7 +14,7 @@ const CustomDivider = styled(Typography)(() => ({
   marginBottom: 16,
 }));
 
-const NewArrivalProduct = () => {
+const NewArrivalProduct = ({ title }) => {
   const [shoeList, setShoeList] = useState([]);
   const dispatch = useDispatch();
 
@@ -37,7 +37,7 @@ const NewArrivalProduct = () => {
           component="span"
           variant="button"
           sx={{
-            fontSize: 30,
+            fontSize: 20,
             fontWeight: 500,
             display: 'inline-block',
             width: 300,
@@ -45,15 +45,15 @@ const NewArrivalProduct = () => {
           }}
           justifySelf="flex-end"
         >
-          new arrival
+          {title}
         </Typography>
         <CustomDivider component="span"></CustomDivider>
       </Box>
       <Box mt={4} mb={8}>
         <Grid container spacing={2}>
           {shoeList.map((item) => (
-            <Grid key={item.id} item xs={12} sm={6} md={3} lg={3} xl={2}>
-              <ProductCard key={item.id} {...item} />
+            <Grid key={item._id} item xs={12} sm={6} md={3} lg={3} xl={2}>
+              <ProductCard key={item._id} {...item} />
             </Grid>
           ))}
         </Grid>

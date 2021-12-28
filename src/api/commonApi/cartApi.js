@@ -6,8 +6,12 @@ export const cartApi = {
     return axiosClient.get(`${url}/${userId}`, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-        RoleId: localStorage.getItem('roleId'),
+        Authorization:
+          `Bearer ${localStorage.getItem('customerToken')}` ||
+          `Bearer ${localStorage.getItem('token')}`,
+        RoleId:
+          localStorage.getItem('customerRoleId') ||
+          localStorage.getItem('roleId'),
       },
     });
   },
@@ -15,8 +19,12 @@ export const cartApi = {
     return axiosClient.post(`${url}/${userId}`, data, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-        RoleId: localStorage.getItem('roleId'),
+        Authorization:
+          `Bearer ${localStorage.getItem('customerToken')}` ||
+          `Bearer ${localStorage.getItem('token')}`,
+        RoleId:
+          localStorage.getItem('customerRoleId') ||
+          localStorage.getItem('roleId'),
       },
     });
   },
@@ -24,8 +32,12 @@ export const cartApi = {
     return axiosClient.patch(`${url}`, data, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-        RoleId: localStorage.getItem('roleId'),
+        Authorization:
+          `Bearer ${localStorage.getItem('customerToken')}` ||
+          `Bearer ${localStorage.getItem('token')}`,
+        RoleId:
+          localStorage.getItem('customerRoleId') ||
+          localStorage.getItem('roleId'),
       },
     });
   },
@@ -33,8 +45,12 @@ export const cartApi = {
     return axiosClient.delete(`${url}`, data, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-        RoleId: localStorage.getItem('roleId'),
+        Authorization:
+          `Bearer ${localStorage.getItem('customerToken')}` ||
+          `Bearer ${localStorage.getItem('token')}`,
+        RoleId:
+          localStorage.getItem('customerRoleId') ||
+          localStorage.getItem('roleId'),
       },
     });
   },
