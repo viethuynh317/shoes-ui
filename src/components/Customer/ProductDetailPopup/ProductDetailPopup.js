@@ -50,7 +50,7 @@ export default function ProductDetailPopup(props) {
   const dispatch = useDispatch();
 
   const classes = useStyles();
-  const { id, name, imageUrl, unitPrice, numOfStars, description } = data;
+  const { _id, name, imageUrl, unitPrice, numOfStars, description } = data;
   const [counter, setCounter] = useState(0);
   const { register, handleSubmit, setValue } = useForm({
     mode: 'onBlur',
@@ -62,7 +62,7 @@ export default function ProductDetailPopup(props) {
   const handleFormSubmit = async (data) => {
     const submitData = {
       cartItems: {
-        [id]: +data?.quantity,
+        [_id]: +data?.quantity,
       },
     };
 

@@ -13,6 +13,14 @@ export const guestRoutes = [
     path: '/user/shoes/shops',
     component: lazy(() => import('../features/customer/Shops/Shops')),
   },
+  {
+    key: 'customerProductDetail',
+    exact: true,
+    path: '/user/shoes/shops/:id',
+    component: lazy(() =>
+      import('../features/customer/ProductDetails/ProductDetail')
+    ),
+  },
 ];
 
 export const publicRoutesCustomer = [

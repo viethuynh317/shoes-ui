@@ -7,6 +7,7 @@ import vehicleStoresReducer from '../features/admin/components/vehicleStores/veh
 import authReducer from '../features/auth/authSlice';
 import signInReducer from '../features/auth/signIn/signInSlice';
 import authCustomerReducer from '../features/customer/auth/authCustomerSlice';
+import customerReducer from '../features/customer/customerSlice';
 import employeeReducer from '../features/Employee/employeeSlice';
 import profileReducer from '../features/Profile/profileSlice';
 
@@ -22,5 +23,6 @@ export const store = configureStore({
     auth: authReducer,
     authCustomer: authCustomerReducer,
     cart: cartReducer,
+    customer: customerReducer,
   },
 });

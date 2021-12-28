@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import styled from '@emotion/styled';
 import { Box, Button } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { makeStyles, styled } from '@mui/styles';
 import React, { useEffect, useState } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
@@ -220,7 +219,7 @@ const IntroduceProduct = () => {
         >
           {shoeList.map((item) => (
             <ProductCard
-              key={item.id}
+              key={item._id}
               className={classes.spacingCard}
               {...item}
             />

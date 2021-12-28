@@ -5,7 +5,7 @@ import { Snackbar } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    position: 'absolute',
+    position: 'fixed',
     top: theme.spacing(9),
   },
 }));
