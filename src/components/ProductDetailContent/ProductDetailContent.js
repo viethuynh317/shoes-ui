@@ -1,4 +1,5 @@
 import { CircularProgress } from '@mui/material';
+import moment from 'moment';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -18,9 +19,12 @@ const ProductDetailContent = ({ productDetail, action }) => {
   });
   const dispatch = useDispatch();
   const history = useHistory();
+  const hasAdmin = history.location.pathname.split('/')[1] === 'admin';
   const handleClickEditProduct = () => {
     // history.push(`/${+roleId === 0 ? 'admin' : 'employee'}/products/${productDetail._id}/edit`);
-    history.push(`/admin/shoes/${productDetail?._id}/edit`);
+    history.push(
+      `/${hasAdmin ? 'admin' : 'employee'}/shoes/${productDetail?._id}/edit`
+    );
   };
   const saveProductClick = () => {
     const { typeId, imageUrl, discountOff, discountMaximum } = productDetail;
@@ -39,7 +43,7 @@ const ProductDetailContent = ({ productDetail, action }) => {
     }
     console.log(shoe);
     // history.push(`/${+roleId === 0 ? 'admin' : 'employee'}/products`);
-    history.push(`/admin/shoes`);
+    history.push(`/${hasAdmin ? 'admin' : 'employee'}/shoes`);
   };
   const handleClickDelete = () => {
     setConfirmDialog({
@@ -58,7 +62,7 @@ const ProductDetailContent = ({ productDetail, action }) => {
     });
     dispatch(deleteShoeById(id));
     // history.push(`/${+roleId === 0 ? 'admin' : 'employee'}/products`);
-    history.push(`/admin/shoes`);
+    history.push(`/${hasAdmin ? 'admin' : 'employee'}/shoes`);
   };
   const fnConfirmProduct = (id) => {
     setConfirmDialog({
@@ -67,7 +71,7 @@ const ProductDetailContent = ({ productDetail, action }) => {
     });
     dispatch(updateShoeById({ id, data: { isConfirmed: true } }));
     // history.push(`/${+roleId === 0 ? 'admin' : 'employee'}/products`);
-    history.push(`/admin/shoes`);
+    history.push(`/${hasAdmin ? 'admin' : 'employee'}/shoes`);
   };
   const handleVerifyProduct = () => {
     setConfirmDialog({
@@ -111,8 +115,10 @@ const ProductDetailContent = ({ productDetail, action }) => {
             </h1>
             <p className="product-detail-content-create-at">
               {productDetail?.createdAt
-                ? new Date(productDetail?.createdAt).toLocaleString()
-                : new Date().toLocaleString()}
+                ? moment(productDetail?.createdAt).format(
+                    'HH:mm:ss, DD/MM/YYYY'
+                  )
+                : moment().format('HH:mm:ss, DD/MM/YYYY')}
             </p>
             <table className="mt-1">
               <tbody>

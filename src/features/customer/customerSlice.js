@@ -19,9 +19,9 @@ export const createFeedback = createAsyncThunk(
 
 export const getFeedbacks = createAsyncThunk(
   'getFeedbacks',
-  async (id, { rejectWithValue }) => {
+  async ({ id, page, perPage }, { rejectWithValue }) => {
     try {
-      const res = await shopApi.getAllFeedback(id);
+      const res = await shopApi.getAllFeedback({ id, page, perPage });
       return res?.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

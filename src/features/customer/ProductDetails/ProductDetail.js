@@ -123,7 +123,7 @@ const ProductDetail = ({ children }) => {
     <BreadCrumbLink underline="hover" key="1" href="/user/homepage">
       Homepage
     </BreadCrumbLink>,
-    <BreadCrumbLink underline="hover" key="1" href="/user/homepage">
+    <BreadCrumbLink underline="hover" key="1" href="/user/shoes/shops">
       Shop
     </BreadCrumbLink>,
     <Typography key="2" sx={{ color: '#fff' }}>

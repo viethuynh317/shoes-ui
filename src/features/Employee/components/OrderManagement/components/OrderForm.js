@@ -26,8 +26,8 @@ const initialFValues = {
   shipperId: '',
   isPaid: false,
   paymentCode: '',
-  createAt: new Date(),
-  updateAt: new Date(),
+  createdAt: new Date(),
+  updatedAt: new Date(),
 };
 
 export default function OrderForm(props) {

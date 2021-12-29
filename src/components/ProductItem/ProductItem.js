@@ -8,7 +8,9 @@ import {
   Typography,
 } from '@mui/material';
 import { makeStyles, styled } from '@mui/styles';
+import moment from 'moment';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 const BrandTypo = styled(Typography)(({ theme }) => ({
@@ -20,7 +22,8 @@ const BrandTypo = styled(Typography)(({ theme }) => ({
 
 export default function ProductItem({ product }) {
   const classes = useStyles();
-
+  const history = useHistory();
+  const hasAdmin = history.location.pathname.split('/')[1] === 'admin';
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -30,7 +33,7 @@ export default function ProductItem({ product }) {
           </Avatar>
         }
         title={product.name}
-        subheader={new Date(product.createdAt).toLocaleString()}
+        subheader={moment(product?.createdAt).format('HH:mm:ss, DD/MM/YYYY')}
       />
       <CardMedia
         className={classes.media}
@@ -52,7 +55,9 @@ export default function ProductItem({ product }) {
               product._id
             }`}
           > */}
-          <Link to={`/admin/shoes/${product._id}`}>Xem chi tiết {'>'} </Link>
+          <Link to={`/${hasAdmin ? 'admin' : 'employee'}/shoes/${product._id}`}>
+            Xem chi tiết {'>'}{' '}
+          </Link>
         </div>
       </CardActions>
     </Card>
