@@ -11,7 +11,7 @@ const PrivateLayoutRoutesEmployee = ({ component: Component, ...rest }) => (
     render={(routeProps) => (
       <>
         {!!getLocalStorageToken() &&
-        JSON.parse(localStorage.getItem('roleId')) === 2 ? (
+        +JSON.parse(localStorage.getItem('roleId')) === 2 ? (
           <Employee>
             <Component {...routeProps} />
           </Employee>

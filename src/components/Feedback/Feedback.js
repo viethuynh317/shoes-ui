@@ -1,9 +1,12 @@
 import AddIcon from '@mui/icons-material/Add';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import { Box, Typography } from '@mui/material';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import FeedbackForm from '../../features/Employee/components/FeedbackManagement/components/FeedbackForm/FeedbackForm';
+import { addReplyFeedback } from '../../features/Employee/employeeSlice';
 import ActionButton from '../controls/ActionButton';
 import Notification from '../Notification';
 import Popup from '../Popup';
@@ -55,7 +58,7 @@ export default function Feedback({ feedback }) {
   };
 
   const addNewReplyFeedback = (replyFeedback, resetForm) => {
-    // dispatch(addReplyFeedback(replyFeedback));
+    dispatch(addReplyFeedback(replyFeedback));
     setRecordForEdit(null);
     setOpenPopup(false);
   };
@@ -63,30 +66,29 @@ export default function Feedback({ feedback }) {
   return (
     <>
       <div className="feedback">
-        <div className="header-feedback">
-          <div className="header-feedback-left">
+        <Box display="flex" justifyContent="space-between">
+          {' '}
+          <Box display="flex">
             <img
-              className="feedback-user-avatar"
-              src="https://i.pinimg.com/236x/24/21/85/242185eaef43192fc3f9646932fe3b46.jpg"
-              alt="img"
-            ></img>
-          </div>
-          <div className="header-feedback-right">
-            <div>
-              <span className="feedback-user-name">{feedback.userName}</span>
-              <span className="feedback-num-star">
-                {Math.round(feedback.numOfStars * 10) / 10} sao
-              </span>
-            </div>
-            <span className="feedback-date">
-              {new Date(feedback.createAt).toLocaleString()}
-            </span>
-            <div className="body-feedback">
-              <p className="content-feedback">{feedback.content}</p>
-              <div className="list-reply">{}</div>
-            </div>
-          </div>
-        </div>
+              src="https://secure.gravatar.com/avatar/b26407fdbb151a3a44fceda692c92874?s=60&d=mm&r=g"
+              height="60"
+              width="60"
+              alt="avatar"
+            />
+            <Box ml={2} sx={{ textAlign: 'left' }}>
+              <Typography fontWeight={600} component="span">
+                {feedback?.userName}
+              </Typography>
+              <Typography component="span" fontSize={14}>
+                {' '}
+                &nbsp; - &nbsp;{' '}
+                {moment(feedback?.createdAt).format('HH:mm:ss, DD/MM/YYYY')}
+              </Typography>
+              <br />
+              <Typography>{feedback?.content}</Typography>
+            </Box>
+          </Box>
+        </Box>
         <div>
           <ActionButton
             text="Reply"
@@ -108,8 +110,8 @@ export default function Feedback({ feedback }) {
             color="primary"
             onClick={() => {
               if (roleId === 2)
-                history.push(`/employee/replys/${feedback._id}`);
-              else history.push(`/admin/replys/${feedback._id}`);
+                history.push(`/employee/replies/${feedback._id}`);
+              else history.push(`/admin/replies/${feedback._id}`);
             }}
           >
             <EditOutlinedIcon fontSize="small" />

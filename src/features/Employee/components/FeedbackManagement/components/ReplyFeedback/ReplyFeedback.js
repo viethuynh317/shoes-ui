@@ -5,10 +5,11 @@ import { useParams } from 'react-router-dom';
 import { getFeedbackByIdSlice } from '../../../../employeeSlice';
 import ReplyFeedbackForm from './components/ReplyFeedbackForm/ReplyFeedbackForm';
 import '../../../../../..//components/ProductDetailContent/index.css';
+import moment from 'moment';
 
 export default function ReplyFeedback() {
   const { replyFeedbacks } = useSelector((state) => state.employee);
-  const { reply, content, createAt, numOfStars, userName } = replyFeedbacks;
+  const { reply, content, createdAt, numOfStars, userName } = replyFeedbacks;
 
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -22,14 +23,14 @@ export default function ReplyFeedback() {
       <div className="product-detail-content">
         <div className="product-detail-content-left">
           <img
-            src="https://i.pinimg.com/236x/24/21/85/242185eaef43192fc3f9646932fe3b46.jpg"
+            src="https://secure.gravatar.com/avatar/b26407fdbb151a3a44fceda692c92874?s=60&d=mm&r=g"
             alt="img"
           />
         </div>
         <div className="product-detail-content-right">
           <h1 className="product-detail-content-title">{userName}</h1>
           <p className="product-detail-content-create-at">
-            {new Date(createAt).toLocaleString()}
+            {moment(createdAt).format('HH:mm:ss, DD/MM/YYYY')}
           </p>
           <table className="mt-1">
             <tbody>

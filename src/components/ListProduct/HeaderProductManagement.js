@@ -81,6 +81,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PageHeader() {
   const history = useHistory();
+  const hasAdmin = history.location.pathname.split('/')[1] === 'admin';
   const dispatch = useDispatch();
   const filter = useSelector((state) => state.shoes.filter);
   const classes = useStyles();
@@ -106,7 +107,7 @@ export default function PageHeader() {
     dispatch(changeShoeFilter(filterData));
   };
   const handleClickAddButton = () => {
-    history.push(`/admin/shoes/add`);
+    history.push(hasAdmin ? `/admin/shoes/add` : `/employee/shoes/add`);
   };
   return (
     <Paper elevation={0} square className={classes.root}>

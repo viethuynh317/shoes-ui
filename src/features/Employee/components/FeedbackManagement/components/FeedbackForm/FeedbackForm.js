@@ -55,7 +55,7 @@ export default function FeedbackForm(props) {
 
         <div>
           <Controls.Button type="submit" text={nameButton} />
-          <Controls.Button text="Reset" color="default" onClick={resetForm} />
+          <Controls.Button text="Reset" color="inherit" onClick={resetForm} />
         </div>
       </Grid>
     </Form>

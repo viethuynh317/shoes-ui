@@ -49,6 +49,7 @@ export default function SignIn() {
   const dispatch = useDispatch();
   const [isCall, setIsCall] = useState(false);
   const history = useHistory();
+  const hasAdmin = history.location.pathname.split('/')[1] === 'admin';
   const [statusCode, setStatusCode] = useState(200);
   const [notify, setNotify] = useState({
     isOpen: false,
@@ -63,7 +64,7 @@ export default function SignIn() {
       setStatusCode(res?.payload?.status);
       setIsCall(true);
       setTimeout(() => {
-        history.push('/admin/shoes');
+        history.push(`/${hasAdmin ? 'admin' : 'employee'}/shoes`);
       }, 1000);
     } catch (error) {
       setStatusCode(400);

@@ -19,8 +19,8 @@ export const shopApi = {
       }
     );
   },
-  getAllFeedback(id) {
-    const url = `/feedbacks/${id}`;
+  getAllFeedback({ id, page, perPage }) {
+    const url = `/feedbacks/${id}?page=${page}&perPage=${perPage}`;
     return axiosClient.get(url, {
       headers: {
         'Content-Type': 'application/json',

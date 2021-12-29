@@ -208,7 +208,7 @@ export const privateRoutes = [
 
   {
     key: 'feedbackManagement',
-    path: '/admin/replys/:id',
+    path: '/admin/replies/:id',
     exact: true,
     component: lazy(() =>
       import(
@@ -262,6 +262,16 @@ export const privateRoutesEmployee = [
     path: '/employee/shoes/:id/edit',
     exact: true,
     component: lazy(() => import('../components/EditProduct/EditProduct')),
+  },
+  {
+    key: 'feedbackManagementEmployee',
+    path: '/employee/replies/:id',
+    exact: true,
+    component: lazy(() =>
+      import(
+        '../features/Employee/components/FeedbackManagement/components/ReplyFeedback/ReplyFeedback'
+      )
+    ),
   },
   {
     key: 'profile',
