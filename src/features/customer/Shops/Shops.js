@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Search, ViewList, ViewModule } from '@mui/icons-material';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -23,7 +24,8 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/styles';
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearActionStatusCart } from '../../../commons/cartSlice';
 import { fetchShoeList } from '../../../commons/shoesSlice';
 import BannerPage from '../../../components/BannerPage/BannerPage';
 import Footer from '../../../components/Customer/Footer/Footer';
@@ -31,7 +33,9 @@ import Nav from '../../../components/Customer/Header/Nav/Nav';
 import Navbar from '../../../components/Customer/Header/Navbar/Navbar';
 import ProductCard from '../../../components/Customer/ProductCard/ProductCard';
 import ProductCardDetail from '../../../components/Customer/ProductCardDetail/ProductCardDetail';
+import Notification from '../../../components/Notification';
 import { BRANDS, GENDERS } from '../../../constants/globalConst';
+import { clearActionStatus } from '../customerSlice';
 
 const HomePageMain = styled(Box)(({ theme }) => ({
   margin: '4rem 7.5rem 2rem',
@@ -67,6 +71,9 @@ const sortList = [
 
 const Shops = ({ children }) => {
   const dispatch = useDispatch();
+  const { actionStatus } = useSelector((state) => state.customer);
+  const { actionStatus: actionStatusCart } = useSelector((state) => state.cart);
+
   const [view, setView] = useState('module');
   const [isClickFilter, setClickFilter] = useState(false);
 
@@ -80,6 +87,11 @@ const Shops = ({ children }) => {
 
   const [brand, setBrand] = useState(null);
   const [gender, setGender] = useState(null);
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: '',
+    type: '',
+  });
 
   const handlePriceChange = (event, newValue) => {
     setRangePrice(newValue);
@@ -103,6 +115,44 @@ const Shops = ({ children }) => {
     };
     getShoeList();
   }, [dispatch, page, view, brand, gender, searchQuery, sort, rangePrice]);
+
+  useEffect(() => {
+    dispatch(clearActionStatusCart());
+    if (actionStatus) {
+      setNotify({
+        isOpen: true,
+        message: actionStatus.msg,
+        type:
+          actionStatus.status === 200 ||
+          actionStatus.status === 201 ||
+          actionStatus.status === 202 ||
+          actionStatus.status === 203 ||
+          actionStatus.status === 204
+            ? 'success'
+            : 'error',
+      });
+      dispatch(clearActionStatus());
+    }
+  }, [actionStatus]);
+
+  useEffect(() => {
+    dispatch(clearActionStatus());
+    if (actionStatusCart) {
+      setNotify({
+        isOpen: true,
+        message: actionStatusCart.msg,
+        type:
+          actionStatusCart.status === 200 ||
+          actionStatusCart.status === 201 ||
+          actionStatusCart.status === 202 ||
+          actionStatusCart.status === 203 ||
+          actionStatusCart.status === 204
+            ? 'success'
+            : 'error',
+      });
+      dispatch(clearActionStatusCart());
+    }
+  }, [actionStatusCart]);
 
   const ref1 = useRef();
   const ref2 = useRef();
@@ -351,6 +401,7 @@ const Shops = ({ children }) => {
       <Box mt={8}>
         <Footer />
       </Box>
+      <Notification notify={notify} setNotify={setNotify} />
     </>
   );
 };

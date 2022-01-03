@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { shopApi } from '../../api/customerApi/shopApi';
+import { wishlistApi } from '../../api/customerApi/wishlistApi';
 
 export const createFeedback = createAsyncThunk(
   'createFeedback',
@@ -29,16 +30,57 @@ export const getFeedbacks = createAsyncThunk(
   }
 );
 
+export const getAllWishlist = createAsyncThunk(
+  'getAllWishlist',
+  async ({ page, perPage }, { rejectWithValue }) => {
+    try {
+      const res = await wishlistApi.getAllWishlist({ page, perPage });
+      return res?.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const updateWishlist = createAsyncThunk(
+  'updateWishlist',
+  async ({ shoeId }, { rejectWithValue }) => {
+    try {
+      const res = await wishlistApi.updateWishList({ shoeId });
+      return res?.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const deleteWishlist = createAsyncThunk(
+  'deleteWishlist',
+  async ({ shoeId }, { rejectWithValue }) => {
+    try {
+      const res = await wishlistApi.deleteWishList({ shoeId });
+      return res?.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const initialState = {
   actionStatus: null,
   loading: false,
   feedbacks: [],
+  wishlists: [],
 };
 
 const customerSlice = createSlice({
   name: 'customerSlice',
   initialState,
-  reducers: {},
+  reducers: {
+    clearActionStatus(state) {
+      state.actionStatus = null;
+    },
+  },
   extraReducers: {
     [createFeedback.pending](state) {
       state.actionStatus = null;
@@ -64,8 +106,45 @@ const customerSlice = createSlice({
       state.loading = true;
       state.feedbacks = action.payload?.feedbacks;
     },
+    [getAllWishlist.pending](state) {
+      state.actionStatus = null;
+      state.loading = true;
+    },
+    [getAllWishlist.rejected](state, action) {
+      state.loading = true;
+      state.actionStatus = action.payload;
+    },
+    [getAllWishlist.fulfilled](state, action) {
+      state.loading = true;
+      state.feedbacks = action.payload?.wishlist;
+    },
+    [updateWishlist.pending](state) {
+      state.actionStatus = null;
+      state.loading = true;
+    },
+    [updateWishlist.rejected](state, action) {
+      state.loading = true;
+      state.actionStatus = action.payload;
+    },
+    [updateWishlist.fulfilled](state, action) {
+      state.loading = true;
+      state.actionStatus = action.payload;
+    },
+    [deleteWishlist.pending](state) {
+      state.actionStatus = null;
+      state.loading = true;
+    },
+    [deleteWishlist.rejected](state, action) {
+      state.loading = true;
+      state.actionStatus = action.payload;
+    },
+    [deleteWishlist.fulfilled](state, action) {
+      state.loading = true;
+      state.actionStatus = action.payload;
+    },
   },
 });
 
-const { reducer: customerReducer } = customerSlice;
+const { reducer: customerReducer, actions } = customerSlice;
 export default customerReducer;
+export const { clearActionStatus } = actions;
