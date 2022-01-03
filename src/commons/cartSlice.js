@@ -2,10 +2,10 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { cartApi } from '../api/commonApi/cartApi';
 
 export const getAllCarts = createAsyncThunk(
-  'fetchAllCarts',
-  async (userId, { rejectWithValue, dispatch }) => {
+  'getAllCarts',
+  async ({ page, perPage }, { rejectWithValue, dispatch }) => {
     try {
-      const res = await cartApi.getAllCartApi(userId);
+      const res = await cartApi.getAllCartApi({ page, perPage });
       return res.data;
     } catch (error) {
       return rejectWithValue(error?.response?.data);
@@ -15,9 +15,9 @@ export const getAllCarts = createAsyncThunk(
 
 export const addCart = createAsyncThunk(
   'addCart',
-  async ({ userId, data }, { rejectWithValue, dispatch }) => {
+  async ({ data }, { rejectWithValue, dispatch }) => {
     try {
-      const res = await cartApi.createCartApi({ userId, data });
+      const res = await cartApi.createCartApi({ data });
       return res.data;
     } catch (error) {
       return rejectWithValue(error?.response?.data);
@@ -66,6 +66,9 @@ const cartSlice = createSlice({
       };
       return newState;
     },
+    clearActionStatusCart(state) {
+      state.actionStatus = null;
+    },
   },
   extraReducers: {
     [getAllCarts.pending](state) {
@@ -79,7 +82,6 @@ const cartSlice = createSlice({
     [getAllCarts.fulfilled](state, action) {
       state.loading = false;
       state.carts = action.payload?.cartItems;
-      state.actionStatus = { ...action.payload, method: 'get' };
     },
     [addCart.pending](state) {
       state.actionStatus = null;
@@ -120,6 +122,7 @@ const cartSlice = createSlice({
   },
 });
 
-const { reducer: cartReducer } = cartSlice;
+const { reducer: cartReducer, actions } = cartSlice;
 
 export default cartReducer;
+export const { clearActionStatusCart } = actions;

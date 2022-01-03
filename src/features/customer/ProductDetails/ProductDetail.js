@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { yupResolver } from '@hookform/resolvers/yup';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
@@ -15,16 +16,18 @@ import {
 import { styled } from '@mui/styles';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import * as yup from 'yup';
-import { addCart } from '../../../commons/cartSlice';
+import { addCart, clearActionStatusCart } from '../../../commons/cartSlice';
 import { fetchShoeById } from '../../../commons/shoesSlice';
 import BannerPage from '../../../components/BannerPage/BannerPage';
 import Footer from '../../../components/Customer/Footer/Footer';
 import Nav from '../../../components/Customer/Header/Nav/Nav';
 import Navbar from '../../../components/Customer/Header/Navbar/Navbar';
+import Notification from '../../../components/Notification';
 import { orangeColor } from '../../../constants/globalConst';
+import { clearActionStatus, updateWishlist } from '../customerSlice';
 import NewArrivalProduct from '../homepage/components/NewArrivalProduct/NewArrivalProduct';
 import ProductReview from './components/ProductReview/ProductReview';
 
@@ -70,6 +73,8 @@ const schema = yup.object().shape({}).required();
 
 const ProductDetail = ({ children }) => {
   const [shoe, setShoe] = useState({});
+  const { actionStatus } = useSelector((state) => state.customer);
+  const { actionStatus: actionStatusCart } = useSelector((state) => state.cart);
   const { id } = useParams();
   const dispatch = useDispatch();
 
@@ -84,6 +89,11 @@ const ProductDetail = ({ children }) => {
   }, [dispatch, id]);
 
   const [counter, setCounter] = useState(0);
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: '',
+    type: '',
+  });
 
   const { register, handleSubmit, setValue } = useForm({
     mode: 'onBlur',
@@ -118,6 +128,53 @@ const ProductDetail = ({ children }) => {
   };
 
   const displayCounter = counter > 0;
+
+  const handleWishlistClick = async () => {
+    await dispatch(updateWishlist({ userId, shoeId: id }));
+  };
+
+  useEffect(() => {
+    dispatch(clearActionStatus());
+    dispatch(clearActionStatusCart());
+  }, []);
+
+  useEffect(() => {
+    dispatch(clearActionStatusCart());
+    if (actionStatus) {
+      setNotify({
+        isOpen: true,
+        message: actionStatus.msg,
+        type:
+          actionStatus.status === 200 ||
+          actionStatus.status === 201 ||
+          actionStatus.status === 202 ||
+          actionStatus.status === 203 ||
+          actionStatus.status === 204
+            ? 'success'
+            : 'error',
+      });
+      dispatch(clearActionStatus());
+    }
+  }, [actionStatus]);
+
+  useEffect(() => {
+    dispatch(clearActionStatus());
+    if (actionStatusCart) {
+      setNotify({
+        isOpen: true,
+        message: actionStatusCart.msg,
+        type:
+          actionStatusCart.status === 200 ||
+          actionStatusCart.status === 201 ||
+          actionStatusCart.status === 202 ||
+          actionStatusCart.status === 203 ||
+          actionStatusCart.status === 204
+            ? 'success'
+            : 'error',
+      });
+      dispatch(clearActionStatusCart());
+    }
+  }, [actionStatusCart]);
 
   const breadcrumbs = [
     <BreadCrumbLink underline="hover" key="1" href="/user/homepage">
@@ -238,7 +295,7 @@ const ProductDetail = ({ children }) => {
               >
                 add to cart
               </Button>
-              <CustomIconBtn>
+              <CustomIconBtn onClick={handleWishlistClick}>
                 <FavoriteBorderOutlinedIcon />
               </CustomIconBtn>
             </Box>
@@ -254,6 +311,7 @@ const ProductDetail = ({ children }) => {
       <Box mt={8}>
         <Footer />
       </Box>
+      <Notification notify={notify} setNotify={setNotify} />
     </>
   );
 };

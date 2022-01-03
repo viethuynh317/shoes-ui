@@ -1,57 +1,17 @@
-import { axiosClient } from '../axiosClient';
+import { axiosClientCustomer } from '../axiosClient';
 const url = '/carts';
 
 export const cartApi = {
-  getAllCartApi(userId) {
-    return axiosClient.get(`${url}/${userId}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization:
-          `Bearer ${localStorage.getItem('customerToken')}` ||
-          `Bearer ${localStorage.getItem('token')}`,
-        RoleId:
-          localStorage.getItem('customerRoleId') ||
-          localStorage.getItem('roleId'),
-      },
-    });
+  getAllCartApi({ page, perPage }) {
+    return axiosClientCustomer.get(`${url}?page=${page}&perPage=${perPage}`);
   },
-  createCartApi({ userId, data }) {
-    return axiosClient.post(`${url}/${userId}`, data, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization:
-          `Bearer ${localStorage.getItem('customerToken')}` ||
-          `Bearer ${localStorage.getItem('token')}`,
-        RoleId:
-          localStorage.getItem('customerRoleId') ||
-          localStorage.getItem('roleId'),
-      },
-    });
+  createCartApi({ data }) {
+    return axiosClientCustomer.post(`${url}`, data);
   },
   updateCartApi(data) {
-    return axiosClient.patch(`${url}`, data, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization:
-          `Bearer ${localStorage.getItem('customerToken')}` ||
-          `Bearer ${localStorage.getItem('token')}`,
-        RoleId:
-          localStorage.getItem('customerRoleId') ||
-          localStorage.getItem('roleId'),
-      },
-    });
+    return axiosClientCustomer.patch(`${url}`, data);
   },
   deleteCartApi(data) {
-    return axiosClient.delete(`${url}`, data, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization:
-          `Bearer ${localStorage.getItem('customerToken')}` ||
-          `Bearer ${localStorage.getItem('token')}`,
-        RoleId:
-          localStorage.getItem('customerRoleId') ||
-          localStorage.getItem('roleId'),
-      },
-    });
+    return axiosClientCustomer.delete(`${url}`, data);
   },
 };

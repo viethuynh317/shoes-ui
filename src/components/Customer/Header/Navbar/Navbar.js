@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from '@mui/material';
 import { styled } from '@mui/styles';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
@@ -8,6 +8,9 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { orangeColor } from '../../../../constants/globalConst';
 import { useHistory } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllWishlist } from '../../../../features/customer/customerSlice';
+import { getAllCarts } from '../../../../commons/cartSlice';
 
 const CartBox = styled(Box)(({ theme }) => ({
   backgroundColor: orangeColor,
@@ -34,8 +37,35 @@ const MenuTypo = styled(Typography)(({ theme }) => ({
 }));
 
 const Navbar = ({ hasHomePage }) => {
+  const { actionStatus } = useSelector((state) => state.customer);
+  const { actionStatus: actionStatusCart } = useSelector((state) => state.cart);
+
+  const dispatch = useDispatch();
   const history = useHistory();
+
+  const [wishlistTotal, setWishlistTotal] = useState(0);
+  const [cartInfo, setCartInfo] = useState({});
   const hasLogin = !!localStorage.getItem('customerToken');
+
+  useEffect(() => {
+    const fetchAllWishlist = async () => {
+      const res = await dispatch(getAllWishlist({ page: 1, perPage: 5 }));
+      setWishlistTotal(res?.payload?.total);
+    };
+    fetchAllWishlist();
+  }, [dispatch, actionStatus]);
+
+  useEffect(() => {
+    const fetchAllCart = async () => {
+      const resCart = await dispatch(getAllCarts({ page: 1, perPage: 5 }));
+      setCartInfo({
+        total: resCart?.payload?.total,
+        priceTotal: resCart?.payload?.priceTotal,
+      });
+    };
+    fetchAllCart();
+  }, [dispatch, actionStatusCart]);
+
   return (
     <Box
       display="flex"
@@ -63,7 +93,7 @@ const Navbar = ({ hasHomePage }) => {
         >
           <Box display="flex" alignItems="center">
             <FavoriteBorderIcon sx={{ fontSize: 16 }} />
-            <MenuTypo ml={0.5}>Wishlist (0)</MenuTypo>
+            <MenuTypo ml={0.5}>Wishlist ({wishlistTotal || 0})</MenuTypo>
           </Box>
         </ButtonCustom>
         {hasLogin ? (
@@ -128,9 +158,9 @@ const Navbar = ({ hasHomePage }) => {
         <CartBox display="flex" alignItems="center" py={1.5} px={2} ml={2}>
           <ShoppingCartOutlinedIcon />
           <Typography ml={1}>
-            2 items -{' '}
+            {cartInfo?.total || 0} items -{' '}
             <Typography component="span" fontWeight={700}>
-              1.000.000 <small>VND</small>
+              {cartInfo?.priceTotal || 0} <small>VND</small>
             </Typography>
           </Typography>
         </CartBox>

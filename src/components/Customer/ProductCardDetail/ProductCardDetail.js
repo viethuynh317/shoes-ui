@@ -20,6 +20,7 @@ import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
 import { addCart } from '../../../commons/cartSlice';
 import { orangeColor } from '../../../constants/globalConst';
+import { updateWishlist } from '../../../features/customer/customerSlice';
 
 const CardImage = styled(Box)(() => ({
   overflow: 'hidden',
@@ -106,6 +107,10 @@ const ProductCardDetail = (props) => {
     history.push(`/user/shoes/shops/${_id}`);
   };
 
+  const handleWishlistClick = async () => {
+    await dispatch(updateWishlist({ shoeId: _id }));
+  };
+
   const displayCounter = counter > 0;
   return (
     <>
@@ -188,7 +193,7 @@ const ProductCardDetail = (props) => {
             >
               add to cart
             </Button>
-            <CustomIconBtn>
+            <CustomIconBtn onClick={handleWishlistClick}>
               <FavoriteBorderOutlinedIcon />
             </CustomIconBtn>
           </Box>

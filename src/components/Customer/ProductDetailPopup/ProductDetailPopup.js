@@ -23,6 +23,7 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import { orangeColor } from '../../../constants/globalConst';
 import { useDispatch } from 'react-redux';
 import { addCart } from '../../../commons/cartSlice';
+import { updateWishlist } from '../../../features/customer/customerSlice';
 
 const useStyles = makeStyles((theme) => ({
   dialogWrapper: {
@@ -86,6 +87,11 @@ export default function ProductDetailPopup(props) {
   };
 
   const displayCounter = counter > 0;
+
+  const handleWishlistClick = async () => {
+    await dispatch(updateWishlist({ userId, shoeId: _id }));
+  };
+
   return (
     <Dialog
       open={openPopup}
@@ -176,7 +182,7 @@ export default function ProductDetailPopup(props) {
               >
                 add to cart
               </Button>
-              <CustomIconBtn>
+              <CustomIconBtn onClick={handleWishlistClick}>
                 <FavoriteBorderOutlinedIcon />
               </CustomIconBtn>
             </Box>

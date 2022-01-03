@@ -15,8 +15,10 @@ import {
 import { styled } from '@mui/styles';
 import { Box } from '@mui/system';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { orangeColor } from '../../../constants/globalConst';
+import { updateWishlist } from '../../../features/customer/customerSlice';
 import ProductDetailPopup from '../ProductDetailPopup/ProductDetailPopup';
 
 const CardImage = styled(Box)(() => ({
@@ -62,11 +64,17 @@ const NameTypo = styled(Typography)(() => ({
 
 const ProductCard = (props) => {
   const { _id, name, imageUrl, unitPrice, numOfStars, className } = props;
+
+  const dispatch = useDispatch();
   const history = useHistory();
   const [openPopup, setOpenPopup] = useState(false);
 
   const handleProductDetailRedirect = () => {
     history.push(`/user/shoes/shops/${_id}`);
+  };
+
+  const handleWishlistClick = async () => {
+    await dispatch(updateWishlist({ shoeId: _id }));
   };
 
   return (
@@ -117,7 +125,7 @@ const ProductCard = (props) => {
             </CustomIconBtn>
           </Tooltip>
           <Tooltip title="Wishlist">
-            <CustomIconBtn>
+            <CustomIconBtn onClick={handleWishlistClick}>
               <FavoriteBorderOutlinedIcon />
             </CustomIconBtn>
           </Tooltip>
