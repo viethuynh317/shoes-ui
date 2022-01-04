@@ -10,7 +10,7 @@ export const wishlistApi = {
     return axiosClientCustomer.put(url, { shoeId });
   },
   deleteWishList({ shoeId }) {
-    const url = `/wishlist${shoeId}`;
+    const url = `/wishlist/${shoeId}`;
     return axiosClientCustomer.delete(url);
   },
 };

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { cartApi } from '../api/commonApi/cartApi';
+import { wishlistApi } from '../api/customerApi/wishlistApi';
 
 export const getAllCarts = createAsyncThunk(
   'getAllCarts',
@@ -18,6 +19,19 @@ export const addCart = createAsyncThunk(
   async ({ data }, { rejectWithValue, dispatch }) => {
     try {
       const res = await cartApi.createCartApi({ data });
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
+export const addCartAndDelete = createAsyncThunk(
+  'addCart',
+  async ({ data, shoeId }, { rejectWithValue, dispatch }) => {
+    try {
+      const res = await cartApi.createCartApi({ data });
+      await wishlistApi.deleteWishList({ shoeId });
       return res.data;
     } catch (error) {
       return rejectWithValue(error?.response?.data);
@@ -116,6 +130,18 @@ const cartSlice = createSlice({
       state.actionStatus = action.payload;
     },
     [deleteCart.fulfilled](state, action) {
+      state.loading = false;
+      state.actionStatus = action.payload;
+    },
+    [addCartAndDelete.pending](state) {
+      state.actionStatus = null;
+      state.loading = true;
+    },
+    [addCartAndDelete.rejected](state, action) {
+      state.loading = false;
+      state.actionStatus = action.payload;
+    },
+    [addCartAndDelete.fulfilled](state, action) {
       state.loading = false;
       state.actionStatus = action.payload;
     },
