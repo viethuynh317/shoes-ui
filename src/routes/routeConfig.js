@@ -75,6 +75,12 @@ export const privateRoutesCustomer = [
       )
     ),
   },
+  {
+    key: 'customerWishlist',
+    exact: true,
+    path: '/user/wishlist',
+    component: lazy(() => import('../features/customer/Wishlist/Wishlist')),
+  },
 ];
 
 export const publicRoutes = [

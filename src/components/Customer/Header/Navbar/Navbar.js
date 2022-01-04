@@ -90,6 +90,9 @@ const Navbar = ({ hasHomePage }) => {
         <ButtonCustom
           variant="text"
           sx={{ color: hasHomePage ? '#fff' : '#202020' }}
+          onClick={() => {
+            history.push('/user/wishlist');
+          }}
         >
           <Box display="flex" alignItems="center">
             <FavoriteBorderIcon sx={{ fontSize: 16 }} />
