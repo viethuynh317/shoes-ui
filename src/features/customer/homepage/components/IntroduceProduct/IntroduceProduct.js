@@ -4,7 +4,7 @@ import { makeStyles, styled } from '@mui/styles';
 import React, { useEffect, useState } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchShoeList } from '../../../../../commons/shoesSlice';
 import ProductCard from '../../../../../components/Customer/ProductCard/ProductCard';
 import { orangeColor } from '../../../../../constants/globalConst';
@@ -141,6 +141,7 @@ export const fakeData = [
 ];
 
 const IntroduceProduct = () => {
+  const { actionStatus } = useSelector((state) => state.customer);
   const [productFilter, setProductFilter] = useState({});
   const [shoeList, setShoeList] = useState([]);
   const dispatch = useDispatch();
@@ -164,6 +165,7 @@ const IntroduceProduct = () => {
     productFilter?.discountOff,
     productFilter?.numOfStars,
     productFilter?.unitPrice,
+    actionStatus,
   ]);
 
   const handleFilterClick = (filterNumber) => {

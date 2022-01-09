@@ -30,6 +30,7 @@ import { orangeColor } from '../../../constants/globalConst';
 import { clearActionStatus, updateWishlist } from '../customerSlice';
 import NewArrivalProduct from '../homepage/components/NewArrivalProduct/NewArrivalProduct';
 import ProductReview from './components/ProductReview/ProductReview';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const HomePageMain = styled(Box)(({ theme }) => ({
   margin: '4rem 7.5rem 2rem',
@@ -278,6 +279,7 @@ const ProductDetail = ({ children }) => {
                 <TextField
                   size="small"
                   type="number"
+                  InputProps={{ inputProps: { min: 0, max: 20 } }}
                   sx={{ width: 70 }}
                   value={counter}
                   id="quantity"
@@ -296,7 +298,11 @@ const ProductDetail = ({ children }) => {
                 add to cart
               </Button>
               <CustomIconBtn onClick={handleWishlistClick}>
-                <FavoriteBorderOutlinedIcon />
+                {shoe?.isWishlist ? (
+                  <FavoriteIcon />
+                ) : (
+                  <FavoriteBorderOutlinedIcon />
+                )}
               </CustomIconBtn>
             </Box>
           </Grid>

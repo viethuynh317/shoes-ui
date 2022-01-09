@@ -145,6 +145,7 @@ export default function OrderManagement() {
             onChange={handleStatusOrderChange}
             name="statusChange"
             title="Status"
+            defaultValue={0}
           />
         </Toolbar>
         <TblContainer>

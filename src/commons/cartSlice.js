@@ -53,9 +53,9 @@ export const updateCart = createAsyncThunk(
 
 export const deleteCart = createAsyncThunk(
   'deleteCart',
-  async (data, { rejectWithValue, dispatch }) => {
+  async (id, { rejectWithValue, dispatch }) => {
     try {
-      const res = await cartApi.deleteCartApi(data);
+      const res = await cartApi.deleteCartApi(id);
       return res.data;
     } catch (error) {
       return rejectWithValue(error?.response?.data);

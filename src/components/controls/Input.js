@@ -14,6 +14,7 @@ export default function Input(props) {
     onBlur,
     isDisableEmail,
     disabled,
+    fullWidth,
     ...other
   } = props;
   return (
@@ -27,6 +28,7 @@ export default function Input(props) {
       onBlur={onBlur}
       onChange={onChange}
       disabled={isDisableEmail || disabled}
+      fullWidth={fullWidth}
       {...other}
       {...(error && { error: true, helperText: error })}
     />
