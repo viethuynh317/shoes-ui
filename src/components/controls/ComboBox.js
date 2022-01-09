@@ -30,6 +30,7 @@ export default function ComboBox({
   name,
   disabled,
   value,
+  defaultValue,
 }) {
   const classes = useStyles();
   return (
@@ -37,12 +38,12 @@ export default function ComboBox({
       <FormControl variant="outlined" className={classes.formControl}>
         <InputLabel htmlFor="outlined-age-native-simple">{title}</InputLabel>
         <Select
-          native
           label={title}
           onChange={onChange}
           name={name}
           className={clsx(classes.selectForm, { focused: classes.focus })}
           disabled={disabled || false}
+          defaultValue={defaultValue}
         >
           {options.map((option, index) => (
             <MenuItem value={option.value} key={index}>

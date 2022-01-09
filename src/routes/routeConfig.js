@@ -81,6 +81,18 @@ export const privateRoutesCustomer = [
     path: '/user/wishlist',
     component: lazy(() => import('../features/customer/Wishlist/Wishlist')),
   },
+  {
+    key: 'customerCarts',
+    exact: true,
+    path: '/user/carts',
+    component: lazy(() => import('../features/customer/Carts/Carts')),
+  },
+  {
+    key: 'customerCheckout',
+    exact: true,
+    path: '/user/checkout',
+    component: lazy(() => import('../features/customer/Checkout/Checkout')),
+  },
 ];
 
 export const publicRoutes = [

@@ -21,6 +21,7 @@ import * as yup from 'yup';
 import { addCart } from '../../../commons/cartSlice';
 import { orangeColor } from '../../../constants/globalConst';
 import { updateWishlist } from '../../../features/customer/customerSlice';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const CardImage = styled(Box)(() => ({
   overflow: 'hidden',
@@ -66,7 +67,15 @@ const NameTypo = styled(Typography)(() => ({
 const schema = yup.object().shape({}).required();
 
 const ProductCardDetail = (props) => {
-  const { _id, name, imageUrl, unitPrice, numOfStars, description } = props;
+  const {
+    _id,
+    name,
+    imageUrl,
+    unitPrice,
+    numOfStars,
+    description,
+    isWishlist,
+  } = props;
   const dispatch = useDispatch();
   const history = useHistory();
   const [counter, setCounter] = useState(0);
@@ -194,7 +203,7 @@ const ProductCardDetail = (props) => {
               add to cart
             </Button>
             <CustomIconBtn onClick={handleWishlistClick}>
-              <FavoriteBorderOutlinedIcon />
+              {isWishlist ? <FavoriteIcon /> : <FavoriteBorderOutlinedIcon />}
             </CustomIconBtn>
           </Box>
         </Grid>

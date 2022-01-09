@@ -158,7 +158,16 @@ const Navbar = ({ hasHomePage }) => {
             </ButtonCustom>
           </>
         )}
-        <CartBox display="flex" alignItems="center" py={1.5} px={2} ml={2}>
+        <CartBox
+          display="flex"
+          alignItems="center"
+          py={1.5}
+          px={2}
+          ml={2}
+          onClick={() => {
+            history.push('/user/carts');
+          }}
+        >
           <ShoppingCartOutlinedIcon />
           <Typography ml={1}>
             {cartInfo?.total || 0} items -{' '}

@@ -114,7 +114,17 @@ const Shops = ({ children }) => {
       setTotal(data?.payload?.data?.total);
     };
     getShoeList();
-  }, [dispatch, page, view, brand, gender, searchQuery, sort, rangePrice]);
+  }, [
+    dispatch,
+    page,
+    view,
+    brand,
+    gender,
+    searchQuery,
+    sort,
+    rangePrice,
+    actionStatus,
+  ]);
 
   useEffect(() => {
     dispatch(clearActionStatusCart());

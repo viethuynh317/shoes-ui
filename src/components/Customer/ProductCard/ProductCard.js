@@ -17,9 +17,11 @@ import { Box } from '@mui/system';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { addCart } from '../../../commons/cartSlice';
 import { orangeColor } from '../../../constants/globalConst';
 import { updateWishlist } from '../../../features/customer/customerSlice';
 import ProductDetailPopup from '../ProductDetailPopup/ProductDetailPopup';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const CardImage = styled(Box)(() => ({
   overflow: 'hidden',
@@ -63,7 +65,8 @@ const NameTypo = styled(Typography)(() => ({
 }));
 
 const ProductCard = (props) => {
-  const { _id, name, imageUrl, unitPrice, numOfStars, className } = props;
+  const { _id, name, imageUrl, unitPrice, numOfStars, className, isWishlist } =
+    props;
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -75,6 +78,18 @@ const ProductCard = (props) => {
 
   const handleWishlistClick = async () => {
     await dispatch(updateWishlist({ shoeId: _id }));
+  };
+
+  const handleAddCartClick = async () => {
+    await dispatch(
+      addCart({
+        data: {
+          cartItems: {
+            [_id]: 1,
+          },
+        },
+      })
+    );
   };
 
   return (
@@ -106,7 +121,7 @@ const ProductCard = (props) => {
         </CardContent>
         <CardActions sx={{ justifyContent: 'center' }}>
           <Tooltip title="Add to cart">
-            <CustomIconBtn>
+            <CustomIconBtn onClick={handleAddCartClick}>
               <ShoppingCartOutlinedIcon />
             </CustomIconBtn>
           </Tooltip>
@@ -126,7 +141,7 @@ const ProductCard = (props) => {
           </Tooltip>
           <Tooltip title="Wishlist">
             <CustomIconBtn onClick={handleWishlistClick}>
-              <FavoriteBorderOutlinedIcon />
+              {isWishlist ? <FavoriteIcon /> : <FavoriteBorderOutlinedIcon />}
             </CustomIconBtn>
           </Tooltip>
         </CardActions>

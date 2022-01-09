@@ -9,9 +9,9 @@ export const cartApi = {
     return axiosClientCustomer.post(`${url}`, data);
   },
   updateCartApi(data) {
-    return axiosClientCustomer.patch(`${url}`, data);
+    return axiosClientCustomer.put(`${url}`, data);
   },
-  deleteCartApi(data) {
-    return axiosClientCustomer.delete(`${url}`, data);
+  deleteCartApi(id) {
+    return axiosClientCustomer.delete(`${url}/${id}`);
   },
 };

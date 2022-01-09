@@ -96,8 +96,8 @@ const AccountDetail = () => {
           >
             User Profile
           </Typography>
-          <Box>
-            <Box component="form">
+          <Box component="form">
+            <Box>
               <TextInput
                 value={
                   !loading

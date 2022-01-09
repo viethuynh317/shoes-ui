@@ -24,6 +24,7 @@ import { orangeColor } from '../../../constants/globalConst';
 import { useDispatch } from 'react-redux';
 import { addCart } from '../../../commons/cartSlice';
 import { updateWishlist } from '../../../features/customer/customerSlice';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const useStyles = makeStyles((theme) => ({
   dialogWrapper: {
@@ -51,7 +52,15 @@ export default function ProductDetailPopup(props) {
   const dispatch = useDispatch();
 
   const classes = useStyles();
-  const { _id, name, imageUrl, unitPrice, numOfStars, description } = data;
+  const {
+    _id,
+    name,
+    imageUrl,
+    unitPrice,
+    numOfStars,
+    description,
+    isWishlist,
+  } = data;
   const [counter, setCounter] = useState(0);
   const { register, handleSubmit, setValue } = useForm({
     mode: 'onBlur',
@@ -165,6 +174,7 @@ export default function ProductDetailPopup(props) {
                 <TextField
                   size="small"
                   type="number"
+                  InputProps={{ inputProps: { min: 0, max: 20 } }}
                   sx={{ width: 70 }}
                   value={counter}
                   id="quantity"
@@ -183,7 +193,7 @@ export default function ProductDetailPopup(props) {
                 add to cart
               </Button>
               <CustomIconBtn onClick={handleWishlistClick}>
-                <FavoriteBorderOutlinedIcon />
+                {isWishlist ? <FavoriteIcon /> : <FavoriteBorderOutlinedIcon />}
               </CustomIconBtn>
             </Box>
           </Grid>

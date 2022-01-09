@@ -3,7 +3,7 @@ import { Grid, Typography } from '@mui/material';
 import { styled } from '@mui/styles';
 import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchShoeList } from '../../../../../commons/shoesSlice';
 import ProductCard from '../../../../../components/Customer/ProductCard/ProductCard';
 
@@ -15,6 +15,7 @@ const CustomDivider = styled(Typography)(() => ({
 }));
 
 const NewArrivalProduct = ({ title }) => {
+  const { actionStatus } = useSelector((state) => state.customer);
   const [shoeList, setShoeList] = useState([]);
   const dispatch = useDispatch();
 
@@ -29,7 +30,7 @@ const NewArrivalProduct = ({ title }) => {
       setShoeList(data?.payload?.data?.result || []);
     };
     getShoeList();
-  }, []);
+  }, [actionStatus]);
   return (
     <>
       <Box display="flex">
