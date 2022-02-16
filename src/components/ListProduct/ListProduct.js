@@ -30,8 +30,6 @@ export default function ListProduct() {
   const { filter, actionStatus } = useSelector((state) => state.shoes);
   const [currentPage, setCurrentPage] = useState(1);
 
-  console.log('hello', actionStatus?.method);
-
   const dispatch = useDispatch();
   const classes = useStyles();
   const [notify, setNotify] = useState({

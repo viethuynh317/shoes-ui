@@ -83,7 +83,7 @@ const Shops = ({ children }) => {
 
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  const [rangePrice, setRangePrice] = React.useState([0, 5000]);
+  const [rangePrice, setRangePrice] = React.useState([0, 2000000]);
 
   const [brand, setBrand] = useState(null);
   const [gender, setGender] = useState(null);
@@ -99,6 +99,7 @@ const Shops = ({ children }) => {
 
   useEffect(() => {
     const getShoeList = async () => {
+      console.log(rangePrice);
       const data = await dispatch(
         fetchShoeList({
           page,
@@ -315,8 +316,8 @@ const Shops = ({ children }) => {
                     value={rangePrice}
                     onChange={handlePriceChange}
                     valueLabelDisplay="auto"
-                    max={10000}
-                    step={200}
+                    max={5000000}
+                    step={100000}
                   />
                 </Box>
                 <Box mb={1}>

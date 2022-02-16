@@ -49,6 +49,29 @@ export const updateOrderStatus = createAsyncThunk(
   }
 );
 
+export const cancelOrder = createAsyncThunk(
+  'cancelOrder',
+  async (id, { rejectWithValue, dispatch }) => {
+    try {
+      const res = await employeeApi.cancelOrder(id);
+      return res?.data;
+    } catch (error) {
+      //   if (
+      //     error.response.data.status === 401 &&
+      //     error.response.data.msg === 'Token expired' &&
+      //     localStorage.getItem('refreshToken')
+      //   ) {
+      //     await dispatch(refreshToken());
+      //     dispatch(updateOrderStatus({ id, data, statusId }));
+      //   }
+      //   if (error.response.data.status === 409) {
+      //     dispatch(pushOutLogin());
+      //   }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const getAllShippers = createAsyncThunk(
   'employee/getAllShippers',
   async (_, { rejectWithValue, dispatch }) => {
@@ -385,6 +408,19 @@ const employeeSlice = createSlice({
     [getFeedbackByIdSlice.fulfilled](state, action) {
       state.loading = true;
       state.replyFeedbacks = action.payload;
+    },
+
+    [cancelOrder.pending](state) {
+      state.actionStatus = null;
+      state.loading = true;
+    },
+    [cancelOrder.rejected](state, action) {
+      state.loading = true;
+      state.actionStatus = action.payload;
+    },
+    [cancelOrder.fulfilled](state, action) {
+      state.loading = true;
+      state.actionStatus = action.payload;
     },
   },
 });

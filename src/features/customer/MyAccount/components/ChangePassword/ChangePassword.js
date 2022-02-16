@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import * as yup from 'yup';
 import Notification from '../../../../../components/Notification';
-import { changePassword } from '../../../../Profile/profileSlice';
+import { changePasswordCustomer } from '../../../../Profile/profileSlice';
 import MyAccount from '../../MyAccount';
 
 const TextInput = styled(TextField)(() => ({
@@ -70,7 +70,7 @@ const ChangePassword = () => {
   });
   const onSubmit = async (data) => {
     setIsLoading(true);
-    const res = await dispatch(changePassword({ id: userId, data }));
+    const res = await dispatch(changePasswordCustomer({ id: userId, data }));
     reset();
     setIsLoading(false);
     if (res.payload.msg !== 'Token expired') {

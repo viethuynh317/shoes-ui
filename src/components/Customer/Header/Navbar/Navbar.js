@@ -44,27 +44,41 @@ const Navbar = ({ hasHomePage }) => {
   const history = useHistory();
 
   const [wishlistTotal, setWishlistTotal] = useState(0);
-  const [cartInfo, setCartInfo] = useState({});
+  const [cartInfo, setCartInfo] = useState({
+    total: 0,
+    priceTotal: 0,
+  });
   const hasLogin = !!localStorage.getItem('customerToken');
 
   useEffect(() => {
     const fetchAllWishlist = async () => {
-      const res = await dispatch(getAllWishlist({ page: 1, perPage: 5 }));
-      setWishlistTotal(res?.payload?.total);
+      if (hasLogin) {
+        const res = await dispatch(getAllWishlist({ page: 1, perPage: 5 }));
+        setWishlistTotal(res?.payload?.total);
+      } else {
+        setWishlistTotal(0);
+      }
     };
     fetchAllWishlist();
-  }, [dispatch, actionStatus]);
+  }, [dispatch, actionStatus, hasLogin]);
 
   useEffect(() => {
     const fetchAllCart = async () => {
-      const resCart = await dispatch(getAllCarts({ page: 1, perPage: 5 }));
-      setCartInfo({
-        total: resCart?.payload?.total,
-        priceTotal: resCart?.payload?.priceTotal,
-      });
+      if (hasLogin) {
+        const resCart = await dispatch(getAllCarts({ page: 1, perPage: 5 }));
+        setCartInfo({
+          total: resCart?.payload?.total,
+          priceTotal: resCart?.payload?.priceTotal,
+        });
+      } else {
+        setCartInfo({
+          total: 0,
+          priceTotal: 0,
+        });
+      }
     };
     fetchAllCart();
-  }, [dispatch, actionStatusCart]);
+  }, [dispatch, actionStatusCart, hasLogin]);
 
   return (
     <Box
@@ -105,7 +119,7 @@ const Navbar = ({ hasHomePage }) => {
               sx={{ color: hasHomePage ? '#fff' : '#202020' }}
               variant="text"
               onClick={() => {
-                history.push('/user/my-account/details');
+                history.push('/user/my-account/orders');
               }}
             >
               <Box display="flex" alignItems="center">

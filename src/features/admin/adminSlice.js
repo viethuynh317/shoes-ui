@@ -394,7 +394,7 @@ export const getRevenueByMonth = createAsyncThunk(
       for (const key in revenues) {
         data.push({ time: key, amount: revenues[key] });
       }
-      return { name: 'Lastest Month', data, eachUnit: 'Day' };
+      return { name: 'Latest Month', data, eachUnit: 'Day' };
     } catch (error) {
       //   if (
       //     error.response.data.status === 401 &&
@@ -422,7 +422,7 @@ export const getRevenueByQuater = createAsyncThunk(
       for (const key in revenues) {
         data.push({ time: key, amount: revenues[key] });
       }
-      return { name: 'Lastest Quater', data, eachUnit: 'Month' };
+      return { name: 'Latest Quater', data, eachUnit: 'Month' };
     } catch (error) {
       //   if (
       //     error.response.data.status === 401 &&
@@ -450,7 +450,7 @@ export const getRevenueByYear = createAsyncThunk(
       for (const key in revenues) {
         data.push({ time: key, amount: revenues[key] });
       }
-      return { name: 'Lastest Year', data, eachUnit: 'Month' };
+      return { name: 'Latest Year', data, eachUnit: 'Month' };
     } catch (error) {
       //   if (
       //     error.response.data.status === 401 &&

@@ -6,84 +6,84 @@ import {
   ListItem,
   ListItemText,
   Typography,
-} from "@mui/material";
-import React from "react";
-import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
-import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
-import FooterInfo from "../FooterInfo/FooterInfo";
-import { styled } from "@mui/styles";
-import { FaFacebookF, FaYoutube, FaInstagram, FaTwitter } from "react-icons/fa";
+} from '@mui/material';
+import React from 'react';
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
+import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
+import FooterInfo from '../FooterInfo/FooterInfo';
+import { styled } from '@mui/styles';
+import { FaFacebookF, FaYoutube, FaInstagram, FaTwitter } from 'react-icons/fa';
 
 const socialInfo = [
   {
-    id: "1",
+    id: '1',
     icon: <FaFacebookF />,
-    title: "Facebook",
-    color: "#3b5998",
+    title: 'Facebook',
+    color: '#3b5998',
   },
   {
-    id: "2",
+    id: '2',
     icon: <FaInstagram />,
-    title: "Instagram",
-    color: "#d6249f",
+    title: 'Instagram',
+    color: '#d6249f',
   },
   {
-    id: "3",
+    id: '3',
     icon: <FaYoutube />,
-    title: "Youtube ",
-    color: "#c4302b",
+    title: 'Youtube ',
+    color: '#c4302b',
   },
   {
-    id: "4",
+    id: '4',
     icon: <FaTwitter />,
-    title: "Twitter",
-    color: "#1DA1F2",
+    title: 'Twitter',
+    color: '#1DA1F2',
   },
 ];
 
 const footerInfo = [
   {
-    id: "1",
+    id: '1',
     icon: <LocationOnOutlinedIcon />,
-    title: "01 Nguyen Luong Bang, Da Nang",
+    title: '54 Nguyen Luong Bang, Da Nang',
   },
   {
-    id: "2",
+    id: '2',
     icon: <LocalPhoneOutlinedIcon />,
-    title: "033 8948317",
+    title: '033 8948317',
   },
   {
-    id: "3",
+    id: '3',
     icon: <EmailOutlinedIcon />,
-    title: "huynhvanviet317@gmail.com",
+    title: 'huynhvanviet317@gmail.com',
   },
   {
-    id: "4",
+    id: '4',
     icon: <PublicOutlinedIcon />,
-    title: "https://www.facebook.com/profile.php?id=100014881625813",
+    title: 'https://www.facebook.com/profile.php?id=100014881625813',
   },
 ];
 
 const FooterWrapperBox = styled(Box)(() => ({
-  backgroundColor: "#202020",
+  backgroundColor: '#202020',
 }));
 
 const TitleTypo = styled(Typography)(() => ({
-  color: "#fff",
+  color: '#fff',
   fontWeight: 700,
-  textTransform: "uppercase",
+  textTransform: 'uppercase',
 }));
 
 const LinkCustom = styled(Link)(() => ({
-  color: "#999999",
-  textDecoration: "none",
+  color: '#999999',
+  textDecoration: 'none',
   fontSize: 14,
-  cursor: "pointer",
-  "&:hover, &:focus": {
-    color: "#fff",
-    transition: "all 0.3s ease-in-out",
+  cursor: 'pointer',
+  '&:hover, &:focus': {
+    color: '#fff',
+    transition: 'all 0.3s ease-in-out',
   },
 }));
 
@@ -99,7 +99,7 @@ const TopFooter = () => {
           ))}
         </Grid>
       </Box>
-      <Divider sx={{ borderColor: "#999999" }} />
+      <Divider sx={{ borderColor: '#999999' }} />
       <Box py={6}>
         <Grid container>
           <Grid item xs={12} sm={6} md={3}>
@@ -108,9 +108,9 @@ const TopFooter = () => {
             </TitleTypo>
             <ListItem
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-start',
                 paddingLeft: 0,
               }}
             >
@@ -137,9 +137,9 @@ const TopFooter = () => {
             </TitleTypo>
             <ListItem
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-start',
                 paddingLeft: 0,
               }}
             >
@@ -166,9 +166,9 @@ const TopFooter = () => {
             </TitleTypo>
             <ListItem
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-start',
                 paddingLeft: 0,
               }}
             >
@@ -195,9 +195,9 @@ const TopFooter = () => {
             </TitleTypo>
             <ListItem
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-start',
                 paddingLeft: 0,
               }}
             >

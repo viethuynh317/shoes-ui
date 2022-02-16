@@ -161,7 +161,7 @@ export default function UserPermission() {
       <Paper className={classes.pageContent}>
         <Toolbar>
           <Controls.Input
-            label="Search Employees"
+            label="Search Permission"
             className={classes.searchInput}
             InputProps={{
               startAdornment: (

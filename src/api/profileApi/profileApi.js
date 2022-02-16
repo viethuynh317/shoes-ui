@@ -6,7 +6,9 @@ export const profileApi = {
     return axiosClient.get(url, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${
+          localStorage.getItem('token') || localStorage.getItem('token')
+        }`,
         RoleId: localStorage.getItem('roleId'),
       },
     });
@@ -16,7 +18,9 @@ export const profileApi = {
     return axiosClient.get(url, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${
+          localStorage.getItem('token') || localStorage.getItem('token')
+        }`,
         RoleId: localStorage.getItem('roleId'),
       },
     });
@@ -26,7 +30,9 @@ export const profileApi = {
     return axiosClient.put(url, data, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${
+          localStorage.getItem('token') || localStorage.getItem('token')
+        }`,
         RoleId: localStorage.getItem('roleId'),
       },
     });
@@ -36,7 +42,9 @@ export const profileApi = {
     return axiosClient.post(url, data, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${
+          localStorage.getItem('token') || localStorage.getItem('token')
+        }`,
         RoleId: localStorage.getItem('roleId'),
       },
     });
@@ -49,7 +57,9 @@ export const profileApi = {
       {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${
+            localStorage.getItem('token') || localStorage.getItem('token')
+          }`,
           RoleId: localStorage.getItem('roleId'),
         },
       }
@@ -60,17 +70,19 @@ export const profileApi = {
     return axiosClient.post(url, data, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${
+          localStorage.getItem('token') || localStorage.getItem('token')
+        }`,
         RoleId: localStorage.getItem('roleId'),
       },
     });
   },
-  getProfileCustomerById() {
-    const url = '/profile/userId';
+  getProfileCustomerById(id) {
+    const url = `/profile/userId/${id}`;
     return axiosClient.get(url, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('customerToken')}`,
         RoleId: localStorage.getItem('customerRoleId'),
       },
     });
@@ -80,27 +92,27 @@ export const profileApi = {
     return axiosClient.get(url, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('customerToken')}`,
         RoleId: localStorage.getItem('customerRoleId'),
       },
     });
   },
-  editCustomerProfile(user) {
-    const url = '/profile/userId';
-    return axiosClient.put(url, user, {
+  editCustomerProfile({ id, data }) {
+    const url = `/profile/userId/${id}`;
+    return axiosClient.put(url, data, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('customerToken')}`,
         RoleId: localStorage.getItem('customerRoleId'),
       },
     });
   },
-  changePasswordCustomer(password) {
-    const url = '/auth/change-password';
-    return axiosClient.post(url, password, {
+  changePasswordCustomer({ id, data }) {
+    const url = `/auth/change-password/${id}`;
+    return axiosClient.post(url, data, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('customerToken')}`,
         RoleId: localStorage.getItem('customerRoleId'),
       },
     });

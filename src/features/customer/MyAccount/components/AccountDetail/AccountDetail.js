@@ -6,7 +6,10 @@ import { styled } from '@mui/styles';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Notification from '../../../../../components/Notification';
-import { editProfile, getProfileById } from '../../../../Profile/profileSlice';
+import {
+  editCustomerProfile,
+  getProfileCustomerById,
+} from '../../../../Profile/profileSlice';
 import MyAccount from '../../MyAccount';
 
 const TextInput = styled(TextField)(() => ({
@@ -22,8 +25,10 @@ const FieldSet = styled('fieldset')(() => ({
 const AccountDetail = () => {
   const inputEl = useRef(null);
   const [isEditUser, setStatusEditUser] = useState(false);
-  const { user, loading, actionStatus } = useSelector((state) => state.profile);
-  const [userEdit, setUserEdit] = useState(user);
+  const { customerUser, loading, actionStatus } = useSelector(
+    (state) => state.profile
+  );
+  const [userEdit, setUserEdit] = useState(customerUser);
   const { userId } = JSON.parse(localStorage.getItem('customerProfile'));
   const [isCall, setIsCall] = useState(false);
 
@@ -35,7 +40,7 @@ const AccountDetail = () => {
   });
 
   useEffect(() => {
-    dispatch(getProfileById(userId));
+    dispatch(getProfileCustomerById(userId));
     setIsCall(true);
   }, [dispatch]);
 
@@ -57,7 +62,7 @@ const AccountDetail = () => {
   }, [actionStatus, isCall]);
 
   const handleClickEditProfile = () => {
-    setUserEdit(user);
+    setUserEdit(customerUser);
     setStatusEditUser(true);
     inputEl.current.focus();
   };
@@ -69,7 +74,9 @@ const AccountDetail = () => {
 
   const handleClickSaveChange = async () => {
     setStatusEditUser(false);
-    const res = await dispatch(editProfile({ id: userId, data: userEdit }));
+    const res = await dispatch(
+      editCustomerProfile({ id: userId, data: userEdit })
+    );
     setNotify({
       isOpen: true,
       message: res.payload.msg,
@@ -103,7 +110,7 @@ const AccountDetail = () => {
                   !loading
                     ? isEditUser
                       ? userEdit.fullName
-                      : user.fullName
+                      : customerUser.fullName
                     : null
                 }
                 disabled={!isEditUser}
@@ -119,7 +126,11 @@ const AccountDetail = () => {
             <Box className="content">
               <TextInput
                 value={
-                  !loading ? (isEditUser ? userEdit.email : user.email) : null
+                  !loading
+                    ? isEditUser
+                      ? userEdit.email
+                      : customerUser.email
+                    : null
                 }
                 disabled
                 name="email"
@@ -136,7 +147,7 @@ const AccountDetail = () => {
                   !loading
                     ? isEditUser
                       ? userEdit.phoneNumber
-                      : user.phoneNumber
+                      : customerUser.phoneNumber
                     : null
                 }
                 disabled={!isEditUser}
@@ -154,7 +165,7 @@ const AccountDetail = () => {
                   !loading
                     ? isEditUser
                       ? userEdit.address
-                      : user.address
+                      : customerUser.address
                     : null
                 }
                 disabled={!isEditUser}
@@ -171,7 +182,9 @@ const AccountDetail = () => {
                 <DatePicker
                   inputFormat="dd/MM/yyyy"
                   label="Birthday*"
-                  value={isEditUser ? userEdit?.birthday : user?.birthday}
+                  value={
+                    isEditUser ? userEdit?.birthday : customerUser?.birthday
+                  }
                   onChange={
                     isEditUser
                       ? (date) => setUserEdit({ ...userEdit, birthday: date })

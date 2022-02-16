@@ -116,6 +116,8 @@ export default function OrderManagement() {
   }, [actionStatus, isCall]);
 
   const updateOrder = (order, resetForm) => {
+    console.log(123);
+
     dispatch(updateOrderStatus({ id: order._id, data: order, statusId }));
     resetForm();
     setRecordForEdit(null);

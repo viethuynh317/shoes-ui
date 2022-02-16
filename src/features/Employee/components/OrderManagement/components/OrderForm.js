@@ -1,9 +1,9 @@
 import { Grid } from '@mui/material';
-import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import React, { useEffect, useRef } from 'react';
+import ComboBox from '../../../../../components/controls/ComboBox';
 import Controls from '../../../../../components/controls/Controls';
 import { Form, useForm } from '../../../../../hooks/customHooks/useForm';
-import ComboBox from '../../../../../components/controls/ComboBox';
 
 const roleItems = [
   { id: 0, title: 'Chờ xác nhận' },
@@ -40,6 +40,7 @@ export default function OrderForm(props) {
   }));
 
   listShippers.unshift({ name: '--------------------', value: null });
+  console.log(listShippers, 'shipper');
 
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
@@ -65,6 +66,7 @@ export default function OrderForm(props) {
   } = useForm(initialFValues, true, validate);
 
   const tempStatusId = useRef(statusId);
+  console.log(values, 'values');
 
   const isDisable =
     (Number(tempStatusId.current) === 2) | (Number(tempStatusId.current) === 4);
@@ -72,7 +74,10 @@ export default function OrderForm(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      updateOrder(values, resetForm);
+      updateOrder(
+        { ...values, shipperId: values?.shipperId?.props?.value },
+        resetForm
+      );
     }
   };
 
@@ -137,28 +142,39 @@ export default function OrderForm(props) {
               +tempStatusId.current + 1,
             ]}
           />
-          <Controls.Input
-            label="Code*"
-            name="code"
-            value={+values.statusId === 2 ? values.paymentCode : ''}
-            onChange={handleInputChange}
-            onBlur={handleInputBlur}
-            error={errors.code}
-            disabled={true}
-          />
+          {tempStatusId.current === 2 && (
+            <Controls.Input
+              label="Code*"
+              name="code"
+              value={+values.statusId === 2 ? values.paymentCode : ''}
+              onChange={handleInputChange}
+              onBlur={handleInputBlur}
+              error={errors.code}
+              disabled={true}
+            />
+          )}
 
-          <ComboBox
-            options={listShippers}
-            onChange={handleInputChange}
-            name="shipperId"
-            title="Shippers"
-            value={values.shipperName || null}
-            disabled={
-              +tempStatusId.current === 1 && +values.statusId === 2
-                ? false
-                : true
-            }
-          />
+          {+values.statusId === 2 &&
+            (values.shipperName ? (
+              <Controls.Input
+                label="Shipper"
+                value={values?.shipperName}
+                disabled={true}
+              />
+            ) : (
+              <ComboBox
+                options={listShippers}
+                onChange={handleInputChange}
+                name="shipperId"
+                title="Shippers"
+                value={values?.shipperName || null}
+                disabled={
+                  +tempStatusId.current === 1 && +values.statusId === 2
+                    ? false
+                    : true
+                }
+              />
+            ))}
           <Controls.Input
             label="Status Paid"
             name="isPaid"
@@ -169,11 +185,9 @@ export default function OrderForm(props) {
             disabled={true}
           />
           <div>
-            <Controls.Button
-              type="submit"
-              text={nameButton}
-              disabled={isDisable ? true : null}
-            />
+            {+tempStatusId.current !== 4 && (
+              <Controls.Button type="submit" text={nameButton} />
+            )}
           </div>
         </Grid>
       </Grid>

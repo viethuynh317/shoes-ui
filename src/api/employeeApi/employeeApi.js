@@ -23,6 +23,18 @@ const employeeApi = {
     });
   },
 
+  cancelOrder(id) {
+    const url = `/orders/${id}`;
+    return axiosClient.delete(url, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${
+          localStorage.getItem('token') || localStorage.getItem('customerToken')
+        }`,
+      },
+    });
+  },
+
   getAllShippers() {
     const url = `/shippers`;
     return axiosClient.get(url, {

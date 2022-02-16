@@ -21,6 +21,12 @@ export const guestRoutes = [
       import('../features/customer/ProductDetails/ProductDetail')
     ),
   },
+  {
+    key: 'customerContactUs',
+    exact: true,
+    path: '/user/contact-us',
+    component: lazy(() => import('../features/customer/ContactUs/ContactUs')),
+  },
 ];
 
 export const publicRoutesCustomer = [
@@ -53,6 +59,14 @@ export const privateRoutesCustomer = [
       import(
         '../features/customer/MyAccount/components/CustomerOrders/CustomerOrders'
       )
+    ),
+  },
+  {
+    key: 'customerOrderDetail',
+    exact: true,
+    path: '/user/my-account/orders/:id',
+    component: lazy(() =>
+      import('../features/customer/OrderDetail/OrderDetail')
     ),
   },
   {
@@ -92,6 +106,14 @@ export const privateRoutesCustomer = [
     exact: true,
     path: '/user/checkout',
     component: lazy(() => import('../features/customer/Checkout/Checkout')),
+  },
+  {
+    key: 'customerOrderReceived',
+    exact: true,
+    path: '/user/checkout/order-received/:id',
+    component: lazy(() =>
+      import('../features/customer/OrderReceived/OrderReceived')
+    ),
   },
 ];
 

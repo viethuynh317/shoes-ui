@@ -14,14 +14,14 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/styles';
 import { Box } from '@mui/system';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addCart } from '../../../commons/cartSlice';
 import { orangeColor } from '../../../constants/globalConst';
 import { updateWishlist } from '../../../features/customer/customerSlice';
+import ConfirmDialog from '../../ConfirmDialog';
 import ProductDetailPopup from '../ProductDetailPopup/ProductDetailPopup';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const CardImage = styled(Box)(() => ({
   overflow: 'hidden',
@@ -65,31 +65,58 @@ const NameTypo = styled(Typography)(() => ({
 }));
 
 const ProductCard = (props) => {
-  const { _id, name, imageUrl, unitPrice, numOfStars, className, isWishlist } =
-    props;
+  const { _id, name, imageUrl, unitPrice, numOfStars, className } = props;
 
   const dispatch = useDispatch();
   const history = useHistory();
   const [openPopup, setOpenPopup] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: '',
+    subTitle: '',
+  });
 
   const handleProductDetailRedirect = () => {
     history.push(`/user/shoes/shops/${_id}`);
   };
 
+  const hasLogin = localStorage.getItem('customerToken');
+
   const handleWishlistClick = async () => {
-    await dispatch(updateWishlist({ shoeId: _id }));
+    if (hasLogin) await dispatch(updateWishlist({ shoeId: _id }));
+    else {
+      setConfirmDialog({
+        isOpen: true,
+        title: 'This function requires login before performing',
+        subTitle: 'Do you have to login before doing this?',
+        onConfirm: () => {
+          history.push('/user/sign-in');
+        },
+      });
+    }
   };
 
   const handleAddCartClick = async () => {
-    await dispatch(
-      addCart({
-        data: {
-          cartItems: {
-            [_id]: 1,
+    if (hasLogin)
+      await dispatch(
+        addCart({
+          data: {
+            cartItems: {
+              [_id]: 1,
+            },
           },
+        })
+      );
+    else {
+      setConfirmDialog({
+        isOpen: true,
+        title: 'This function requires login before performing',
+        subTitle: 'Do you have to login before doing this?',
+        onConfirm: () => {
+          history.push('/user/sign-in');
         },
-      })
-    );
+      });
+    }
   };
 
   return (
@@ -116,7 +143,7 @@ const ProductCard = (props) => {
             fontWeight={700}
             fontSize={19}
           >
-            {unitPrice.toLocaleString('vi-VN')}
+            {unitPrice.toLocaleString('vi-VN')} <small>VND</small>
           </Typography>
         </CardContent>
         <CardActions sx={{ justifyContent: 'center' }}>
@@ -141,7 +168,7 @@ const ProductCard = (props) => {
           </Tooltip>
           <Tooltip title="Wishlist">
             <CustomIconBtn onClick={handleWishlistClick}>
-              {isWishlist ? <FavoriteIcon /> : <FavoriteBorderOutlinedIcon />}
+              <FavoriteBorderOutlinedIcon />
             </CustomIconBtn>
           </Tooltip>
         </CardActions>
@@ -150,6 +177,10 @@ const ProductCard = (props) => {
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
         data={props}
+      />
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
       />
     </>
   );
