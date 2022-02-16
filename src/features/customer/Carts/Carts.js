@@ -79,17 +79,23 @@ const Carts = ({ history }) => {
     resolver: yupResolver(schema),
   });
 
-  const subTotal = carts.reduce(
-    (result, cart) => result + cart?.unitPrice * cart?.quantity,
-    0
-  );
-  const total = carts.reduce(
-    (result, cart) =>
-      result +
-      cart?.unitPrice * cart?.quantity -
-      Math.round((cart?.unitPrice * cart?.quantity * cart?.discountOff) / 100),
-    0
-  );
+  const subTotal = carts
+    ? carts?.reduce(
+        (result, cart) => result + cart?.unitPrice * cart?.quantity,
+        0
+      )
+    : 0;
+  const total = carts
+    ? carts?.reduce(
+        (result, cart) =>
+          result +
+          cart?.unitPrice * cart?.quantity -
+          Math.round(
+            (cart?.unitPrice * cart?.quantity * cart?.discountOff) / 100
+          ),
+        0
+      )
+    : 0;
   const [notify, setNotify] = useState({
     isOpen: false,
     message: '',
@@ -112,7 +118,7 @@ const Carts = ({ history }) => {
   }, [dispatch, confirmDialog, actionStatusCart]);
 
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
-    useTable(carts, headCells, {
+    useTable(carts || [], headCells, {
       fn: (items) => {
         return items;
       },

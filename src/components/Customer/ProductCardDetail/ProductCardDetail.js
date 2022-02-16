@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/styles';
 import { Box } from '@mui/system';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -21,7 +21,7 @@ import * as yup from 'yup';
 import { addCart } from '../../../commons/cartSlice';
 import { orangeColor } from '../../../constants/globalConst';
 import { updateWishlist } from '../../../features/customer/customerSlice';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import ConfirmDialog from '../../ConfirmDialog';
 
 const CardImage = styled(Box)(() => ({
   overflow: 'hidden',
@@ -67,15 +67,7 @@ const NameTypo = styled(Typography)(() => ({
 const schema = yup.object().shape({}).required();
 
 const ProductCardDetail = (props) => {
-  const {
-    _id,
-    name,
-    imageUrl,
-    unitPrice,
-    numOfStars,
-    description,
-    isWishlist,
-  } = props;
+  const { _id, name, imageUrl, unitPrice, numOfStars, description } = props;
   const dispatch = useDispatch();
   const history = useHistory();
   const [counter, setCounter] = useState(0);
@@ -85,17 +77,38 @@ const ProductCardDetail = (props) => {
     resolver: yupResolver(schema),
   });
 
-  const { userId } = JSON.parse(localStorage.getItem('customerProfile'));
+  const { userId } = JSON.parse(
+    localStorage.getItem('customerProfile') || '{}'
+  );
+
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: '',
+    subTitle: '',
+  });
+
+  const hasLogin = localStorage.getItem('customerToken');
 
   const handleFormSubmit = async (data) => {
-    const submitData = {
-      cartItems: {
-        [_id]: +data?.quantity,
-      },
-    };
+    if (hasLogin) {
+      const submitData = {
+        cartItems: {
+          [_id]: +data?.quantity,
+        },
+      };
 
-    await dispatch(addCart({ userId, data: submitData }));
-    setCounter(0);
+      await dispatch(addCart({ userId, data: submitData }));
+      setCounter(0);
+    } else {
+      setConfirmDialog({
+        isOpen: true,
+        title: 'This function requires login before performing',
+        subTitle: 'Do you have to login before doing this?',
+        onConfirm: () => {
+          history.push('/user/sign-in');
+        },
+      });
+    }
   };
 
   const handleIncrement = () => {
@@ -117,7 +130,18 @@ const ProductCardDetail = (props) => {
   };
 
   const handleWishlistClick = async () => {
-    await dispatch(updateWishlist({ shoeId: _id }));
+    if (hasLogin) {
+      await dispatch(updateWishlist({ shoeId: _id }));
+    } else {
+      setConfirmDialog({
+        isOpen: true,
+        title: 'This function requires login before performing',
+        subTitle: 'Do you have to login before doing this?',
+        onConfirm: () => {
+          history.push('/user/sign-in');
+        },
+      });
+    }
   };
 
   const displayCounter = counter > 0;
@@ -203,11 +227,15 @@ const ProductCardDetail = (props) => {
               add to cart
             </Button>
             <CustomIconBtn onClick={handleWishlistClick}>
-              {isWishlist ? <FavoriteIcon /> : <FavoriteBorderOutlinedIcon />}
+              <FavoriteBorderOutlinedIcon />
             </CustomIconBtn>
           </Box>
         </Grid>
       </Grid>
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </>
   );
 };

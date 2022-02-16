@@ -75,9 +75,9 @@ export const changePassword = createAsyncThunk(
 
 export const getProfileCustomerById = createAsyncThunk(
   'profile/getProfileCustomerById',
-  async (_, { rejectWithValue, dispatch }) => {
+  async (id, { rejectWithValue, dispatch }) => {
     try {
-      const res = await profileApi.getProfileCustomerById();
+      const res = await profileApi.getProfileCustomerById(id);
       return res?.data;
     } catch (error) {
       // if (
@@ -98,10 +98,10 @@ export const getProfileCustomerById = createAsyncThunk(
 
 export const editCustomerProfile = createAsyncThunk(
   'profile/editCustomerProfile',
-  async (data, { rejectWithValue, dispatch }) => {
+  async ({ id, data }, { rejectWithValue, dispatch }) => {
     try {
-      const res = await profileApi.editCustomerProfile(data);
-      dispatch(getProfileById());
+      const res = await profileApi.editCustomerProfile({ id, data });
+      dispatch(getProfileCustomerById(id));
       return res?.data;
     } catch (error) {
       // if (
@@ -123,9 +123,9 @@ export const editCustomerProfile = createAsyncThunk(
 
 export const changePasswordCustomer = createAsyncThunk(
   'profile/changePasswordCustomer',
-  async (data, { rejectWithValue, dispatch }) => {
+  async ({ id, data }, { rejectWithValue, dispatch }) => {
     try {
-      const res = await profileApi.changePasswordCustomer(data);
+      const res = await profileApi.changePasswordCustomer({ id, data });
       return res?.data;
     } catch (error) {
       // if (
@@ -146,6 +146,7 @@ export const changePasswordCustomer = createAsyncThunk(
 
 const initialState = {
   user: {},
+  customerUser: {},
   loading: false,
   actionStatus: null,
 };
@@ -202,7 +203,6 @@ const profileSlice = createSlice({
     [getProfileCustomerById.pending](state) {
       state.actionStatus = null;
       state.loading = true;
-      state.user = {};
     },
     [getProfileCustomerById.rejected](state, action) {
       state.loading = false;
@@ -210,13 +210,12 @@ const profileSlice = createSlice({
     },
     [getProfileCustomerById.fulfilled](state, action) {
       state.loading = false;
-      state.user = action.payload;
+      state.customerUser = action.payload;
     },
 
     [editCustomerProfile.pending](state) {
       state.actionStatus = null;
       state.loading = true;
-      state.user = {};
     },
     [editCustomerProfile.rejected](state, action) {
       state.loading = false;

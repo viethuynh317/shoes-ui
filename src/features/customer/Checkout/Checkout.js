@@ -35,6 +35,7 @@ import Nav from '../../../components/Customer/Header/Nav/Nav';
 import Navbar from '../../../components/Customer/Header/Navbar/Navbar';
 import Notification from '../../../components/Notification';
 import useWindowSize from '../../../hooks/customHooks/useWindowsSize';
+import { purchaseOrder } from '../customerSlice';
 
 const HomePageMain = styled(Box)(({ theme }) => ({
   margin: '4rem 7.5rem 2rem',
@@ -53,22 +54,28 @@ const Checkout = ({ history }) => {
   const [carts, setCarts] = useState([]);
   const { actionStatus } = useSelector((state) => state.customer);
   const { actionStatus: actionStatusCart } = useSelector((state) => state.cart);
-  const { register } = useForm({
+  const { register, handleSubmit } = useForm({
     mode: 'onBlur',
     resolver: yupResolver(schema),
   });
 
-  const subTotal = carts.reduce(
-    (result, cart) => result + cart?.unitPrice * cart?.quantity,
-    0
-  );
-  const total = carts.reduce(
-    (result, cart) =>
-      result +
-      cart?.unitPrice * cart?.quantity -
-      Math.round((cart?.unitPrice * cart?.quantity * cart?.discountOff) / 100),
-    0
-  );
+  const subTotal = carts
+    ? carts?.reduce(
+        (result, cart) => result + cart?.unitPrice * cart?.quantity,
+        0
+      )
+    : 0;
+  const total = carts
+    ? carts?.reduce(
+        (result, cart) =>
+          result +
+          cart?.unitPrice * cart?.quantity -
+          Math.round(
+            (cart?.unitPrice * cart?.quantity * cart?.discountOff) / 100
+          ),
+        0
+      )
+    : 0;
   const [notify, setNotify] = useState({
     isOpen: false,
     message: '',
@@ -135,6 +142,22 @@ const Checkout = ({ history }) => {
     </Typography>,
   ];
 
+  const handleCheckoutSubmit = async (values) => {
+    const cartItems = carts?.map((cart) => cart?._id);
+    const data = {
+      address: values?.address,
+      cartItems,
+      paymentMethod: 'COD',
+      shipmentFee: 0,
+      merchandiseSubtotal: total,
+    };
+    const {
+      payload: { orderId },
+    } = await dispatch(purchaseOrder(data));
+
+    history.push(`/user/checkout/order-received/${orderId}`);
+  };
+
   return (
     <>
       <Box display="flex" flexDirection="column" justifyContent="space-between">
@@ -143,7 +166,7 @@ const Checkout = ({ history }) => {
       </Box>
       <BannerPage breadcrumbs={breadcrumbs} title="checkout" />
       <HomePageMain>
-        <Box component="form">
+        <Box component="form" onSubmit={handleSubmit(handleCheckoutSubmit)}>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={12} md={12} lg={8}>
               <Box mb={2}>
@@ -293,7 +316,7 @@ const Checkout = ({ history }) => {
                             color="text.secondary"
                             gutterBottom
                           >
-                            Shopping:
+                            Shipping:
                           </Typography>
                         </TableCell>
                         <TableCell>
@@ -345,9 +368,6 @@ const Checkout = ({ history }) => {
                       variant="outlined"
                       color="warning"
                       sx={{ width: '80%' }}
-                      onClick={() => {
-                        history.push('/user/checkout/order-received');
-                      }}
                     >
                       Place Order
                     </Button>

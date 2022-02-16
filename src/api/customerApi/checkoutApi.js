@@ -1,9 +1,9 @@
 import { axiosClientCustomer } from '../axiosClient';
-const url = '/carts';
 
-export const cartApi = {
-  getAllCartApi({ page, perPage }) {
-    return axiosClientCustomer.get(`${url}?page=${page}&perPage=${perPage}`, {
+export const checkoutApi = {
+  purchaseOrder(data) {
+    const url = `/orders/purchase`;
+    return axiosClientCustomer.post(url, data, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('customerToken')}`,
@@ -11,8 +11,9 @@ export const cartApi = {
       },
     });
   },
-  createCartApi({ data }) {
-    return axiosClientCustomer.post(`${url}`, data, {
+  getOrderByOrderId(id) {
+    const url = `/orders/${id}`;
+    return axiosClientCustomer.get(url, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('customerToken')}`,
@@ -20,17 +21,9 @@ export const cartApi = {
       },
     });
   },
-  updateCartApi(data) {
-    return axiosClientCustomer.put(`${url}`, data, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('customerToken')}`,
-        RoleId: localStorage.getItem('customerRoleId'),
-      },
-    });
-  },
-  deleteCartApi(id) {
-    return axiosClientCustomer.delete(`${url}/${id}`, {
+  getOrderByUserId() {
+    const url = `/orders`;
+    return axiosClientCustomer.get(url, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('customerToken')}`,

@@ -84,7 +84,11 @@ const Nav = () => {
             >
               <ListItemTextCustom primary="SHOP" />
             </ListItemButtonCustom>
-            <ListItemButtonCustom>
+            <ListItemButtonCustom
+              onClick={() => {
+                history.push('/user/contact-us');
+              }}
+            >
               <ListItemTextCustom primary="CONTACT US" />
             </ListItemButtonCustom>
           </NavList>
