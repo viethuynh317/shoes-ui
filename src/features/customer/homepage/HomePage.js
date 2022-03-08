@@ -10,6 +10,7 @@ import Footer from '../../../components/Customer/Footer/Footer';
 import Header from '../../../components/Customer/Header/Header';
 import Notification from '../../../components/Notification';
 import { sliderData } from '../../../constants/customer/homePage';
+import useWindowSize from '../../../hooks/customHooks/useWindowsSize';
 import { clearActionStatus } from '../customerSlice';
 import IntroduceProduct from './components/IntroduceProduct/IntroduceProduct';
 import IntroduceSaleBanner from './components/IntroduceSaleBanner/IntroduceSaleBanner';
@@ -31,8 +32,13 @@ const HomePageWrapper = styled(Box)(({ theme }) => ({
   position: 'relative',
 }));
 
-const HomePageMain = styled(Box)(({ theme }) => ({
-  margin: '2rem 7.5rem',
+const HomePageMain = styled(Box)(({ theme, sizeWidth }) => ({
+  margin:
+    sizeWidth > 992
+      ? '4rem 7.5rem'
+      : sizeWidth <= 992 && sizeWidth > 786
+      ? '4rem 4rem'
+      : '4rem 1.5rem',
 }));
 
 const HomePage = () => {
@@ -40,6 +46,7 @@ const HomePage = () => {
   const { actionStatus } = useSelector((state) => state.customer);
   const { actionStatus: actionStatusCart } = useSelector((state) => state.cart);
 
+  const [width] = useWindowSize();
   const [notify, setNotify] = useState({
     isOpen: false,
     message: '',
@@ -110,12 +117,15 @@ const HomePage = () => {
           }}
           showNavBtn={false}
         />
-        <HomePageMain>
+        <HomePageMain sizeWidth={width}>
           <IntroduceSaleBanner />
           <IntroduceProduct />
         </HomePageMain>
         <MiddleBanner />
-        <Box mx={15.5} mb={5}>
+        <Box
+          mx={width > 992 ? 15.5 : width <= 992 && width > 786 ? 8 : 4}
+          mb={5}
+        >
           <NewArrivalProduct title="new arrival" />
         </Box>
         <Box mt={3} mb={8}>

@@ -38,6 +38,7 @@ import BannerPage from '../../../components/BannerPage/BannerPage';
 import ConfirmDialog from '../../../components/ConfirmDialog';
 import Controls from '../../../components/controls/Controls';
 import Footer from '../../../components/Customer/Footer/Footer';
+import MobileNav from '../../../components/Customer/Header/MobileNav/MobileNav';
 import Nav from '../../../components/Customer/Header/Nav/Nav';
 import Navbar from '../../../components/Customer/Header/Navbar/Navbar';
 import Notification from '../../../components/Notification';
@@ -45,8 +46,13 @@ import useTable from '../../../hooks/customHooks/useTable';
 import useWindowSize from '../../../hooks/customHooks/useWindowsSize';
 import NewArrivalProduct from '../homepage/components/NewArrivalProduct/NewArrivalProduct';
 
-const HomePageMain = styled(Box)(({ theme }) => ({
-  margin: '4rem 7.5rem 2rem',
+const HomePageMain = styled(Box)(({ theme, sizeWidth }) => ({
+  margin:
+    sizeWidth > 992
+      ? '4rem 7.5rem 2rem'
+      : sizeWidth <= 992 && sizeWidth > 786
+      ? '4rem 4rem 2rem'
+      : '4rem 1.5rem 2rem',
 }));
 
 const BreadCrumbLink = styled(Link)(() => ({
@@ -79,12 +85,6 @@ const Carts = ({ history }) => {
     resolver: yupResolver(schema),
   });
 
-  const subTotal = carts
-    ? carts?.reduce(
-        (result, cart) => result + cart?.unitPrice * cart?.quantity,
-        0
-      )
-    : 0;
   const total = carts
     ? carts?.reduce(
         (result, cart) =>
@@ -185,13 +185,19 @@ const Carts = ({ history }) => {
   return (
     <>
       <Box display="flex" flexDirection="column" justifyContent="space-between">
-        <Navbar />
-        <Nav />
+        {width > 768 ? (
+          <>
+            <Navbar sizeWidth={width} />
+            <Nav sizeWidth={width} />
+          </>
+        ) : (
+          <MobileNav sizeWidth={width} />
+        )}
       </Box>
       <BannerPage breadcrumbs={breadcrumbs} title="shopping cart" />
-      <HomePageMain>
+      <HomePageMain sizeWidth={width}>
         <Box component="form" onSubmit={handleSubmit(handleCartSubmit)}>
-          <Grid container spacing={3}>
+          <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={12} lg={9}>
               <Box display="flex" justifyContent="right">
                 <Button type="submit" variant="outlined">
@@ -213,7 +219,10 @@ const Carts = ({ history }) => {
                         />
                       </TableCell>
                       <TableCell>{item?.name}</TableCell>
-                      <TableCell>{item?.unitPrice}</TableCell>
+                      <TableCell>
+                        {item?.unitPrice.toLocaleString('vi')}
+                        <small>VND</small>
+                      </TableCell>
                       <TableCell>
                         <TextField
                           type="number"
@@ -225,13 +234,16 @@ const Carts = ({ history }) => {
                       </TableCell>
                       <TableCell>{item?.discountOff}%</TableCell>
                       <TableCell>
-                        {item?.unitPrice * item?.quantity -
+                        {(
+                          item?.unitPrice * item?.quantity -
                           Math.round(
                             (item?.unitPrice *
                               item?.quantity *
                               item?.discountOff) /
                               100
-                          )}
+                          )
+                        ).toLocaleString('vi')}
+                        <small>VND</small>
                       </TableCell>
                       <TableCell>
                         <Rating
@@ -306,7 +318,8 @@ const Carts = ({ history }) => {
                             color="text.secondary"
                             gutterBottom
                           >
-                            {subTotal} <small>VND</small>
+                            {total?.toLocaleString('vi')}
+                            <small>VND</small>
                           </Typography>
                         </TableCell>
                       </TableRow>
@@ -348,7 +361,8 @@ const Carts = ({ history }) => {
                             color="text.secondary"
                             gutterBottom
                           >
-                            {total} <small>VND</small>
+                            {total?.toLocaleString('vi')}
+                            <small>VND</small>
                           </Typography>
                         </TableCell>
                       </TableRow>
@@ -391,7 +405,11 @@ const Carts = ({ history }) => {
           </Grid>
         </Box>
       </HomePageMain>
-      <Box mx={15.5} mb={5} mt={8}>
+      <Box
+        mx={width > 992 ? 15.5 : width <= 992 && width > 786 ? 8 : 4}
+        mb={5}
+        mt={8}
+      >
         <NewArrivalProduct title="you may also like…" />
       </Box>
       <Box mt={8}>

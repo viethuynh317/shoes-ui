@@ -13,12 +13,14 @@ import useTable from '../../../../hooks/customHooks/useTable';
 import { getOrdersByStatusId, updateOrderStatus } from '../../employeeSlice';
 import OrderForm from './components/OrderForm';
 import { makeStyles } from '@mui/styles';
+import { socket } from '../../../../helper/socketIo';
+import useWindowSize from '../../../../hooks/customHooks/useWindowsSize';
 
 const useStyles = makeStyles((theme) => ({
-  pageContent: {
-    margin: theme.spacing(5),
-    padding: theme.spacing(3),
-  },
+  pageContent: ({ width }) => ({
+    margin: width > 992 ? theme.spacing(5) : theme.spacing(1),
+    padding: width > 992 ? theme.spacing(3) : theme.spacing(1),
+  }),
   searchInput: {
     width: '75%',
     '& .MuiOutlinedInput-input': {
@@ -64,16 +66,26 @@ export default function OrderManagement() {
   );
   const [statusId, setStatusId] = useState(null);
   const [isCall, setIsCall] = useState(false);
-  const classes = useStyles();
+
+  const [width] = useWindowSize();
+  const classes = useStyles({ width });
+
   useEffect(() => {
-    // socket.on('UpdateOrderStatus', (res) => {
-    //   dispatch(getOrdersByStatusId(statusId));
-    // });
-    // socket.on('NewOrder', (res) => {
-    //   dispatch(getOrdersByStatusId(statusId));
-    // });
+    socket.connect();
+    socket.on('NewOrder', (res) => {
+      dispatch(getOrdersByStatusId(statusId));
+    });
+    socket.on('UpdateOrder', (res) => {
+      dispatch(getOrdersByStatusId(statusId));
+    });
+    socket.on('CancelOrder', (res) => {
+      dispatch(getOrdersByStatusId(statusId));
+    });
     dispatch(getOrdersByStatusId(statusId));
     setIsCall(true);
+    return () => {
+      socket.close();
+    };
   }, [dispatch, statusId]);
   const [recordForEdit, setRecordForEdit] = useState(null);
 
@@ -116,8 +128,6 @@ export default function OrderManagement() {
   }, [actionStatus, isCall]);
 
   const updateOrder = (order, resetForm) => {
-    console.log(123);
-
     dispatch(updateOrderStatus({ id: order._id, data: order, statusId }));
     resetForm();
     setRecordForEdit(null);
@@ -154,13 +164,16 @@ export default function OrderManagement() {
           <TblHead />
           <TableBody>
             {recordsAfterPagingAndSorting().map((item, ind) => (
-              <TableRow key={item._id}>
+              <TableRow key={item?._id}>
                 <TableCell>{ind + 1}</TableCell>
-                <TableCell>{item.customerName}</TableCell>
-                <TableCell>{item.address}</TableCell>
-                <TableCell>{item.total}</TableCell>
-                <TableCell>{item.paymentMethod}</TableCell>
-                <TableCell>{mapStatusOrder(item.statusId)}</TableCell>
+                <TableCell>{item?.customerName}</TableCell>
+                <TableCell>{item?.address}</TableCell>
+                <TableCell>
+                  {item?.total?.toLocaleString('vi')}
+                  <small>VND</small>
+                </TableCell>
+                <TableCell>{item?.paymentMethod}</TableCell>
+                <TableCell>{mapStatusOrder(item?.statusId)}</TableCell>
                 <TableCell>
                   <Controls.ActionButton
                     color="primary"

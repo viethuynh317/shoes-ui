@@ -9,13 +9,20 @@ import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import * as yup from 'yup';
 import Footer from '../../../../components/Customer/Footer/Footer';
+import MobileNav from '../../../../components/Customer/Header/MobileNav/MobileNav';
 import Nav from '../../../../components/Customer/Header/Nav/Nav';
 import Navbar from '../../../../components/Customer/Header/Navbar/Navbar';
 import Notification from '../../../../components/Notification';
+import useWindowSize from '../../../../hooks/customHooks/useWindowsSize';
 import { loginUser } from '../../../auth/authSlice';
 
-const HomePageMain = styled(Box)(({ theme }) => ({
-  margin: '2rem 7.5rem',
+const HomePageMain = styled(Box)(({ theme, sizeWidth }) => ({
+  margin:
+    sizeWidth > 992
+      ? '4rem 7.5rem'
+      : sizeWidth <= 992 && sizeWidth > 786
+      ? '4rem 4rem'
+      : '4rem 1.5rem',
 }));
 
 const SignUpLink = styled(Link)(() => ({
@@ -38,6 +45,7 @@ const SignIn = () => {
     resolver: yupResolver(schema),
   });
 
+  const [width] = useWindowSize();
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -79,13 +87,20 @@ const SignIn = () => {
       history.push('/user/sign-in');
     }
   };
+
   return (
     <>
       <Box display="flex" flexDirection="column" justifyContent="space-between">
-        <Navbar />
-        <Nav />
+        {width > 768 ? (
+          <>
+            <Navbar sizeWidth={width} />
+            <Nav sizeWidth={width} />
+          </>
+        ) : (
+          <MobileNav sizeWidth={width} />
+        )}
       </Box>
-      <HomePageMain>
+      <HomePageMain sizeWidth={width}>
         <Box
           sx={{
             my: 15,

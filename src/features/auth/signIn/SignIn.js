@@ -57,6 +57,7 @@ export default function SignIn() {
     type: 'error',
   });
   const signInRes = useSelector((state) => state?.signIn);
+  const roleId = localStorage.getItem('roleId');
 
   const handleFormSubmit = async (data) => {
     try {
@@ -73,16 +74,22 @@ export default function SignIn() {
 
   useEffect(() => {
     if (
-      (statusCode === 400 || statusCode === 401 || statusCode === 404) &&
+      (statusCode === 400 ||
+        statusCode === 401 ||
+        statusCode === 404 ||
+        +roleId === 1) &&
       isCall
     ) {
+      localStorage.removeItem('roleId');
+      localStorage.removeItem('token');
+      localStorage.removeItem('dashboardProfile');
       setNotify({
         isOpen: true,
         message: 'Email or password incorrect',
         type: 'error',
       });
     }
-  }, [isCall, statusCode]);
+  }, [isCall, statusCode, roleId]);
 
   return (
     <>

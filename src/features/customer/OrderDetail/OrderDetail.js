@@ -17,9 +17,16 @@ import Footer from '../../../components/Customer/Footer/Footer';
 import Nav from '../../../components/Customer/Header/Nav/Nav';
 import Navbar from '../../../components/Customer/Header/Navbar/Navbar';
 import { getOrderByOrderId } from '../customerSlice';
+import useWindowSize from '../../../hooks/customHooks/useWindowsSize';
+import MobileNav from '../../../components/Customer/Header/MobileNav/MobileNav';
 
-const HomePageMain = styled(Box)(({ theme }) => ({
-  margin: '4rem 7.5rem 2rem',
+const HomePageMain = styled(Box)(({ theme, sizeWidth }) => ({
+  margin:
+    sizeWidth > 992
+      ? '4rem 7.5rem 2rem'
+      : sizeWidth <= 992 && sizeWidth > 786
+      ? '4rem 4rem 2rem'
+      : '4rem 1.5rem 2rem',
 }));
 
 const BreadCrumbLink = styled(Link)(() => ({
@@ -31,6 +38,7 @@ const OrderDetail = ({ history }) => {
   const dispatch = useDispatch();
   const params = useParams();
   const [orders, setOrders] = useState({});
+  const [width] = useWindowSize();
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -52,11 +60,17 @@ const OrderDetail = ({ history }) => {
   return (
     <>
       <Box display="flex" flexDirection="column" justifyContent="space-between">
-        <Navbar />
-        <Nav />
+        {width > 768 ? (
+          <>
+            <Navbar sizeWidth={width} />
+            <Nav sizeWidth={width} />
+          </>
+        ) : (
+          <MobileNav sizeWidth={width} />
+        )}
       </Box>
       <BannerPage breadcrumbs={breadcrumbs} title="order received" />
-      <HomePageMain>
+      <HomePageMain sizeWidth={width}>
         <Box>
           <Box mb={3}>
             <Typography textAlign="left" fontSize={25} fontWeight={600}>
@@ -102,7 +116,8 @@ const OrderDetail = ({ history }) => {
                           color="text.secondary"
                           gutterBottom
                         >
-                          {cart?.unitPrice} <small>VND</small>
+                          {cart?.unitPrice?.toLocaleString('vi')}
+                          <small>VND</small>
                         </Typography>
                       </TableCell>
                       <TableCell
@@ -128,12 +143,14 @@ const OrderDetail = ({ history }) => {
                           color="text.secondary"
                           gutterBottom
                         >
-                          {cart?.unitPrice * cart?.quantity -
+                          {(
+                            cart?.unitPrice * cart?.quantity -
                             Math.round(
                               cart?.unitPrice *
                                 cart?.quantity *
                                 (cart?.discountOff / 100)
-                            )}{' '}
+                            )
+                          )?.toLocaleString('vi')}
                           <small>VND</small>
                         </Typography>
                       </TableCell>
@@ -156,7 +173,8 @@ const OrderDetail = ({ history }) => {
                     color="text.secondary"
                     gutterBottom
                   >
-                    {orders?.total || 0} <small>VND</small>
+                    {orders?.total?.toLocaleString('vi') || 0}
+                    <small>VND</small>
                   </Typography>
                 </TableCell>
               </TableRow>
@@ -216,7 +234,8 @@ const OrderDetail = ({ history }) => {
                     color="text.secondary"
                     gutterBottom
                   >
-                    {orders?.total || 0} <small>VND</small>
+                    {orders?.total?.toLocaleString('vi') || 0}
+                    <small>VND</small>
                   </Typography>
                 </TableCell>
               </TableRow>

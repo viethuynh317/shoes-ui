@@ -31,15 +31,23 @@ import { getAllCarts } from '../../../commons/cartSlice';
 import BannerPage from '../../../components/BannerPage/BannerPage';
 import ConfirmDialog from '../../../components/ConfirmDialog';
 import Footer from '../../../components/Customer/Footer/Footer';
+import MobileNav from '../../../components/Customer/Header/MobileNav/MobileNav';
 import Nav from '../../../components/Customer/Header/Nav/Nav';
 import Navbar from '../../../components/Customer/Header/Navbar/Navbar';
 import Notification from '../../../components/Notification';
 import useWindowSize from '../../../hooks/customHooks/useWindowsSize';
 import { purchaseOrder } from '../customerSlice';
 
-const HomePageMain = styled(Box)(({ theme }) => ({
-  margin: '4rem 7.5rem 2rem',
-}));
+const HomePageMain = styled(Box)(({ theme, sizeWidth }) => {
+  return {
+    margin:
+      sizeWidth > 992
+        ? '4rem 7.5rem 2rem'
+        : sizeWidth <= 992 && sizeWidth > 786
+        ? '4rem 4rem 2rem'
+        : '4rem 1.5rem 2rem',
+  };
+});
 
 const BreadCrumbLink = styled(Link)(() => ({
   color: '#fff',
@@ -59,12 +67,6 @@ const Checkout = ({ history }) => {
     resolver: yupResolver(schema),
   });
 
-  const subTotal = carts
-    ? carts?.reduce(
-        (result, cart) => result + cart?.unitPrice * cart?.quantity,
-        0
-      )
-    : 0;
   const total = carts
     ? carts?.reduce(
         (result, cart) =>
@@ -161,14 +163,20 @@ const Checkout = ({ history }) => {
   return (
     <>
       <Box display="flex" flexDirection="column" justifyContent="space-between">
-        <Navbar />
-        <Nav />
+        {width > 768 ? (
+          <>
+            <Navbar sizeWidth={width} />
+            <Nav sizeWidth={width} />
+          </>
+        ) : (
+          <MobileNav sizeWidth={width} />
+        )}
       </Box>
       <BannerPage breadcrumbs={breadcrumbs} title="checkout" />
-      <HomePageMain>
+      <HomePageMain sizeWidth={width}>
         <Box component="form" onSubmit={handleSubmit(handleCheckoutSubmit)}>
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={12} md={12} lg={8}>
+            <Grid item xs={12} sm={12} md={12} lg={7}>
               <Box mb={2}>
                 <Typography fontSize={22} fontWeight={600} textAlign="left">
                   BILLING DETAILS
@@ -235,7 +243,7 @@ const Checkout = ({ history }) => {
               xs={12}
               sm={12}
               md={12}
-              lg={4}
+              lg={5}
               sx={{ textAlign: 'left' }}
             >
               <Card
@@ -262,8 +270,9 @@ const Checkout = ({ history }) => {
                           PRODUCT
                         </TableCell>
                         <TableCell style={{ fontWeight: 600 }}>
-                          SUBTOTAL
+                          DISCOUNT OFF
                         </TableCell>
+                        <TableCell style={{ fontWeight: 600 }}>PRICE</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -284,7 +293,16 @@ const Checkout = ({ history }) => {
                               ? { sx: { borderBottom: 'none' } }
                               : {})}
                           >
-                            {cart?.unitPrice * cart?.quantity}{' '}
+                            <Typography component="span">
+                              {cart?.discountOff}%
+                            </Typography>
+                          </TableCell>
+                          <TableCell
+                            {...(index + 1 !== carts.length
+                              ? { sx: { borderBottom: 'none' } }
+                              : {})}
+                          >
+                            {cart?.unitPrice?.toLocaleString('vi')}
                             <small>VND</small>
                           </TableCell>
                         </TableRow>
@@ -305,9 +323,11 @@ const Checkout = ({ history }) => {
                             color="text.secondary"
                             gutterBottom
                           >
-                            {subTotal} <small>VND</small>
+                            {total?.toLocaleString('vi')}
+                            <small>VND</small>
                           </Typography>
                         </TableCell>
+                        <TableCell></TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell>
@@ -330,6 +350,7 @@ const Checkout = ({ history }) => {
                             </RadioGroup>
                           </FormControl>
                         </TableCell>
+                        <TableCell></TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell>
@@ -347,9 +368,11 @@ const Checkout = ({ history }) => {
                             color="text.secondary"
                             gutterBottom
                           >
-                            {total} <small>VND</small>
+                            {total?.toLocaleString('vi')}
+                            <small>VND</small>
                           </Typography>
                         </TableCell>
+                        <TableCell></TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>

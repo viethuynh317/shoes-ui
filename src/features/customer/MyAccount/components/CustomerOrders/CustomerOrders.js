@@ -106,7 +106,8 @@ const CustomerOrders = () => {
                     {moment(item?.updatedAt || '').format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell>
-                    {item?.total} <small>VND</small>
+                    {item?.total?.toLocaleString('vi')}
+                    <small>VND</small>
                   </TableCell>
                   <TableCell>
                     {

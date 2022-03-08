@@ -121,7 +121,7 @@ const ProductCard = (props) => {
 
   return (
     <>
-      <Card sx={{ maxWidth: 345 }} className={className || ''}>
+      <Card className={className || ''}>
         <CardImage height={300} onClick={handleProductDetailRedirect}>
           <img src={imageUrl} />
         </CardImage>
@@ -143,7 +143,8 @@ const ProductCard = (props) => {
             fontWeight={700}
             fontSize={19}
           >
-            {unitPrice.toLocaleString('vi-VN')} <small>VND</small>
+            {unitPrice?.toLocaleString('vi')}
+            <small>VND</small>
           </Typography>
         </CardContent>
         <CardActions sx={{ justifyContent: 'center' }}>

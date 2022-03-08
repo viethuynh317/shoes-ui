@@ -11,6 +11,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllWishlist } from '../../../../features/customer/customerSlice';
 import { getAllCarts } from '../../../../commons/cartSlice';
+import { socket } from '../../../../helper/socketIo';
 
 const CartBox = styled(Box)(({ theme }) => ({
   backgroundColor: orangeColor,
@@ -36,7 +37,7 @@ const MenuTypo = styled(Typography)(({ theme }) => ({
   fontSize: 15,
 }));
 
-const Navbar = ({ hasHomePage }) => {
+const Navbar = ({ hasHomePage, sizeWidth }) => {
   const { actionStatus } = useSelector((state) => state.customer);
   const { actionStatus: actionStatusCart } = useSelector((state) => state.cart);
 
@@ -83,7 +84,7 @@ const Navbar = ({ hasHomePage }) => {
   return (
     <Box
       display="flex"
-      mx={20}
+      mx={sizeWidth > 992 ? 20 : 5}
       justifyContent="space-between"
       sx={{ height: '100%' }}
     >
@@ -135,6 +136,7 @@ const Navbar = ({ hasHomePage }) => {
                 localStorage.removeItem('customerRefreshToken');
                 localStorage.removeItem('customerRoleId');
                 localStorage.removeItem('customerProfile');
+                socket.close();
                 history.push('/user/sign-in');
               }}
             >
@@ -186,7 +188,8 @@ const Navbar = ({ hasHomePage }) => {
           <Typography ml={1}>
             {cartInfo?.total || 0} items -{' '}
             <Typography component="span" fontWeight={700}>
-              {cartInfo?.priceTotal || 0} <small>VND</small>
+              {cartInfo?.priceTotal?.toLocaleString('vi') || 0}
+              <small>VND</small>
             </Typography>
           </Typography>
         </CartBox>

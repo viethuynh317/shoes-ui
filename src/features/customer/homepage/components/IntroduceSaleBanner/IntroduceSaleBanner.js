@@ -5,10 +5,10 @@ import { introduceSaleBanner } from '../../../../../constants/customer/homePage'
 
 const IntroduceSaleBanner = () => {
   return (
-    <Grid container>
+    <Grid container spacing={2}>
       {introduceSaleBanner.map((item) => (
-        <Grid item key={item.id} sm={1} md={4}>
-          <img src={item.image} alt={`image${item.id}`} />
+        <Grid item key={item.id} xs={12} sm={4} md={4} lg={4} width="100%">
+          <img src={item.image} alt={`image${item.id}`} width="100%" />
         </Grid>
       ))}
     </Grid>

@@ -16,6 +16,7 @@ export default function EditProduct() {
     discountOff: productDetail?.discountOff || 0,
     discountMaximum: productDetail?.discountMaximum || 0,
   });
+
   const [productAdd, setProductAdd] = useState({
     name: '',
     typeId: 'Jordan',
@@ -38,8 +39,7 @@ export default function EditProduct() {
     if (
       name === 'discountMaximum' ||
       name === 'discountOff' ||
-      name === 'unitPrice' ||
-      name === 'typeId'
+      name === 'unitPrice'
     ) {
       value = parseInt(value);
     }

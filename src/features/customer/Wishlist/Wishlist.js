@@ -21,18 +21,25 @@ import BannerPage from '../../../components/BannerPage/BannerPage';
 import ConfirmDialog from '../../../components/ConfirmDialog';
 import Controls from '../../../components/controls/Controls';
 import Footer from '../../../components/Customer/Footer/Footer';
+import MobileNav from '../../../components/Customer/Header/MobileNav/MobileNav';
 import Nav from '../../../components/Customer/Header/Nav/Nav';
 import Navbar from '../../../components/Customer/Header/Navbar/Navbar';
 import Notification from '../../../components/Notification';
 import useTable from '../../../hooks/customHooks/useTable';
+import useWindowSize from '../../../hooks/customHooks/useWindowsSize';
 import {
   clearActionStatus,
   deleteWishlist,
   getAllWishlist,
 } from '../customerSlice';
 
-const HomePageMain = styled(Box)(({ theme }) => ({
-  margin: '4rem 7.5rem 2rem',
+const HomePageMain = styled(Box)(({ theme, sizeWidth }) => ({
+  margin:
+    sizeWidth > 992
+      ? '4rem 7.5rem 2rem'
+      : sizeWidth <= 992 && sizeWidth > 786
+      ? '4rem 4rem 2rem'
+      : '4rem 1.5rem 2rem',
 }));
 
 const BreadCrumbLink = styled(Link)(() => ({
@@ -56,6 +63,7 @@ const Wishlist = ({ children }) => {
   const [wishlist, setWishlist] = useState([]);
   const { actionStatus } = useSelector((state) => state.customer);
   const { actionStatus: actionStatusCart } = useSelector((state) => state.cart);
+  const [width] = useWindowSize();
 
   const [notify, setNotify] = useState({
     isOpen: false,
@@ -153,22 +161,31 @@ const Wishlist = ({ children }) => {
   return (
     <>
       <Box display="flex" flexDirection="column" justifyContent="space-between">
-        <Navbar />
-        <Nav />
+        {width > 768 ? (
+          <>
+            <Navbar sizeWidth={width} />
+            <Nav sizeWidth={width} />
+          </>
+        ) : (
+          <MobileNav sizeWidth={width} />
+        )}
       </Box>
       <BannerPage breadcrumbs={breadcrumbs} title="wishlist" />
-      <HomePageMain>
+      <HomePageMain sizeWidth={width}>
         <TblContainer>
           <TblHead />
           <TableBody>
             {recordsAfterPagingAndSorting().map((item, ind) => (
-              <TableRow key={item._id}>
+              <TableRow key={item?._id}>
                 <TableCell>{ind + 1}</TableCell>
                 <TableCell>
                   <img src={item?.imageUrl} alt="img" height={80} width={80} />
                 </TableCell>
                 <TableCell>{item?.name}</TableCell>
-                <TableCell>{item?.unitPrice}</TableCell>
+                <TableCell>
+                  {item?.unitPrice?.toLocaleString('vi')}
+                  <small>VND</small>
+                </TableCell>
                 <TableCell>{item?.discountOff}%</TableCell>
                 <TableCell>
                   <Rating size="small" value={item?.numOfStars} readOnly />

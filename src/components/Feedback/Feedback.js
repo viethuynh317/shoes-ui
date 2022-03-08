@@ -66,8 +66,12 @@ export default function Feedback({ feedback }) {
   return (
     <>
       <div className="feedback">
-        <Box display="flex" justifyContent="space-between">
-          {' '}
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          flexWrap="wrap"
+          width="100%"
+        >
           <Box display="flex">
             <img
               src="https://secure.gravatar.com/avatar/b26407fdbb151a3a44fceda692c92874?s=60&d=mm&r=g"
@@ -88,36 +92,36 @@ export default function Feedback({ feedback }) {
               <Typography>{feedback?.content}</Typography>
             </Box>
           </Box>
+          <Box>
+            <ActionButton
+              text="Reply"
+              color="success"
+              onClick={() => {
+                setInfoForm({
+                  titleForm: 'Add ReplyFeedback',
+                  nameButton: 'Add',
+                });
+                setRecordForEdit(null);
+                openInPopup(feedback._id);
+              }}
+            >
+              <AddIcon fontSize="small" />
+              Add Reply
+            </ActionButton>
+            <ActionButton
+              text="Reply"
+              color="primary"
+              onClick={() => {
+                if (roleId === 2)
+                  history.push(`/employee/replies/${feedback._id}`);
+                else history.push(`/admin/replies/${feedback._id}`);
+              }}
+            >
+              <EditOutlinedIcon fontSize="small" />
+              List Reply
+            </ActionButton>
+          </Box>
         </Box>
-        <div>
-          <ActionButton
-            text="Reply"
-            color="success"
-            onClick={() => {
-              setInfoForm({
-                titleForm: 'Add ReplyFeedback',
-                nameButton: 'Add',
-              });
-              setRecordForEdit(null);
-              openInPopup(feedback._id);
-            }}
-          >
-            <AddIcon fontSize="small" />
-            Add Reply
-          </ActionButton>
-          <ActionButton
-            text="Reply"
-            color="primary"
-            onClick={() => {
-              if (roleId === 2)
-                history.push(`/employee/replies/${feedback._id}`);
-              else history.push(`/admin/replies/${feedback._id}`);
-            }}
-          >
-            <EditOutlinedIcon fontSize="small" />
-            List Reply
-          </ActionButton>
-        </div>
       </div>
       <Popup
         title={infoForm.titleForm}

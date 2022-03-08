@@ -23,15 +23,16 @@ import {
 } from '../../../adminSlice';
 import { Search } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
+import useWindowSize from '../../../../../hooks/customHooks/useWindowsSize';
 
 const useStyles = makeStyles((theme) => ({
   centerTableCell: {
     '& div': {},
   },
-  pageContent: {
-    margin: theme.spacing(5),
-    padding: theme.spacing(3),
-  },
+  pageContent: ({ width }) => ({
+    margin: width > 992 ? theme.spacing(5) : theme.spacing(1),
+    padding: width > 992 ? theme.spacing(3) : theme.spacing(1),
+  }),
   searchInput: {
     width: '60%',
     '& .MuiOutlinedInput-input': {
@@ -67,6 +68,7 @@ export default function RolesPermission() {
     (state) => state.admin
   );
 
+  const [width] = useWindowSize();
   const { roleId } = useParams();
 
   const [filterFn, setFilterFn] = useState({
@@ -96,7 +98,7 @@ export default function RolesPermission() {
     }
   }, [actionStatus]);
 
-  const classes = useStyles();
+  const classes = useStyles({ width });
 
   const [notify, setNotify] = useState({
     isOpen: false,
