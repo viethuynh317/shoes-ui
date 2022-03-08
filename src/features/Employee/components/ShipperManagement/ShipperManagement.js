@@ -27,12 +27,14 @@ import {
 import ShipperForm from './components/ShipperForm/ShipperForm';
 import slugify from 'slugify';
 import { makeStyles } from '@mui/styles';
+import { socket } from '../../../../helper/socketIo';
+import useWindowSize from '../../../../hooks/customHooks/useWindowsSize';
 
 const useStyles = makeStyles((theme) => ({
-  pageContent: {
-    margin: theme.spacing(5),
-    padding: theme.spacing(3),
-  },
+  pageContent: ({ width }) => ({
+    margin: width > 992 ? theme.spacing(5) : theme.spacing(1),
+    padding: width > 992 ? theme.spacing(3) : theme.spacing(1),
+  }),
   searchInput: {
     width: '75%',
     '& .MuiOutlinedInput-input': {
@@ -65,8 +67,22 @@ export default function ShipperManagement() {
   const [isCall, setIsCall] = useState(false);
 
   useEffect(() => {
+    socket.connect();
+    socket.on('CreateShipper', (res) => {
+      dispatch(getAllShippers());
+    });
+    socket.on('UpdateShipper', (res) => {
+      dispatch(getAllShippers());
+    });
+    socket.on('DeleteShipper', (res) => {
+      dispatch(getAllShippers());
+    });
     dispatch(getAllShippers());
     setIsCall(true);
+
+    return () => {
+      socket.close();
+    };
   }, [dispatch]);
 
   const [infoForm, setInfoForm] = useState({
@@ -93,7 +109,8 @@ export default function ShipperManagement() {
     }
   }, [actionStatus, isCall]);
 
-  const classes = useStyles();
+  const [width] = useWindowSize();
+  const classes = useStyles({ width });
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {

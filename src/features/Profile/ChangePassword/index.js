@@ -13,10 +13,16 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import * as yup from 'yup';
 import Notification from '../../../components/Notification';
+import useWindowSize from '../../../hooks/customHooks/useWindowsSize';
 import { changePassword } from '../profileSlice';
 
-const TextInput = styled(TextField)(() => ({
-  width: '50%',
+const TextInput = styled(TextField)(({ widthSize }) => ({
+  width:
+    widthSize > 992
+      ? '50%'
+      : widthSize <= 992 && widthSize > 768
+      ? '70%'
+      : '100%',
 }));
 
 const schema = yup.object().shape({
@@ -54,6 +60,7 @@ const ChangePassword = () => {
     message: '',
     type: '',
   });
+  const [width] = useWindowSize();
 
   const {
     register,
@@ -97,6 +104,7 @@ const ChangePassword = () => {
             {...register('oldPassword')}
             error={!!errors?.oldPassword}
             helperText={errors?.oldPassword?.message}
+            widthSize={width}
           />
         </Box>
         <Box>
@@ -110,6 +118,7 @@ const ChangePassword = () => {
             {...register('newPassword')}
             error={!!errors?.newPassword}
             helperText={errors?.newPassword?.message}
+            widthSize={width}
           />
         </Box>
 
@@ -124,6 +133,7 @@ const ChangePassword = () => {
             {...register('confirmPassword')}
             error={!!errors?.confirmPassword}
             helperText={errors?.confirmPassword?.message}
+            widthSize={width}
           />
         </Box>
         <Box>

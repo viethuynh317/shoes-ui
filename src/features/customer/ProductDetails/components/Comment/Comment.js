@@ -3,7 +3,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { Box, Divider, Rating, Typography } from '@mui/material';
 import { styled } from '@mui/styles';
 import moment from 'moment';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const DetailRepliesText = styled(Box)(() => ({
   transition: 'all 0.3s ease-in-out',

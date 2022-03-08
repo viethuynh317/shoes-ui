@@ -11,8 +11,11 @@ import {
 import React, { useLayoutEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
+import ConfirmDialog from '../../../../../components/ConfirmDialog';
 import Notification from '../../../../../components/Notification';
+import { socket } from '../../../../../helper/socketIo';
 import { createFeedback, getFeedbacks } from '../../../customerSlice';
 import Comment from '../Comment/Comment';
 
@@ -30,6 +33,13 @@ const ReviewTab = ({ shoe: { _id } }) => {
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const perPage = 5;
+  const hasLogin = localStorage.getItem('customerToken');
+  const history = useHistory();
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: '',
+    subTitle: '',
+  });
 
   const [notify, setNotify] = useState({
     isOpen: false,
@@ -50,39 +60,51 @@ const ReviewTab = ({ shoe: { _id } }) => {
   });
 
   const handleFormSubmit = async (data) => {
-    const {
-      payload: { status },
-    } = await dispatch(
-      createFeedback({
-        ...data,
-        shoeId: _id,
-      })
-    );
-    setNotify({
-      isOpen: true,
-      message:
-        status === 200 ||
-        status === 201 ||
-        status === 202 ||
-        status === 203 ||
-        status === 204
-          ? 'Add new feedback successfully!'
-          : 'Add new feedback failed!',
-      type:
-        status === 200 ||
-        status === 201 ||
-        status === 202 ||
-        status === 203 ||
-        status === 204
-          ? 'success'
-          : 'error',
-    });
-    setRating(0);
-    setContent('');
-    const { payload } = await dispatch(
-      getFeedbacks({ id: _id, page, perPage })
-    );
-    setFeedbacks(payload?.feedbacks);
+    if (hasLogin) {
+      const {
+        payload: { status },
+      } = await dispatch(
+        createFeedback({
+          ...data,
+          shoeId: _id,
+          numOfStars: data?.numOfStars || 0,
+        })
+      );
+      setNotify({
+        isOpen: true,
+        message:
+          status === 200 ||
+          status === 201 ||
+          status === 202 ||
+          status === 203 ||
+          status === 204
+            ? 'Add new feedback successfully!'
+            : 'Add new feedback failed!',
+        type:
+          status === 200 ||
+          status === 201 ||
+          status === 202 ||
+          status === 203 ||
+          status === 204
+            ? 'success'
+            : 'error',
+      });
+      setRating(0);
+      setContent('');
+      const { payload } = await dispatch(
+        getFeedbacks({ id: _id, page, perPage })
+      );
+      setFeedbacks(payload?.feedbacks);
+    } else {
+      setConfirmDialog({
+        isOpen: true,
+        title: 'This function requires login before performing',
+        subTitle: 'Do you have to login before doing this?',
+        onConfirm: () => {
+          history.push('/user/sign-in');
+        },
+      });
+    }
   };
 
   const loadMore = () => {
@@ -104,7 +126,15 @@ const ReviewTab = ({ shoe: { _id } }) => {
         setIsLoading(false);
       }
     };
+    socket.connect();
+    socket.on('GetReplyById', () => {
+      setFeedbacks([]);
+      fetchAllFeedbacks();
+    });
     fetchAllFeedbacks();
+    return () => {
+      socket.close();
+    };
   }, [dispatch, _id, page]);
 
   return (
@@ -185,6 +215,10 @@ const ReviewTab = ({ shoe: { _id } }) => {
         </Grid>
       </Grid>
       <Notification notify={notify} setNotify={setNotify} />
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </>
   );
 };

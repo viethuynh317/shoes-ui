@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@mui/styles';
 import {
+  Paper,
   Table,
   TableCell,
+  TableContainer,
   TableHead,
   TablePagination,
   TableRow,
@@ -40,9 +42,14 @@ export default function useTable(records, headCells, filterFn) {
   const [orderBy, setOrderBy] = useState();
 
   const TblContainer = (props) => (
-    <Table className={clsx(classes.table, classes.responsive)}>
-      {props.children}
-    </Table>
+    <TableContainer component={Paper}>
+      <Table
+        className={clsx(classes.table, classes.responsive)}
+        sx={{ minWidth: 650 }}
+      >
+        {props.children}
+      </Table>
+    </TableContainer>
   );
 
   const TblHead = (props) => {

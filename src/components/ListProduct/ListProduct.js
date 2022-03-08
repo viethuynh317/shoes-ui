@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-// import { socket } from '../../../helper/socketIo';
 import Pagination from '@mui/lab/Pagination';
 import { Grid } from '@mui/material';
 import { makeStyles } from '@mui/styles';
@@ -7,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchShoeList } from '../../commons/shoesSlice';
 import Notification from '../../components/Notification';
+import { socket } from '../../helper/socketIo';
 import ProductItem from '../ProductItem/ProductItem';
 // import { getFoods } from './productSlice';
 import Header from './HeaderProductManagement';
@@ -51,7 +51,20 @@ export default function ListProduct() {
       setShoeList(res?.payload?.data?.result || []);
       setTotalPage(Math.ceil(res?.payload?.data?.total / 6));
     };
+    socket.connect();
+    socket.on('CreateShoe', () => {
+      getShoeList();
+    });
+    socket.on('UpdateShoe', () => {
+      getShoeList();
+    });
+    socket.on('DeleteShoe', () => {
+      getShoeList();
+    });
     getShoeList();
+    return () => {
+      socket.close();
+    };
   }, [filter?.search, filter?.isConfirmed, filter?.unitPrice, currentPage]);
 
   useEffect(() => {

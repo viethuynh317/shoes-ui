@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { fetchShoeById } from '../../commons/shoesSlice';
 // import { getProductDetail } from '../../../common/components/ProductDetail/ProductDetailSlice';
 import Notification from '../../components/Notification';
+import { socket } from '../../helper/socketIo';
 import ListFeedback from '../ListFeedback/ListFeedback';
 import ProductDetailContent from '../ProductDetailContent/ProductDetailContent';
 import './Style.css';
@@ -23,7 +24,13 @@ export default function ProductDetail() {
       const res = await dispatch(fetchShoeById(id));
       setData(res?.payload?.data);
     };
+    socket.connect();
+    socket.on('GetFeedbackById', () => {
+      fetchShoeByIdFn();
+    });
     fetchShoeByIdFn();
+
+    return () => socket.close();
   }, [dispatch, id]);
   return (
     <div className="product-detail">

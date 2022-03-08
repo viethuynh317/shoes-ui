@@ -35,10 +35,18 @@ import ProductCard from '../../../components/Customer/ProductCard/ProductCard';
 import ProductCardDetail from '../../../components/Customer/ProductCardDetail/ProductCardDetail';
 import Notification from '../../../components/Notification';
 import { BRANDS, GENDERS } from '../../../constants/globalConst';
+import { socket } from '../../../helper/socketIo';
 import { clearActionStatus } from '../customerSlice';
+import useWindowSize from '../../../hooks/customHooks/useWindowsSize';
+import MobileNav from '../../../components/Customer/Header/MobileNav/MobileNav';
 
-const HomePageMain = styled(Box)(({ theme }) => ({
-  margin: '4rem 7.5rem 2rem',
+const HomePageMain = styled(Box)(({ theme, sizeWidth }) => ({
+  margin:
+    sizeWidth > 992
+      ? '4rem 7.5rem 2rem'
+      : sizeWidth <= 992 && sizeWidth > 786
+      ? '4rem 4rem 2rem'
+      : '4rem 1.5rem 2rem',
 }));
 
 const BreadCrumbLink = styled(Link)(() => ({
@@ -74,6 +82,7 @@ const Shops = ({ children }) => {
   const { actionStatus } = useSelector((state) => state.customer);
   const { actionStatus: actionStatusCart } = useSelector((state) => state.cart);
 
+  const [width] = useWindowSize();
   const [view, setView] = useState('module');
   const [isClickFilter, setClickFilter] = useState(false);
 
@@ -114,7 +123,14 @@ const Shops = ({ children }) => {
       setShoeList(data?.payload?.data?.result || []);
       setTotal(data?.payload?.data?.total);
     };
+    socket.connect();
+    socket.on('ConfirmShoe', () => {
+      getShoeList();
+    });
     getShoeList();
+    return () => {
+      socket.close();
+    };
   }, [
     dispatch,
     page,
@@ -228,12 +244,18 @@ const Shops = ({ children }) => {
   return (
     <>
       <Box display="flex" flexDirection="column" justifyContent="space-between">
-        <Navbar />
-        <Nav />
+        {width > 768 ? (
+          <>
+            <Navbar sizeWidth={width} />
+            <Nav sizeWidth={width} />
+          </>
+        ) : (
+          <MobileNav sizeWidth={width} />
+        )}
       </Box>
       <BannerPage breadcrumbs={breadcrumbs} title="shops" />
-      <HomePageMain>
-        <Box display="flex" justifyContent="space-between">
+      <HomePageMain sizeWidth={width}>
+        <Box display="flex" justifyContent="space-between" flexWrap="wrap">
           <Box display="flex">
             <ToggleButtonGroup
               value={view}

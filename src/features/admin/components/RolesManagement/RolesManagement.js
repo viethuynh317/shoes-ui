@@ -19,12 +19,13 @@ import useTable from '../../../../hooks/customHooks/useTable';
 import { clearStateStatus, getAllRoles } from '../../adminSlice';
 import slugify from 'slugify';
 import { makeStyles } from '@mui/styles';
+import useWindowSize from '../../../../hooks/customHooks/useWindowsSize';
 
 const useStyles = makeStyles((theme) => ({
-  pageContent: {
-    margin: theme.spacing(5),
-    padding: theme.spacing(3),
-  },
+  pageContent: ({ width }) => ({
+    margin: width > 992 ? theme.spacing(5) : theme.spacing(1),
+    padding: width > 992 ? theme.spacing(3) : theme.spacing(1),
+  }),
   searchInput: {
     width: '75%',
     '& .MuiOutlinedInput-input': {
@@ -54,6 +55,7 @@ export default function RolesManagement() {
 
   const history = useHistory();
 
+  const [width] = useWindowSize();
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
       return items;
@@ -85,7 +87,7 @@ export default function RolesManagement() {
     }
   }, [actionStatus, isCall]);
 
-  const classes = useStyles();
+  const classes = useStyles({ width });
 
   const [notify, setNotify] = useState({
     isOpen: false,

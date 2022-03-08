@@ -17,9 +17,15 @@ import {
   Typography,
 } from '@mui/material';
 import { styled } from '@mui/styles';
+import useWindowSize from '../../../hooks/customHooks/useWindowsSize';
 
-const TextInput = styled(TextField)(() => ({
-  width: '50%',
+const TextInput = styled(TextField)(({ widthSize }) => ({
+  width:
+    widthSize > 992
+      ? '50%'
+      : widthSize <= 992 && widthSize > 768
+      ? '70%'
+      : '100%',
 }));
 
 const Profile = () => {
@@ -33,6 +39,8 @@ const Profile = () => {
   const [isCall, setIsCall] = useState(false);
 
   const dispatch = useDispatch();
+
+  const [width] = useWindowSize();
   const [notify, setNotify] = useState({
     isOpen: false,
     message: '',
@@ -113,6 +121,7 @@ const Profile = () => {
                 onChange={onChange}
                 margin="normal"
                 ref={inputEl}
+                widthSize={width}
               />
             </Box>
 
@@ -127,6 +136,7 @@ const Profile = () => {
                 fullWidth
                 margin="normal"
                 onChange={onChange}
+                widthSize={width}
               />
             </Box>
 
@@ -145,6 +155,7 @@ const Profile = () => {
                 fullWidth
                 margin="normal"
                 onChange={onChange}
+                widthSize={width}
               />
             </Box>
 
@@ -163,6 +174,7 @@ const Profile = () => {
                 fullWidth
                 margin="normal"
                 onChange={onChange}
+                widthSize={width}
               />
             </Box>
 
@@ -179,7 +191,12 @@ const Profile = () => {
                   }
                   disabled={!isEditUser}
                   renderInput={(params) => (
-                    <TextInput margin="normal" fullWidth {...params} />
+                    <TextInput
+                      margin="normal"
+                      fullWidth
+                      {...params}
+                      widthSize={width}
+                    />
                   )}
                 />
               </LocalizationProvider>
@@ -192,11 +209,17 @@ const Profile = () => {
                 label="Role"
                 fullWidth
                 margin="normal"
+                widthSize={width}
               />
             </Box>
 
             {!isEditUser ? (
-              <Box display="flex" justifyContent="center" mt={2}>
+              <Box
+                display="flex"
+                justifyContent="center"
+                mt={2}
+                flexWrap="wrap"
+              >
                 <Box mr={4}>
                   <Button
                     variant="contained"
@@ -211,7 +234,6 @@ const Profile = () => {
                   <Button
                     variant="contained"
                     color="inherit"
-                    className="button-change-password"
                     onClick={handleClickChangePassword}
                   >
                     Change Password
@@ -223,7 +245,6 @@ const Profile = () => {
                 <Button
                   variant="contained"
                   color="primary"
-                  className="button-change-password"
                   onClick={handleClickSaveChange}
                 >
                   Save Change

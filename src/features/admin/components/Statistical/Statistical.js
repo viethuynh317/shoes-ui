@@ -3,6 +3,7 @@ import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { socket } from '../../../../helper/socketIo';
 // import { socket } from '../../../../helper/socketIo';
 import {
   getRevenueByDay,
@@ -32,18 +33,23 @@ const Statistical = (props) => {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const { revenuesDay, revenuesMonth, revenuesQuater, revenuesYear } =
     useSelector((state) => state.admin);
+  console.log(revenuesDay);
   const dispatch = useDispatch();
   useEffect(() => {
-    // socket.on('UpdateStatistical', () => {
-    //   dispatch(getRevenueByDay());
-    //   dispatch(getRevenueByMonth());
-    //   dispatch(getRevenueByQuater());
-    //   dispatch(getRevenueByYear());
-    // });
+    socket.connect();
+    socket.on('UpdateOrderStatus', () => {
+      dispatch(getRevenueByDay());
+      dispatch(getRevenueByMonth());
+      dispatch(getRevenueByQuater());
+      dispatch(getRevenueByYear());
+    });
     dispatch(getRevenueByDay());
     dispatch(getRevenueByMonth());
     dispatch(getRevenueByQuater());
     dispatch(getRevenueByYear());
+    return () => {
+      socket.close();
+    };
   }, [dispatch]);
 
   const data = [revenuesDay, revenuesMonth, revenuesQuater, revenuesYear];

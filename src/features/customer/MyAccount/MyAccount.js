@@ -4,11 +4,18 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import BannerPage from '../../../components/BannerPage/BannerPage';
 import Footer from '../../../components/Customer/Footer/Footer';
+import MobileNav from '../../../components/Customer/Header/MobileNav/MobileNav';
 import Nav from '../../../components/Customer/Header/Nav/Nav';
 import Navbar from '../../../components/Customer/Header/Navbar/Navbar';
+import useWindowSize from '../../../hooks/customHooks/useWindowsSize';
 
-const HomePageMain = styled(Box)(({ theme }) => ({
-  margin: '4rem 7.5rem 2rem',
+const HomePageMain = styled(Box)(({ theme, sizeWidth }) => ({
+  margin:
+    sizeWidth > 992
+      ? '4rem 7.5rem 2rem'
+      : sizeWidth <= 992 && sizeWidth > 786
+      ? '4rem 4rem 2rem'
+      : '4rem 1.5rem 2rem',
 }));
 
 const BreadCrumbLink = styled(Link)(() => ({
@@ -17,6 +24,7 @@ const BreadCrumbLink = styled(Link)(() => ({
 
 const MyAccount = ({ children }) => {
   const history = useHistory();
+  const [width] = useWindowSize();
 
   const breadcrumbs = [
     <BreadCrumbLink underline="hover" key="1" href="/user/homepage">
@@ -30,11 +38,17 @@ const MyAccount = ({ children }) => {
   return (
     <>
       <Box display="flex" flexDirection="column" justifyContent="space-between">
-        <Navbar />
-        <Nav />
+        {width > 768 ? (
+          <>
+            <Navbar sizeWidth={width} />
+            <Nav sizeWidth={width} />
+          </>
+        ) : (
+          <MobileNav sizeWidth={width} />
+        )}
       </Box>
       <BannerPage breadcrumbs={breadcrumbs} title="my account" />
-      <HomePageMain>
+      <HomePageMain sizeWidth={width}>
         <Grid container spacing={4}>
           <Grid item xs={12} sm={12} md={12} lg={3} xl={3} mt={1}>
             <Stack spacing={2}>

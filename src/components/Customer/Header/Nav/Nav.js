@@ -8,7 +8,6 @@ import {
   Typography,
 } from '@mui/material';
 import { styled } from '@mui/styles';
-import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { orangeColor } from '../../../../constants/globalConst';
 
@@ -49,7 +48,7 @@ const ListItemButtonCustom = styled(ListItemButton)(({ theme }) => ({
   margin: '0 8px',
 }));
 
-const Nav = () => {
+const Nav = ({ sizeWidth }) => {
   const history = useHistory();
   return (
     <NavWrapperBox>
@@ -58,11 +57,11 @@ const Nav = () => {
           display="flex"
           justifyContent="space-between"
           alignItems="center"
-          mx={20}
+          mx={sizeWidth > 992 ? 20 : 10}
           my={0.7}
           sx={{ height: '100%' }}
         >
-          <BrandTypo>V-SHOES</BrandTypo>
+          <BrandTypo sizeWidth={sizeWidth}>V-SHOES</BrandTypo>
           <NavList>
             <ListItemButtonCustom
               onClick={() => {
@@ -70,12 +69,6 @@ const Nav = () => {
               }}
             >
               <ListItemTextCustom primary="HOME" />
-            </ListItemButtonCustom>
-            <ListItemButtonCustom>
-              <ListItemTextCustom primary="PAGE" />
-            </ListItemButtonCustom>
-            <ListItemButtonCustom>
-              <ListItemTextCustom primary="BLOG" />
             </ListItemButtonCustom>
             <ListItemButtonCustom
               onClick={() => {

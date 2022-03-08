@@ -41,6 +41,7 @@
     "recharts": "^2.1.6",
     "redux": "^4.1.1",
     "slugify": "^1.6.3",
+    "socket.io-client": "^4.4.1",
     "yup": "^0.32.9"
   },
   "scripts": {

@@ -69,33 +69,31 @@ const Sidebar = (props) => {
   };
   return (
     <>
-      {width >= 768 && (
-        <Drawer variant="permanent" open={open}>
-          <Toolbar
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              px: [1],
-            }}
-          >
-            <IconButton onClick={handleDrawerClose}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </Toolbar>
-          <Divider />
-          <List datalist={menu}>
-            {menu?.map(({ text, icon, link }, index) => (
-              <Link to={link} key={index} className={classes.linkChoice}>
-                <ListItem>
-                  {icon && <ListItemIcon>{icon}</ListItemIcon>}
-                  <ListItemText>{text}</ListItemText>
-                </ListItem>
-              </Link>
-            ))}
-          </List>
-        </Drawer>
-      )}
+      <Drawer variant="permanent" open={open}>
+        <Toolbar
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            px: [1],
+          }}
+        >
+          <IconButton onClick={handleDrawerClose}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </Toolbar>
+        <Divider />
+        <List datalist={menu}>
+          {menu?.map(({ text, icon, link }, index) => (
+            <Link to={link} key={index} className={classes.linkChoice}>
+              <ListItem>
+                {icon && <ListItemIcon>{icon}</ListItemIcon>}
+                <ListItemText>{text}</ListItemText>
+              </ListItem>
+            </Link>
+          ))}
+        </List>
+      </Drawer>
     </>
   );
 };

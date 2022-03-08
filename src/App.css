@@ -13,6 +13,12 @@
   }
 }
 
+@media only screen and (max-width: 500px) {
+  .react-multi-carousel-list.carousel-container {
+    max-height: 100% !important;
+  }
+}
+
 .App-header {
   min-height: 100vh;
   display: flex;

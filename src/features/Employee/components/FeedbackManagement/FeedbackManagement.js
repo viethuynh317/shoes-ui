@@ -19,12 +19,13 @@ import {
   TableRow,
   Toolbar,
 } from '@mui/material';
+import useWindowSize from '../../../../hooks/customHooks/useWindowsSize';
 
 const useStyles = makeStyles((theme) => ({
-  pageContent: {
-    margin: theme.spacing(5),
-    padding: theme.spacing(3),
-  },
+  pageContent: ({ width }) => ({
+    margin: width > 992 ? theme.spacing(5) : theme.spacing(1),
+    padding: width > 992 ? theme.spacing(3) : theme.spacing(1),
+  }),
   searchInput: {
     width: '75%',
     '& .MuiOutlinedInput-input': {
@@ -53,6 +54,7 @@ export default function FeedbackManagement() {
   const dispatch = useDispatch();
   const { feedbacks, actionStatus } = useSelector((state) => state.employee);
 
+  const [width] = useWindowSize();
   const [isCall, setIsCall] = useState(false);
 
   useEffect(() => {
@@ -82,7 +84,7 @@ export default function FeedbackManagement() {
     }
   }, [actionStatus, isCall]);
 
-  const classes = useStyles();
+  const classes = useStyles({ width });
   const [recordForEdit, setRecordForEdit] = useState(null);
 
   const [filterFn, setFilterFn] = useState({

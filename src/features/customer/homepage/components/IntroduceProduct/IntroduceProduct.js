@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchShoeList } from '../../../../../commons/shoesSlice';
 import ProductCard from '../../../../../components/Customer/ProductCard/ProductCard';
 import { orangeColor } from '../../../../../constants/globalConst';
+import { socket } from '../../../../../helper/socketIo';
 
 const useStyles = makeStyles(() => ({
   spacingCard: {
@@ -22,7 +23,7 @@ const responsive = {
   },
   tablet: {
     breakpoint: { max: 1024, min: 464 },
-    items: 3,
+    items: 2,
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
@@ -160,7 +161,14 @@ const IntroduceProduct = () => {
       );
       setShoeList(data?.payload?.data?.result || []);
     };
+    socket.connect();
+    socket.on('ConfirmShoe', () => {
+      getShoeList();
+    });
     getShoeList();
+    return () => {
+      socket.close();
+    };
   }, [
     productFilter?.discountOff,
     productFilter?.numOfStars,
@@ -215,7 +223,7 @@ const IntroduceProduct = () => {
           customTransition="all .5"
           transitionDuration={500}
           containerClass="carousel-container"
-          removeArrowOnDeviceType={['tablet', 'mobile']}
+          removeArrowOnDeviceType={['mobile']}
           dotListClass="custom-dot-list-style"
           itemClass="carousel-item-padding-40-px"
         >

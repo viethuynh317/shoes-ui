@@ -65,7 +65,6 @@ export default function ProductItem({ product }) {
 }
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
     width: '300px',
     minWidth: '300px',
     minHeight: '320px',

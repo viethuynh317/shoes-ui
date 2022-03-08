@@ -14,14 +14,15 @@ import {
   Typography,
 } from '@mui/material';
 import { styled } from '@mui/styles';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import { addCart, clearActionStatusCart } from '../../../commons/cartSlice';
 import { fetchShoeById } from '../../../commons/shoesSlice';
 import BannerPage from '../../../components/BannerPage/BannerPage';
+import ConfirmDialog from '../../../components/ConfirmDialog';
 import Footer from '../../../components/Customer/Footer/Footer';
 import Nav from '../../../components/Customer/Header/Nav/Nav';
 import Navbar from '../../../components/Customer/Header/Navbar/Navbar';
@@ -30,10 +31,16 @@ import { orangeColor } from '../../../constants/globalConst';
 import { clearActionStatus, updateWishlist } from '../customerSlice';
 import NewArrivalProduct from '../homepage/components/NewArrivalProduct/NewArrivalProduct';
 import ProductReview from './components/ProductReview/ProductReview';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import useWindowSize from '../../../hooks/customHooks/useWindowsSize';
+import MobileNav from '../../../components/Customer/Header/MobileNav/MobileNav';
 
-const HomePageMain = styled(Box)(({ theme }) => ({
-  margin: '4rem 7.5rem 2rem',
+const HomePageMain = styled(Box)(({ theme, sizeWidth }) => ({
+  margin:
+    sizeWidth > 992
+      ? '4rem 7.5rem 2rem'
+      : sizeWidth <= 992 && sizeWidth > 786
+      ? '4rem 4rem 2rem'
+      : '4rem 1.5rem 2rem',
 }));
 
 const BreadCrumbLink = styled(Link)(() => ({
@@ -77,7 +84,14 @@ const ProductDetail = ({ children }) => {
   const { actionStatus } = useSelector((state) => state.customer);
   const { actionStatus: actionStatusCart } = useSelector((state) => state.cart);
   const { id } = useParams();
+  const history = useHistory();
   const dispatch = useDispatch();
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: '',
+    subTitle: '',
+  });
+  const [width] = useWindowSize();
 
   useEffect(() => {
     const fetchShoeDetailById = async () => {
@@ -101,17 +115,31 @@ const ProductDetail = ({ children }) => {
     resolver: yupResolver(schema),
   });
 
-  const { userId } = JSON.parse(localStorage.getItem('customerProfile'));
+  const hasLogin = localStorage.getItem('customerToken');
+  const { userId } = hasLogin
+    ? JSON.parse(localStorage.getItem('customerProfile'))
+    : {};
 
   const handleFormSubmit = async (data) => {
-    const submitData = {
-      cartItems: {
-        [shoe?._id]: +data?.quantity,
-      },
-    };
+    if (hasLogin) {
+      const submitData = {
+        cartItems: {
+          [shoe?._id]: +data?.quantity,
+        },
+      };
 
-    await dispatch(addCart({ userId, data: submitData }));
-    setCounter(0);
+      await dispatch(addCart({ userId, data: submitData }));
+      setCounter(0);
+    } else {
+      setConfirmDialog({
+        isOpen: true,
+        title: 'This function requires login before performing',
+        subTitle: 'Do you have to login before doing this?',
+        onConfirm: () => {
+          history.push('/user/sign-in');
+        },
+      });
+    }
   };
 
   const handleIncrement = () => {
@@ -192,11 +220,17 @@ const ProductDetail = ({ children }) => {
   return (
     <>
       <Box display="flex" flexDirection="column" justifyContent="space-between">
-        <Navbar />
-        <Nav />
+        {width > 768 ? (
+          <>
+            <Navbar sizeWidth={width} />
+            <Nav sizeWidth={width} />
+          </>
+        ) : (
+          <MobileNav sizeWidth={width} />
+        )}
       </Box>
       <BannerPage breadcrumbs={breadcrumbs} title="shops" />
-      <HomePageMain>
+      <HomePageMain sizeWidth={width}>
         <Grid container spacing={4}>
           <Grid item sx={12} sm={12} md={5} lg={5} xl={6}>
             <CardImage>
@@ -298,11 +332,7 @@ const ProductDetail = ({ children }) => {
                 add to cart
               </Button>
               <CustomIconBtn onClick={handleWishlistClick}>
-                {shoe?.isWishlist ? (
-                  <FavoriteIcon />
-                ) : (
-                  <FavoriteBorderOutlinedIcon />
-                )}
+                <FavoriteBorderOutlinedIcon />
               </CustomIconBtn>
             </Box>
           </Grid>
@@ -311,13 +341,21 @@ const ProductDetail = ({ children }) => {
           <ProductReview shoe={shoe} />
         </Box>
       </HomePageMain>
-      <Box mx={15.5} mb={5} mt={8}>
+      <Box
+        mx={width > 992 ? 15.5 : width <= 992 && width > 786 ? 8 : 4}
+        mb={5}
+        mt={8}
+      >
         <NewArrivalProduct title="you may also like…" />
       </Box>
       <Box mt={8}>
         <Footer />
       </Box>
       <Notification notify={notify} setNotify={setNotify} />
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </>
   );
 };

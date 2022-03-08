@@ -7,12 +7,19 @@ import { styled } from '@mui/styles';
 import React from 'react';
 import BannerPage from '../../../components/BannerPage/BannerPage';
 import Footer from '../../../components/Customer/Footer/Footer';
+import MobileNav from '../../../components/Customer/Header/MobileNav/MobileNav';
 import Nav from '../../../components/Customer/Header/Nav/Nav';
 import Navbar from '../../../components/Customer/Header/Navbar/Navbar';
+import useWindowSize from '../../../hooks/customHooks/useWindowsSize';
 import GoogleMap from './components/GoogleMap';
 
-const HomePageMain = styled(Box)(({ theme }) => ({
-  margin: '4rem 7.5rem 2rem',
+const HomePageMain = styled(Box)(({ theme, sizeWidth }) => ({
+  margin:
+    sizeWidth > 992
+      ? '4rem 7.5rem 2rem'
+      : sizeWidth <= 992 && sizeWidth > 786
+      ? '4rem 4rem 2rem'
+      : '4rem 1.5rem 2rem',
 }));
 
 const BreadCrumbLink = styled(Link)(() => ({
@@ -37,6 +44,7 @@ const TypoTitle = styled(Typography)(() => ({
 }));
 
 const ContactUs = ({ google }) => {
+  const [width] = useWindowSize();
   const breadcrumbs = [
     <BreadCrumbLink underline="hover" key="1" href="/user/homepage">
       Homepage
@@ -49,11 +57,17 @@ const ContactUs = ({ google }) => {
   return (
     <>
       <Box display="flex" flexDirection="column" justifyContent="space-between">
-        <Navbar />
-        <Nav />
+        {width > 768 ? (
+          <>
+            <Navbar sizeWidth={width} />
+            <Nav sizeWidth={width} />
+          </>
+        ) : (
+          <MobileNav sizeWidth={width} />
+        )}
       </Box>
       <BannerPage breadcrumbs={breadcrumbs} title="contact us" />
-      <HomePageMain>
+      <HomePageMain sizeWidth={width}>
         <Box sx={{ position: 'relative', width: '100%', height: 700 }}>
           <GoogleMap />
         </Box>

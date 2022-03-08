@@ -9,8 +9,10 @@ import { makeStyles } from '@mui/styles';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { socket } from '../../helper/socketIo';
 import { removeLocalStorageToken } from '../../services/tokenConfig';
 import { setOpen } from '../dashBoardSlice';
+import useWindowSize from '../../hooks/customHooks/useWindowsSize';
 
 const drawerWidth = 240;
 
@@ -61,6 +63,7 @@ export default function Navbar(props) {
   const dispatch = useDispatch();
   const open = useSelector((state) => state?.dashboard?.open);
 
+  const [width] = useWindowSize();
   const [anchorEl, setAnchorEl] = useState(null);
 
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -92,6 +95,7 @@ export default function Navbar(props) {
     removeLocalStorageToken();
     setAnchorEl(false);
     setMobileMoreAnchorEl(false);
+    socket.close();
     history.push('/auth/sign-in');
   };
 
@@ -165,7 +169,7 @@ export default function Navbar(props) {
   }, [window]);
 
   const handleDrawerOpen = () => {
-    dispatch(setOpen(true));
+    if (width > 566) dispatch(setOpen(true));
   };
   return (
     <div>
