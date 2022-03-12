@@ -159,7 +159,17 @@ const ProductDetail = ({ children }) => {
   const displayCounter = counter > 0;
 
   const handleWishlistClick = async () => {
-    await dispatch(updateWishlist({ userId, shoeId: id }));
+    if (hasLogin) await dispatch(updateWishlist({ userId, shoeId: id }));
+    else {
+      setConfirmDialog({
+        isOpen: true,
+        title: 'This function requires login before performing',
+        subTitle: 'Do you have to login before doing this?',
+        onConfirm: () => {
+          history.push('/user/sign-in');
+        },
+      });
+    }
   };
 
   useEffect(() => {
