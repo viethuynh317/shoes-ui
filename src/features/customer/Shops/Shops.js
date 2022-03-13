@@ -29,16 +29,15 @@ import { clearActionStatusCart } from '../../../commons/cartSlice';
 import { fetchShoeList } from '../../../commons/shoesSlice';
 import BannerPage from '../../../components/BannerPage/BannerPage';
 import Footer from '../../../components/Customer/Footer/Footer';
+import MobileNav from '../../../components/Customer/Header/MobileNav/MobileNav';
 import Nav from '../../../components/Customer/Header/Nav/Nav';
 import Navbar from '../../../components/Customer/Header/Navbar/Navbar';
 import ProductCard from '../../../components/Customer/ProductCard/ProductCard';
 import ProductCardDetail from '../../../components/Customer/ProductCardDetail/ProductCardDetail';
 import Notification from '../../../components/Notification';
 import { BRANDS, GENDERS } from '../../../constants/globalConst';
-import { socket } from '../../../helper/socketIo';
-import { clearActionStatus } from '../customerSlice';
 import useWindowSize from '../../../hooks/customHooks/useWindowsSize';
-import MobileNav from '../../../components/Customer/Header/MobileNav/MobileNav';
+import { clearActionStatus } from '../customerSlice';
 
 const HomePageMain = styled(Box)(({ theme, sizeWidth }) => ({
   margin:
@@ -123,14 +122,8 @@ const Shops = ({ children }) => {
       setShoeList(data?.payload?.data?.result || []);
       setTotal(data?.payload?.data?.total);
     };
-    socket.connect();
-    socket.on('ConfirmShoe', () => {
-      getShoeList();
-    });
+
     getShoeList();
-    return () => {
-      socket.close();
-    };
   }, [
     dispatch,
     page,
