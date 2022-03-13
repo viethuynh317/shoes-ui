@@ -1,14 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Button } from '@mui/material';
 import { makeStyles, styled } from '@mui/styles';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchShoeList } from '../../../../../commons/shoesSlice';
 import ProductCard from '../../../../../components/Customer/ProductCard/ProductCard';
 import { orangeColor } from '../../../../../constants/globalConst';
-import { socket } from '../../../../../helper/socketIo';
 
 const useStyles = makeStyles(() => ({
   spacingCard: {
@@ -161,14 +160,8 @@ const IntroduceProduct = () => {
       );
       setShoeList(data?.payload?.data?.result || []);
     };
-    socket.connect();
-    socket.on('ConfirmShoe', () => {
-      getShoeList();
-    });
+
     getShoeList();
-    return () => {
-      socket.close();
-    };
   }, [
     productFilter?.discountOff,
     productFilter?.numOfStars,

@@ -1,3 +1,7 @@
+import { Search, TwoWheeler } from '@mui/icons-material';
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import {
   InputAdornment,
   Paper,
@@ -6,18 +10,17 @@ import {
   TableRow,
   Toolbar,
 } from '@mui/material';
-import { TwoWheeler, Search } from '@mui/icons-material';
-import AddIcon from '@mui/icons-material/Add';
-import CloseIcon from '@mui/icons-material/Close';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import React, { useEffect, useState } from 'react';
+import { makeStyles } from '@mui/styles';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import slugify from 'slugify';
 import ConfirmDialog from '../../../../components/ConfirmDialog';
 import Controls from '../../../../components/controls/Controls';
 import Notification from '../../../../components/Notification';
 import PageHeader from '../../../../components/PageHeader';
 import Popup from '../../../../components/Popup';
 import useTable from '../../../../hooks/customHooks/useTable';
+import useWindowSize from '../../../../hooks/customHooks/useWindowsSize';
 import {
   createNewShipper,
   deleteShipper,
@@ -25,10 +28,6 @@ import {
   updateInfoShipper,
 } from '../../employeeSlice';
 import ShipperForm from './components/ShipperForm/ShipperForm';
-import slugify from 'slugify';
-import { makeStyles } from '@mui/styles';
-import { socket } from '../../../../helper/socketIo';
-import useWindowSize from '../../../../hooks/customHooks/useWindowsSize';
 
 const useStyles = makeStyles((theme) => ({
   pageContent: ({ width }) => ({
@@ -67,22 +66,8 @@ export default function ShipperManagement() {
   const [isCall, setIsCall] = useState(false);
 
   useEffect(() => {
-    socket.connect();
-    socket.on('CreateShipper', (res) => {
-      dispatch(getAllShippers());
-    });
-    socket.on('UpdateShipper', (res) => {
-      dispatch(getAllShippers());
-    });
-    socket.on('DeleteShipper', (res) => {
-      dispatch(getAllShippers());
-    });
     dispatch(getAllShippers());
     setIsCall(true);
-
-    return () => {
-      socket.close();
-    };
   }, [dispatch]);
 
   const [infoForm, setInfoForm] = useState({

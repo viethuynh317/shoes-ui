@@ -1,7 +1,8 @@
-import { Paper, TableBody, TableCell, TableRow, Toolbar } from '@mui/material';
 import { ShoppingCart } from '@mui/icons-material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import React, { useEffect, useState } from 'react';
+import { Paper, TableBody, TableCell, TableRow, Toolbar } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ComboBox from '../../../../components/controls/ComboBox';
 import Controls from '../../../../components/controls/Controls';
@@ -9,12 +10,9 @@ import Notification from '../../../../components/Notification';
 import PageHeader from '../../../../components/PageHeader';
 import Popup from '../../../../components/Popup';
 import useTable from '../../../../hooks/customHooks/useTable';
-// import { socket } from '../../../../helper/socketIo';
+import useWindowSize from '../../../../hooks/customHooks/useWindowsSize';
 import { getOrdersByStatusId, updateOrderStatus } from '../../employeeSlice';
 import OrderForm from './components/OrderForm';
-import { makeStyles } from '@mui/styles';
-import { socket } from '../../../../helper/socketIo';
-import useWindowSize from '../../../../hooks/customHooks/useWindowsSize';
 
 const useStyles = makeStyles((theme) => ({
   pageContent: ({ width }) => ({
@@ -71,21 +69,8 @@ export default function OrderManagement() {
   const classes = useStyles({ width });
 
   useEffect(() => {
-    socket.connect();
-    socket.on('NewOrder', (res) => {
-      dispatch(getOrdersByStatusId(statusId));
-    });
-    socket.on('UpdateOrder', (res) => {
-      dispatch(getOrdersByStatusId(statusId));
-    });
-    socket.on('CancelOrder', (res) => {
-      dispatch(getOrdersByStatusId(statusId));
-    });
     dispatch(getOrdersByStatusId(statusId));
     setIsCall(true);
-    return () => {
-      socket.close();
-    };
   }, [dispatch, statusId]);
   const [recordForEdit, setRecordForEdit] = useState(null);
 

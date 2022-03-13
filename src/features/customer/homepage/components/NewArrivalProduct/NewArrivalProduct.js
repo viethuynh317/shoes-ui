@@ -2,11 +2,10 @@
 import { Grid, Typography } from '@mui/material';
 import { styled } from '@mui/styles';
 import { Box } from '@mui/system';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchShoeList } from '../../../../../commons/shoesSlice';
 import ProductCard from '../../../../../components/Customer/ProductCard/ProductCard';
-import { socket } from '../../../../../helper/socketIo';
 
 const CustomDivider = styled(Typography)(() => ({
   display: 'inline-block',
@@ -30,14 +29,8 @@ const NewArrivalProduct = ({ title }) => {
       );
       setShoeList(data?.payload?.data?.result || []);
     };
-    socket.connect();
-    socket.on('ConfirmShoe', () => {
-      getShoeList();
-    });
+
     getShoeList();
-    return () => {
-      socket.close();
-    };
   }, [actionStatus]);
   return (
     <>
