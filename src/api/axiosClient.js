@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getLocalStorageToken } from '../services/tokenConfig';
 
 export const axiosClient = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: 'https://v-shoes-api.herokuapp.com/api/v1',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -18,7 +18,7 @@ axiosClient.interceptors.response.use((res) => {
 });
 
 export const axiosClientCustomer = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: 'https://v-shoes-api.herokuapp.com/api/v1',
   headers: {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${localStorage.getItem('customerToken')}`,
