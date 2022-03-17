@@ -23,7 +23,7 @@ import {
   Typography,
 } from '@mui/material';
 import { styled } from '@mui/styles';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearActionStatusCart } from '../../../commons/cartSlice';
 import { fetchShoeList } from '../../../commons/shoesSlice';
@@ -38,6 +38,7 @@ import Notification from '../../../components/Notification';
 import { BRANDS, GENDERS } from '../../../constants/globalConst';
 import useWindowSize from '../../../hooks/customHooks/useWindowsSize';
 import { clearActionStatus } from '../customerSlice';
+import debounce from 'lodash/debounce';
 
 const HomePageMain = styled(Box)(({ theme, sizeWidth }) => ({
   margin:
@@ -101,40 +102,28 @@ const Shops = ({ children }) => {
     type: '',
   });
 
-  const handlePriceChange = (event, newValue) => {
-    setRangePrice(newValue);
-  };
-
-  useEffect(() => {
-    const getShoeList = async () => {
-      console.log(rangePrice);
+  const getShoeList = useCallback(
+    async (value) => {
       const data = await dispatch(
         fetchShoeList({
           page,
           perPage: view === 'module' ? 16 : 8,
           brand,
           gender,
-          search: searchQuery,
+          search: value?.searchQuery,
           orderBy: sort,
-          rangePrice,
+          rangePrice: value?.rangePrice,
         })
       );
       setShoeList(data?.payload?.data?.result || []);
       setTotal(data?.payload?.data?.total);
-    };
+    },
+    [dispatch, page, view, brand, gender, sort, actionStatus]
+  );
 
+  useEffect(() => {
     getShoeList();
-  }, [
-    dispatch,
-    page,
-    view,
-    brand,
-    gender,
-    searchQuery,
-    sort,
-    rangePrice,
-    actionStatus,
-  ]);
+  }, [getShoeList]);
 
   useEffect(() => {
     dispatch(clearActionStatusCart());
@@ -178,16 +167,22 @@ const Shops = ({ children }) => {
   const ref2 = useRef();
 
   // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // const debounceSearchInput = useCallback(
-  //   debounce((value) => setSearchQuery(value), 500),
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   []
-  // );
+  const debounceSearchInput = useCallback(
+    debounce((value) => getShoeList(value), 500),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+
+  const handlePriceChange = (event, newValue) => {
+    setRangePrice(newValue);
+    debounceSearchInput({ rangePrice: newValue, searchQuery });
+  };
 
   const handleShoeSearchChange = (e) => {
     const { value } = e.target;
     setSearchQuery(value);
     setPage(0);
+    debounceSearchInput({ searchQuery: value, rangePrice });
   };
 
   const handleChange = (event, nextView) => {
