@@ -99,7 +99,7 @@ export default function OrderManagement() {
           actionStatus.status === 203 ||
           actionStatus.status === 204
             ? 'Update order successfully'
-            : 'Update order failed',
+            : 'You have not this permission or permission is banned!',
         type:
           actionStatus.status === 200 ||
           actionStatus.status === 201 ||
